@@ -61,8 +61,15 @@ nav h1 {
 
 
 /* trending % menu */
-.tcard, .mcard {
-    
+
+.tcard {
+    display: inline-grid;
+    margin: auto 10%;
+}
+
+.card {
+    display: inline-grid;
+    margin: 5% ;
 }
 .tcard img, .mcard img{
     height: 120px;
@@ -75,11 +82,11 @@ nav h1 {
 
 .tcard p, .mcard p {
     color: #2DF064;
-    margin: 0;
+    margin: 2% auto 10%;
     font-weight: bold;
 }
 
-.tcard button, .cat button {
+.tcard button, .cat button, button {
     background: #28895A;
     box-shadow: 2px 11px 4px rgba(0, 0, 0, 0.25); 
     border-radius: 53px; 
@@ -90,7 +97,7 @@ nav h1 {
     color: white;
     padding: 1px 3%;
     text-align: center; color: white; font-size: 24px; font-family: Inter; font-weight: 600; word-wrap: break-word;
-    margin: 1%;
+    margin: 2%;
 }
 
 @media (max-width: 600px) {
