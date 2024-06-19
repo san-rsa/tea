@@ -1,0 +1,28 @@
+
+nav {
+    background: #28895A;
+    margin: 0;
+    padding: 0;
+
+}
+
+#navh1 {
+    margin: auto;
+    display: inline;
+    text-align: center;
+}
+
+.rnav {
+    float: right;
+    padding: 2px 5px;
+    margin: auto 1%;
+}
+
+.navr {
+    margin: auto 4%;
+}
+
+.lnav {
+    float: left;
+    padding: 2px 5px;
+}

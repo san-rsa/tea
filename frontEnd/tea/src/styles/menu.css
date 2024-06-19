@@ -1,0 +1,10 @@
+.menu {
+    text-align: left;
+    grid-template-columns: auto 40%;
+}
+
+.card {
+    text-align: center;
+
+}
+

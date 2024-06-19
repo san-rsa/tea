@@ -1,4 +1,5 @@
 import React from "react";
+import "../../styles/nav.css"
 
 const Nav = () => {
 
@@ -9,7 +10,7 @@ const Nav = () => {
             <a>burger</a>
         </div>
 
-        <h1>TEA NAME</h1>
+        <h1 id="navh1">TEA NAME</h1>
 
         <div className="rnav">
             <a className="navr">cart</a>
