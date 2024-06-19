@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import List  from "../components/sub component/List";
 import "../styles/style.css"
@@ -36,6 +36,34 @@ const list =[ {
 
 const Description = ({ text, img}) => {
 
+    const [quan, setquan] = useState(Number(1))
+    const [prc, setprc] = useState(Number(5))
+
+    function qty(params) {
+        setquan(params.target.value);
+        setprc(Number(params.target.value) * 5 )
+    }
+
+
+    function add(p) {
+        p.preventDefault()
+        setquan(prevItems => {
+           let no= Number(prevItems) + 1;
+           let pr = Number(no)*5;
+           setprc(pr);
+          return no;
+        });
+       }
+
+       function minus(p) {
+        p.preventDefault()
+        setquan(prevItems => {
+           let no= Number(prevItems) - 1;
+           let pr = Number(no) * 5;
+           setprc(pr)
+          return no;
+        });
+       }
 
 
     return (
@@ -55,13 +83,13 @@ const Description = ({ text, img}) => {
 <form>
 <div className="quan">
 <div class="count">
-    <button> - </button>
-    <input type="number" min={0} name="qty" value={0} />
-    <button> + </button>
+    <button onClick={minus} value={quan}> - </button>
+    <input type="number" min={0} name="qty" onChange={qty} value={quan} max={99} maxLength={2} />
+    <button onClick={add} value={quan}> + </button>
 </div>
 
 <div class="price">
-    <h2> £ 5.0 </h2>
+    <h2> £ {prc} </h2>
 </div>
 
 <div class="weight">
