@@ -15,14 +15,18 @@ nav {
 .rnav {
     float: right;
     padding: 2px 5px;
-    margin: auto 1%;
+    margin: auto 7px;    
+    display: inline-flex;
 }
 
 .navr {
-    margin: auto 4%;
+    margin: auto 3%;
+    padding: 0 5px;
+
+
 }
 
 .lnav {
     float: left;
-    padding: 2px 5px;
+    padding: 2px 8px;
 }

@@ -1,9 +1,7 @@
 import React, { useState } from "react";
-
 import List  from "../components/sub component/List";
 import "../styles/style.css"
 import "../styles/desc.css"
-import { Image } from "@chakra-ui/react";
 import Nav from "../components/sub component/Nav"
 
 const list =[ {
@@ -82,17 +80,17 @@ const Description = ({ text, img}) => {
 
 <form>
 <div className="quan">
-<div class="count">
+<div className="count">
     <button onClick={minus} value={quan}> - </button>
     <input type="number" min={0} name="qty" onChange={qty} value={quan} max={99} maxLength={2} />
     <button onClick={add} value={quan}> + </button>
 </div>
 
-<div class="price">
+<div className="price">
     <h2> £ {prc} </h2>
 </div>
 
-<div class="weight">
+<div className="weight">
     <h3> WEIGHT</h3>
     <button> 400g </button>
     <button> 700g </button>
@@ -105,17 +103,17 @@ const Description = ({ text, img}) => {
             </div>
             </div>
 
-        <div class="ingredient">
+        <div className="ingredient">
             <h3>INGREDIENT</h3>
             <p>Lorem ipsum dolor sit amet consectetur. Enim lorem elementum dui ornare id amet placerat. Eget mollis pellentesque ultrices est neque. Platea est mus nunc vitae nunc ultrices ultrices quam. A nunc massa id pellentesque. Ut urna elementum.</p>
         </div>
 
-        <div class="details">
+        <div className="details">
             <h3>DETAILS</h3>
             <p>Lorem ipsum dolor sit amet consectetur. Enim lorem elementum dui ornare id amet placerat. Eget mollis pellentesque ultrices est neque. Platea est mus nunc vitae nunc ultrices ultrices quam. A nunc massa id pellentesque. Ut urna elementum.</p>
         </div>
 
-        <div class="others">
+        <div className="others">
             <h3>YOU MIGHT ALSO LIKE</h3>
            
             {list.map((project) => (
