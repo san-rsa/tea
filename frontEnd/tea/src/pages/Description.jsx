@@ -97,7 +97,7 @@ const Description = ({ text, img}) => {
     <button> 800g </button>
 </div>
 
-<button className="cart">ADD TO CART</button>
+<button className="cartB">ADD TO CART</button>
 </div>
 </form>
             </div>

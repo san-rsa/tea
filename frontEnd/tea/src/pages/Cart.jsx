@@ -94,21 +94,21 @@ const Cart = ({ text, img}) => {
                     <div className="delete">
                         <Link className="del" to={"/delete"}> <FontAwesomeIcon  icon={faX} /> </Link>
                     </div>
-                        <div className="price">
+                        <div className="priceC">
                             <h2> £ {prc} </h2>
                         </div>
 
                     <div>
 
 
-                    <div className="quan">
-                        <div className="count">
+                    <div className="quanC">
+                        <div className="quanity">
                             <button onClick={minus} value={quan}> - </button>
                             <input type="number" min={0} name="qty" onChange={qty} value={quan} max={99} />
                             <button onClick={add} value={quan}> + </button>
                         </div>
 
-                        <div className="weight">
+                        <div className="weights">
                         <select id="weight" name="weight">
                             <option value="400g">400g</option>
                             <option value="700g">

@@ -28,7 +28,7 @@
 }
 
 
-.count, .weight {
+.quantity, .weights {
     display: inline-flex;
    border-radius: 15px;
    font-size: ;
@@ -39,12 +39,12 @@
 
 }
 
-.count ::-webkit-outer-spin-button, .count ::-webkit-inner-spin-button {
+.quantity ::-webkit-outer-spin-button, .quantity ::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
-.count input {
+.quantity input {
     width: 20%;    
     color: #B8FFD0;
     border: none;
@@ -55,7 +55,7 @@
 
 
 
-.count button, .weight select {
+.quantity button, .weights select {
     padding: 0;
     margin: 0;
     background-color: inherit;
@@ -71,7 +71,7 @@
 
 /* price  & weight */
 
-.price {
+.priceC {
     color: #2DF064;
     display: block;
     margin:auto 25px;
@@ -88,7 +88,7 @@
 }
 
 
-.details, .quan {
+.details, .quantity {
     margin: 4%
 }
 
@@ -101,9 +101,6 @@
 
 @media (max-width: 600px) {
  
- .imgD img{
-    width: 100%;
-}
 
     .tea {
         display: block;
