@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import List  from "../components/sub component/List";
-import "../styles/style.css"
-import "../styles/desc.css"
+import Style from "../styles/Desc.module.css"
 import Nav from "../components/sub component/Nav"
 
 const list =[ {
@@ -67,58 +66,58 @@ const Description = ({ text, img}) => {
     return (
         <div>
          <Nav />
-            <div className="desc">
+            <div className={Style.desc}>
 
 
-            <div className="tea">
-            <div className="imgD">
+            <div className={Style.tea}>
+            <div className={Style.imgD}>
             <img src={require("../img/Rectangle 6.png")} alt=""/>
         </div>
 
-            <div className="rtea">
+            <div className={Style.rtea}>
             <h1>Milo</h1>
 
 <form>
-<div className="quan">
-<div className="count">
+<div className={Style.quan}>
+<div className={Style.count}>
     <button onClick={minus} value={quan}> - </button>
     <input type="number" min={0} name="qty" onChange={qty} value={quan} max={99} maxLength={2} />
     <button onClick={add} value={quan}> + </button>
 </div>
 
-<div className="price">
+<div className={Style.price}>
     <h2> £ {prc} </h2>
 </div>
 
-<div className="weight">
+<div className={Style.weight}>
     <h3> WEIGHT</h3>
     <button> 400g </button>
     <button> 700g </button>
     <button> 800g </button>
 </div>
 
-<button className="cartB">ADD TO CART</button>
+<button className={Style.cartB}>ADD TO CART</button>
 </div>
 </form>
             </div>
             </div>
 
-        <div className="ingredient">
+        <div className={Style.ingredient}>
             <h3>INGREDIENT</h3>
             <p>Lorem ipsum dolor sit amet consectetur. Enim lorem elementum dui ornare id amet placerat. Eget mollis pellentesque ultrices est neque. Platea est mus nunc vitae nunc ultrices ultrices quam. A nunc massa id pellentesque. Ut urna elementum.</p>
         </div>
 
-        <div className="details">
+        <div className={Style.details}>
             <h3>DETAILS</h3>
             <p>Lorem ipsum dolor sit amet consectetur. Enim lorem elementum dui ornare id amet placerat. Eget mollis pellentesque ultrices est neque. Platea est mus nunc vitae nunc ultrices ultrices quam. A nunc massa id pellentesque. Ut urna elementum.</p>
         </div>
 
-        <div className="others">
+        <div className={Style.others}>
             <h3>YOU MIGHT ALSO LIKE</h3>
            
             {list.map((project) => (
 
-<div className="card"> 
+<div className={Style.card}> 
 
   <List
       price={project.price}

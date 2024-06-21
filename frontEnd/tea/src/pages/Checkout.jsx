@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import List  from "../components/sub component/List";
 import "../styles/style.css"
-import "../styles/cart.css"
+import Style from "../styles/Checkout.module.css"
 import Nav from "../components/sub component/Nav"
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -75,58 +75,53 @@ const Checkout = ({ text, img}) => {
     return (
         <div>
          <Nav />                
-         <h1>CART</h1>
-            <div className="cart">
+         <h1>CHECKOUT</h1>
+            <div className={Style.cart}>
 
 
-                <div className="item">
-                    <div className="img">
+                <div className={Style.item}>
+                    <div className={Style.img}>
                         <img src={require("../img/Rectangle 5.png")} alt="tea" />
                     </div>
 
 
 
 
-                    <div className="text">
-                        <div className="name">
+                    <div className={Style.text}>
+                        <div className={Style.name}>
                             <h2>tea name</h2>
                         </div>
-                    <div className="delete">
+                    <div className={Style.delete}>
                         <Link className="del" to={"/delete"}> <FontAwesomeIcon  icon={faX} /> </Link>
                     </div>
-                        <div className="price">
+                        <div className={Style.price}>
                             <h2> £ {prc} </h2>
                         </div>
 
                     <div>
 
 
-                    <div className="quan">
-                        <div className="count">
-                            <button onClick={minus} value={quan}> - </button>
-                            <input type="number" min={0} name="qty" onChange={qty} value={quan} max={99} />
-                            <button onClick={add} value={quan}> + </button>
+                    <div className={Style.quan}>
+                        <div className={Style.count}>
+                            <p> X5</p>
                         </div>
 
-                        <div className="weight">
-                        <select id="weight" name="weight">
-                            <option value="400g">400g</option>
-                            <option value="700g">
-                                700g
-                            </option>
-                            <option value="800g">800g</option>
-                            </select>
+                        <div className={Style.weight}>
+                            <p> 700g</p>
                         </div>
+
                         </div>
                     </div>
 
                     </div>
-
-
 
 
                 </div>
 
+
+                  <div className={Style.cartbtn} >
+                       <Link to={"/checkout"}> <button className={Style.checkout} >COMFIRM</button></Link>
+                    </div>
           
             {/* {list.map((project) => (
 

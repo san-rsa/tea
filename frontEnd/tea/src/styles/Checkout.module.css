@@ -1,19 +1,16 @@
 .cart {
     text-align: left;
-    width: 100%;
-    margin: auto;
-    box-shadow: 2px 11px 4px rgba(0, 0, 0, 0.20); 
-    border-radius: 0; 
-    border: none; 
-    position: relative;
+
 }
 
 .item {
     background-color: #1F1B4E;
-    display: grid;
+    display: inline-flex;
     grid-template-columns: auto 70%;
     width: 100%;
-    
+    height: 180px;
+    box-shadow: 2px 11px 4px rgba(0, 0, 0, 0.20); 
+    position: relative;
 }
 
 .name {
@@ -28,24 +25,28 @@
 }
 
 
-.quantity, .weights {
-    display: inline-flex;
+.count, .weight {
+    display: inline-block;
+    border: none;
+    text-align: center;   
    border-radius: 15px;
-   font-size: ;
-   text-align: center;
    background-color: #2D4135;
+   margin: auto auto auto 4%;
+   padding: 3px;
    
 
 
 }
 
-.quantity ::-webkit-outer-spin-button, .quantity ::-webkit-inner-spin-button {
+
+
+.count ::-webkit-outer-spin-button, .count ::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
-.quantity input {
-    width: 20%;    
+.count input {
+    width: 50%;  
     color: #B8FFD0;
     border: none;
     background-color: inherit;
@@ -55,7 +56,9 @@
 
 
 
-.quantity button, .weights select {
+.count button, .weight select {
+
+    display: inline-block;
     padding: 0;
     margin: 0;
     background-color: inherit;
@@ -65,13 +68,12 @@
     font-weight: bolder;
     font-size: ;
     width: auto;
-    display: inline-flex;
 }
 
 
 /* price  & weight */
 
-.priceC {
+.price {
     color: #2DF064;
     display: block;
     margin:auto 25px;
@@ -93,7 +95,31 @@
 }
 
 
+/* btn */
 
+.cartbtn {
+    display: block;
+    text-align: center;
+}
+
+
+.more, .checkout {
+    display: block;
+    margin: 50px auto auto;
+
+}
+
+
+.more {
+    background-color: inherit;
+    color: #14FF00;
+    border: 2px #05FF00 solid;
+}
+
+.checkout {
+    border: 2px #05FF00 solid;
+    
+}
 
 
 
@@ -102,7 +128,24 @@
 @media (max-width: 600px) {
  
 
-    .tea {
-        display: block;
+    .img {
+        width: 50%;
+        height: 100%;
+    }
+
+    .item {
+        height: 100px;
+    }
+
+    .price h2, .name h2 {
+        margin: 0 auto;
     }
  }
+
+
+
+
+
+
+
+

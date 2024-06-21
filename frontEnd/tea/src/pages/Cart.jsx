@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import List  from "../components/sub component/List";
 import "../styles/style.css"
-import "../styles/cart.css"
+import Style from "../styles/Cart.module.css"
 import Nav from "../components/sub component/Nav"
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -76,39 +76,39 @@ const Cart = ({ text, img}) => {
         <div>
          <Nav />                
          <h1>CART</h1>
-            <div className="cart">
+            <div className={Style.cart}>
 
 
-                <div className="item">
-                    <div className="img">
+                <div className={Style.item}>
+                    <div className={Style.img}>
                         <img src={require("../img/Rectangle 5.png")} alt="tea" />
                     </div>
 
 
 
 
-                    <div className="text">
-                        <div className="name">
+                    <div className={Style.text}>
+                        <div className={Style.name}>
                             <h2>tea name</h2>
                         </div>
-                    <div className="delete">
+                    <div className={Style.delete}>
                         <Link className="del" to={"/delete"}> <FontAwesomeIcon  icon={faX} /> </Link>
                     </div>
-                        <div className="priceC">
+                        <div className={Style.price}>
                             <h2> £ {prc} </h2>
                         </div>
 
                     <div>
 
 
-                    <div className="quanC">
-                        <div className="quanity">
+                    <div className={Style.quan}>
+                        <div className={Style.count}>
                             <button onClick={minus} value={quan}> - </button>
                             <input type="number" min={0} name="qty" onChange={qty} value={quan} max={99} />
                             <button onClick={add} value={quan}> + </button>
                         </div>
 
-                        <div className="weights">
+                        <div className={Style.weight}>
                         <select id="weight" name="weight">
                             <option value="400g">400g</option>
                             <option value="700g">
@@ -123,10 +123,13 @@ const Cart = ({ text, img}) => {
                     </div>
 
 
-
-
                 </div>
 
+
+                  <div className={Style.cartbtn} >
+                       <Link to={"/list"}> <button className={Style.more}> SHOP MORE  </button></Link>
+                       <Link to={"/checkout"}> <button className={Style.checkout} >CHECKOUT</button></Link>
+                    </div>
           
             {/* {list.map((project) => (
 

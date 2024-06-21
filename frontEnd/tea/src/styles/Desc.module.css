@@ -133,3 +133,9 @@
  .others h3 {
     margin-bottom: 0;
  }
+
+ .card {
+    display: inline-grid;
+    padding:  3%;
+    margin: 2% auto auto;
+ }
