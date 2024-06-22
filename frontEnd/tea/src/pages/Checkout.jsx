@@ -40,43 +40,12 @@ const list =[ {
 
 const Checkout = ({ text, img}) => {
 
-    
-    const [quan, setquan] = useState(Number(1))
-    const [prc, setprc] = useState(Number(5))
-
-    function qty(params) {
-        setquan(params.target.value);
-        setprc(Number(params.target.value) * 5 )
-    }
-
-
-    function add(p) {
-        p.preventDefault()
-        setquan(prevItems => {
-           let no= Number(prevItems) + 1;
-           let pr = Number(no)*5;
-           setprc(pr);
-          return no;
-        });
-       }
-
-       function minus(p) {
-        p.preventDefault()
-        setquan(prevItems => {
-           let no= Number(prevItems) - 1;
-           let pr = Number(no) * 5;
-           setprc(pr)
-          return no;
-        });
-       }
-
-
 
     return (
         <div>
          <Nav />                
          <h1>CHECKOUT</h1>
-            <div className={Style.cart}>
+            <div className={Style.checkout}>
 
 
                 <div className={Style.item}>
@@ -94,9 +63,7 @@ const Checkout = ({ text, img}) => {
                     <div className={Style.delete}>
                         <Link className="del" to={"/delete"}> <FontAwesomeIcon  icon={faX} /> </Link>
                     </div>
-                        <div className={Style.price}>
-                            <h2> £ {prc} </h2>
-                        </div>
+
 
                     <div>
 
@@ -107,9 +74,12 @@ const Checkout = ({ text, img}) => {
                         </div>
 
                         <div className={Style.weight}>
-                            <p> 700g</p>
+                            <p> WEIGHT: 700g</p>
                         </div>
 
+                        </div>
+                        <div className={Style.price}>
+                            <h2> £ {"5.00"} </h2>
                         </div>
                     </div>
 
