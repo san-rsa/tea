@@ -1,0 +1,102 @@
+body {
+    text-align: center;
+    background: #1F2523;
+    color: #fff;
+}
+
+
+/* nav */
+
+nav {
+    background: #28895A;
+    margin: 0;
+    padding: 0;
+
+}
+
+nav h1 {
+    margin: auto;
+    display: inline;
+}
+
+.rnav {
+    float: right;
+    padding-top: 2px 5px;
+}
+
+.lnav {
+    float: left;
+    padding: 2px 5px;
+}
+
+
+
+
+
+/* begin view & second  */
+.bcard, .scard {
+    position: relative;
+    max-height: 550px;
+    overflow: hidden;
+}
+.bcard img, .scard img{
+
+    width: 100%;
+}
+
+.bcard p, .scard p {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    margin: auto;
+    margin-bottom: 2%;
+
+}
+
+
+
+/* trending % menu */
+.tcard, .mcard {
+    
+}
+.tcard img, .mcard img{
+    height: 120px;
+    border-radius: 24px;
+}
+
+.tcard h2, .mcard h2 {
+    margin: 0;
+}
+
+.tcard p, .mcard p {
+    color: #2DF064;
+    margin: 0;
+    font-weight: bold;
+}
+
+.tcard button, .cat button {
+    background: #28895A;
+    box-shadow: 2px 11px 4px rgba(0, 0, 0, 0.25); 
+    border-radius: 53px; 
+    border: 1.21px #00FF94 solid; 
+    justify-content: center; 
+    align-items: center; 
+    display: inline-flex;
+    color: white;
+    padding: 1px 3%;
+    text-align: center; color: white; font-size: 24px; font-family: Inter; font-weight: 600; word-wrap: break-word;
+    margin: 1%;
+}
+
+@media (max-width: 600px) {
+
+    .tcard img, .mcard img{
+        height: 100%;
+    }
+
+
+}
+
+
+
+
