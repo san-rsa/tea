@@ -1,279 +1,119 @@
-require('dotenv').config();
+require("dotenv").config();
+const createError = require("http-errors");
 const express = require("express");
-const bodyParser = require("body-parser");
-const ejs = require("ejs");
-const _ = require("lodash");
-const mongoose = require("mongoose")
-const nodemailer = require('nodemailer');
-const hbs = require('nodemailer-express-handlebars')
-const path = require('path')
+const path = require("path");
+const cookieParser = require("cookie-parser");
+const logger = require("morgan");
+const mongoose = require("mongoose");
+const session = require("express-session");
+const passport = require("passport");
+const flash = require("connect-flash");
+const Category = require("./models/category");
+var MongoStore = require("connect-mongo")(session);
+const connectDB = require("./connection/db");
 
 const app = express();
+require("./connection/passport");
 
+// mongodb configuration
+connectDB();
+// view engine setup
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "ejs");
 
-app.set('view engine', 'ejs');
+// admin route
+const adminRouter = require("./routes/admin");
+app.use("/admin", adminRouter);
 
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(express.static("public"));
+app.use(logger("dev"));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, "public")));
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    store: new MongoStore({
+      mongooseConnection: mongoose.connection,
+    }),
+    //session expires after 3 hours
+    cookie: { maxAge: 60 * 1000 * 60 * 3 },
+  })
+);
+app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
 
-mongoose.connect(process.env.DB, {useNewUrlparser: true});
-
-const orderSchema  = {
-  "product": String,
-  "First name": String,
-  "Second name": String,
-  "Phone number": Number,
-  "size": String,
-  "Quantity": Number,
-  "Total amount": { Delivery: Number, order: Number, total: Number}
-}
-
-const Order = mongoose.model("order", orderSchema)
-
-
-
-app.get("/", (req, res ) => {
-    res.render("index");
-});
-
-
-app.get("/contact", (req, res ) => {
-    res.render("contact");
-});
-
-
-app.get("/menu", (req, res ) => {
-    res.render("category");
-});
-
-app.route("/menu/:order")
-
-
-.get((req, res ) => {
-    let h1 = req.params.order;
-
-    let h1T = _.capitalize(h1);
-
-     res.render("order",  {
-        title: h1T
-    });
-})
-
-.post((req, res) => {
-
-    
-const items = {
-    
-    Fresh : {
-        small: 700,
-        medium: 950,
-        large: 1500,
-        jumbo: 2000
-    },
-
-    dried : {
-        small: 750,
-        medium: 1000,
-        large: 1550,
-        jumbo: 2000
-    },
-
-    peppered : {
-        small: 825,
-        medium: 1200,
-        large: 1800,
-        jumbo: 2400
-    }
-}
-        let item = "";
-        const option = req.body.snail;
-        const input = req.body.qty
-        const delivery = 1500;
-        let hd1 = _.capitalize(req.params.order);
-                
-        function err(error) {
-
-      if(input <= 0){
-            res.send(error)
-        }
-       } 
-       err();
-       
-        function prices() {
-        
-            if (option == "small") {    
-            if (hd1 == "Fresh") {
-                    item = items.Fresh.small;
-                } else if ( hd1 == "Dried") {
-                    item =  items.dried.small;        
-            }   else if (hd1 == "Peppered") {
-                    item =  items.peppered.small;
-            }
-        
-            } else if (option == "medium") {    
-                if (hd1 == "Fresh") {
-                    item =  items.Fresh.medium;
-                } else if ( hd1 == "Dried") {
-                    item = items.dried.medium;        
-            }   else if (hd1 == "Peppered") {
-                    item =  items.peppered.medium;
-            }        
-                
-            } else if (option == "large"){     
-                if (hd1 == "Fresh") {
-                    item =  items.Fresh.large;
-                } else if ( hd1 == "Dried") {
-                    item =  items.dried.large;        
-            }   else if (hd1 == "Peppered") {
-                    item =  items.peppered.large;
-            }
-        
-            } else {    
-                if (hd1 == "Fresh") {
-                    item =  items.Fresh.jumbo;
-                } else if ( hd1 == "Dried") {
-                    item =  items.dried.jumbo;        
-            }   else if (hd1 == "Peppered") {
-                    item =  items.peppered.jumbo;
-            }
-            }
-        }; 
-
-    prices()
-
-
-        const total = (item * input) + delivery;
-
-    const add = req.body;
-    const title = req.params.order
-    const customer = {
-        product: title + " snails",
-        fname: add.fname,
-        lname:add.lname,
-        phone: add.phone,
-        email: add.email,
-        variant: add.snail,
-        delivery: delivery,
-        price: item,
-        quantity: add.qty,
-        total: total
-    }
-  
-
-
-var transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    type: 'gmail',
-    user: process.env.EMAIL,
-    pass: process.env.PASS_EMAIL
- }
-});
-
-const handlebarOptions = {
-    viewEngine: {
-        partialsDir: path.resolve('./views/'),
-        defaultLayout: false,
-    },
-    viewPath: path.resolve('./views/'),
-};
-
-// use a template file with nodemailer
-transporter.use('compile', hbs(handlebarOptions))
-let h1 = _.capitalize(title);
-
-let h1T = h1
-
-
-var mailOptions = {
-  from: process.env.EMAIL,
-  to: process.env.EMAIL,
-  subject: 'NEW ORDER AVAILABLE',
-  template: "email",
-  context: {
-    product: customer.product,
-    name: customer.fname + customer.lname,
-    phone: customer.phone,
-    email: customer.email,
-    variant: customer.variant,
-    delivery: customer.delivery,
-    item: customer.price,
-    qty: customer.quantity,
-    total: customer.total,
-    img: h1T,
-  },
-  
-
-  attachments: [{ filename: "logoR", path: "./attachments/logoR.png"}, {filename: "size", path: "./attachments/" + h1T + "/" + customer.variant + ".jpg" }],
-
-};
-
-transporter.sendMail(mailOptions, function(error, info){
-  if (error) {
+// global variables across routes
+app.use(async (req, res, next) => {
+  try {
+    res.locals.login = req.isAuthenticated();
+    res.locals.session = req.session;
+    res.locals.currentUser = req.user;
+    const categories = await Category.find({}).sort({ title: 1 }).exec();
+    res.locals.categories = categories;
+    next();
+  } catch (error) {
     console.log(error);
-  } else {
-    console.log('Email sent: ' + info.response);
+    res.redirect("/");
   }
 });
 
+// add breadcrumbs
+get_breadcrumbs = function (url) {
+  var rtn = [{ name: "Home", url: "/" }],
+    acc = "", // accumulative url
+    arr = url.substring(1).split("/");
 
-var usermailOptions = {
-    from: process.env.EMAIL,
-    to: customer.email,
-    subject: 'YOUR ORDER HAS BEEN RECEIVED',
-    template: "email",
-    context: {
-      product: customer.product,
-      name: customer.fname + customer.lname,
-      phone: customer.phone,
-      email: customer.email,
-      variant: customer.variant,
-      delivery: customer.delivery,
-      item: customer.price,
-      qty: customer.quantity,
-      total: customer.total,
-      img: h1T,
-    },
-    
-  
-    attachments: [{ filename: "logoR", path: "./attachments/logoR.png"}, {filename: "size", path: "./attachments/" + h1T + "/" + customer.variant + ".jpg" }],
-  
-  };
-  
-  transporter.sendMail(usermailOptions, function(error, info){
-    if (error) {
-      console.log(error);
-    } else {
-      console.log('Email sent: ' + info.response);
-    }
-  });
-
-
-    const order = new Order ({
-            "product": customer.product,
-            "First name": customer.fname,
-            "Second name": customer.lname,
-            "Phone number": customer.phone,
-            "size": customer.variant,
-            "Quantity": customer.quantity,
-            "Total amount": { Delivery: customer.delivery, order: customer.price, total: customer.total}
-          
-    })
-    order.save(function(err){
-  
-      if (err){
-        res.send("error")
-   
-        res.redirect("/menu/" + title);
-
-    } else {
-
-        res.redirect("/");
-    }
-
-})
+  for (i = 0; i < arr.length; i++) {
+    acc = i != arr.length - 1 ? acc + "/" + arr[i] : null;
+    rtn[i + 1] = {
+      name: arr[i].charAt(0).toUpperCase() + arr[i].slice(1),
+      url: acc,
+    };
+  }
+  return rtn;
+};
+app.use(function (req, res, next) {
+  req.breadcrumbs = get_breadcrumbs(req.originalUrl);
+  next();
 });
 
+//routes config
+const indexRouter = require("./routes/index");
+const productsRouter = require("./routes/products");
+const usersRouter = require("./routes/user");
+const pagesRouter = require("./routes/pages");
+const categoryRouter = require("./routes/category");
+app.use("/products", productsRouter);
+app.use("/user", usersRouter);
+app.use("/pages", pagesRouter);
+app.use("/category", categoryRouter);
+app.use("/", indexRouter);
 
-app.listen(process.env.PORT ||3000, () =>  console.log("server started")
-)
+
+// catch 404 and forward to error handler
+app.use(function (req, res, next) {
+  next(createError(404));
+});
+
+// error handler
+app.use(function (err, req, res, next) {
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get("env") === "development" ? err : {};
+
+  // render the error page
+  res.status(err.status || 500);
+  res.render("error");
+});
+
+var port = process.env.PORT || 3000;
+app.set("port", port);
+app.listen(port, () => {
+  console.log("Server running at port " + port);
+});
+
+module.exports = app;
