@@ -12,9 +12,6 @@ import Admin from "./pages/user/Admin";
 
 import "./styles/style.css"
 
-
-  // 2. Wrap ChakraProvider at the root of your app
-
   
 
 function App() {

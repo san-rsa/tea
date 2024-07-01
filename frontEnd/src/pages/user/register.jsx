@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import Nav from "../../components/sub component/Nav"
 import Input from "./form/Inputs";
 import { Link } from "react-router-dom";
-
 import Style from "../../styles/Register.module.css"
 
 
