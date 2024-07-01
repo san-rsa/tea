@@ -5,8 +5,12 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import * as React from 'react'
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout"
-import "./styles/style.css"
+import Login from "./pages/user/Login";
+import Register from "./pages/user/Register";
+import Profile from "./pages/user/Profile";
+import Admin from "./pages/user/Admin";
 
+import "./styles/style.css"
 
 
   // 2. Wrap ChakraProvider at the root of your app
@@ -24,7 +28,11 @@ function App() {
         <Route path="/list" element={<Menu />}/>
         <Route path="/cart" element={<Cart />}/>
         <Route path="/checkout" element={<Checkout />}/>
-        <Route path="/list" element={<Menu />}/>
+        <Route path="/login" element={<Login />}/>
+        <Route path="/register" element={<Register />}/>
+        <Route path="/user" element={<Profile />}/>
+        <Route path="/admin" element={<Admin />}/>
+
 
     </Routes>
   </BrowserRouter>    

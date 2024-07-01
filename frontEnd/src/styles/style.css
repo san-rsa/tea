@@ -28,6 +28,7 @@ a {
 
 .tcard h2, .mcard h2 {
     margin: 0;
+    text-align: center;
 }
 
 .tcard p, .mcard p {

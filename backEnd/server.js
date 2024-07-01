@@ -8,12 +8,12 @@ const mongoose = require("mongoose");
 const session = require("express-session");
 const passport = require("passport");
 const flash = require("connect-flash");
-const Category = require("./models/category");
-var MongoStore = require("connect-mongo")(session);
-const connectDB = require("./connection/db");
+const Category = require("./src/models/category");
+// var MongoStore = require("connect-mongo")(session);
+const connectDB = require("./src/connection/db");
 
 const app = express();
-require("./connection/passport");
+require("./src/connection/passport");
 
 // mongodb configuration
 connectDB();
@@ -22,7 +22,7 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
 // admin route
-const adminRouter = require("./routes/admin");
+const adminRouter = require("./src/routes/admin");
 app.use("/admin", adminRouter);
 
 app.use(logger("dev"));
