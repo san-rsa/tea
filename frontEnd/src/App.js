@@ -5,10 +5,10 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import * as React from 'react'
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout"
-import Login from "./pages/account/Login";
-import Register from "./pages/account/Register";
-import Profile from "./pages/account/Profile";
-import Admin from "./pages/account/Admin";
+import Login from "./pages/user/Login";
+import Register from "./pages/user/Register";
+import Profile from "./pages/user/Profile";
+import Admin from "./pages/user/Admin";
 
 import "./styles/style.css"
 
