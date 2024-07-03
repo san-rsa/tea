@@ -34,14 +34,14 @@ const Register = ({ img}) => {
 
                 <div className={Style.inp}>
 
-            <Input name="first name" type={"text"} onchange={handleChange} value={data.fname} class={Style.fname} />   
-            <Input name="last name" type={"text"} onchange={handleChange} value={data.lname} class={Style.lname} />
-            <Input name="email" type={"email"} onchange={handleChange} value={data.email} class={Style.email} />
-            <Input name="phone number" type={"number"} onchange={handleChange} value={data.number} class={Style.number} />
+            <Input name="first name" type={"text"} onchange={handleChange} value={data.fname} class={Style.fname} label={"first name"} />   
+            <Input name="last name" type={"text"} onchange={handleChange} value={data.lname} class={Style.lname} label={"second name"} />
+            <Input name="email" type={"email"} onchange={handleChange} value={data.email} class={Style.email} label={"email"} />
+            <Input name="phone number" type={"number"} onchange={handleChange} value={data.number} class={Style.number} label={"phone number"} />
 
-            <Input name="address" type={"text"} onchange={handleChange} value={data.address} class={Style.address} />
+            <Input name="address" type={"text"} onchange={handleChange} value={data.address} class={Style.address} label={"address"} />
 
-            <Input name="password" type={"password"} onchange={handleChange} value={data.password} class={Style.password} />
+            <Input name="password" type={"password"} onchange={handleChange} value={data.password} class={Style.password} label={"password"} />
                 </div>
 
             <button className="login" onClick={handleSubmit}> Sign up</button> 

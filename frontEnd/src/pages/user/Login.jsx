@@ -35,8 +35,8 @@ const Login = ({ img}) => {
 
                 <div className={Style.inp}>
                     
-            <Input name="email" type={"email"} onchange={handleChange} value={data.email} class={Style.email} />
-            <Input name="password" type={"password"} onchange={handleChange} value={data.password} class={Style.password} />
+            <Input name="email" type={"email"} onchange={handleChange} value={data.email} class={Style.email} label={"email"} />
+            <Input name="password" type={"password"} onchange={handleChange} value={data.password} class={Style.password} label={"password"} />
                 </div>
 
             <button className="login" onClick={handleSubmit}> Log in</button> 

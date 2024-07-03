@@ -1,0 +1,135 @@
+
+.right h1{
+    text-align: center;
+    margin-bottom: 0;
+    font-size: xx-large;
+}
+ 
+ .profile {
+    text-align: left;
+}
+
+
+.section {
+    display: grid;
+    grid-template-columns: auto 60%;
+}
+
+
+
+
+.left button {
+    padding: 10px;
+    margin: 2%;
+    background-color: inherit;
+    border: none;
+    box-shadow: none;
+    color: #B8FFD0;
+    width: auto;
+}
+
+
+.active button {
+    margin: auto 2%;
+    border: 1px #2DF064 solid;
+    border-radius: 7px;
+    padding: 5px;
+
+}
+
+/* pc */
+
+.imgD img {
+    width: 200px;
+    height: 200px;    
+    border-radius: 150px;
+}
+
+.imgD {
+    margin: 3%;
+    text-align: center;
+
+}
+
+
+.details, .ingredient, .quan, .others {
+    margin: 4%
+}
+
+.cartB {
+    width: 100%;
+    margin: 10% 2%;
+    box-shadow: 2px 11px 4px rgba(0, 0, 0, 0.25); 
+    border-radius: 53px; 
+    border: 2px #00FF94 solid; 
+}
+
+.tabs {
+    text-align: left;
+}
+
+.tabs * {
+    display: block;
+}
+
+.other {
+    text-align: left;
+}
+
+.other input {
+    font-size: x-large;
+    text-align: left;
+    margin: 3%;
+    border-radius: 11px;
+}
+
+.name, .contact {
+    display: flex;
+    text-align: left;
+  
+}
+
+.name *, .contact * {
+    margin: 3%;
+    font-size: x-large;
+    border-radius: 11px;
+
+}
+
+
+input::placeholder {
+    color: #222236;
+    padding: 6px;
+}
+
+
+
+/* mobile */
+
+@media (max-width: 600px) {
+
+    .weight button {
+     font-size: x-large;
+    }
+ 
+ .imgD img{
+
+}
+
+    .section {
+        display: block;
+    }
+ }
+
+
+ /* others */
+
+ .others h3 {
+    margin-bottom: 0;
+ }
+
+ .card {
+    display: inline-grid;
+    padding:  3%;
+    margin: 2% auto auto;
+ }
