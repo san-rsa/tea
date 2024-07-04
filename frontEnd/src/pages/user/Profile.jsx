@@ -23,6 +23,63 @@ const Profile = ({ text, img}) => {
       console.log(data);
     }
 
+    function ItemList({ items }) {
+        return (
+          <div>
+            <ul>
+              {items.length
+                ? items.map((item) => <li key={item.id}>{item.name}</li>)
+                : null}
+            </ul>
+          </div>
+        );
+      }
+      
+
+
+    const change = (event) => {
+        event.preventDefault()
+        let name = event.target.name
+        let info = document.getElementById(Style.info);
+        const order = document.getElementById(Style.order);
+
+        if (event.target.name == "info") {
+
+            info.style.opacity = '100%';
+            order.style.opacity = '0%';
+
+            info.style.display = 'grid';
+            order.style.display = 'none';
+
+
+            console.log(order);
+            
+        } else  if (event.target.name == "order") {
+
+            info.style.opacity = '0%';
+            order.style.opacity = '100%';
+            info.style.display = 'none'
+            order.style.display = 'grid'
+            
+        } 
+        // else  if (event.target.name == "info") {
+
+        //     info.style.display = 'flex'
+        //     order.style.display = 'none'
+            
+        // } else if (event.target.name == "info") {
+
+        //     info.style.display = 'flex'
+        //     order.style.display = 'none'
+            
+        // } else {
+            
+        // }
+
+        // info ?  info.style.display = 'flex' :  info.style.display = 'none'
+
+    }
+
 
     return (
         <div>
@@ -40,14 +97,15 @@ const Profile = ({ text, img}) => {
                             <br></br>  
                 
                                 <div className={Style.tabs}>
-                                    <button > personal information</button>
-                                    <button> my order</button>
+                                    <button name="info" onClick={change}> personal information</button>
+                                    <button name="order" onClick={change}> my order</button>
                                 </div>
                             
                             </div></div>
 
         <div className={Style.right}>
-            <h1>PERSONAL INFORMATION</h1>
+            <div className={Style.info} id={Style.info}>
+                <h1>PERSONAL INFORMATION</h1>
 
                 <form>
                 <div className={Style.quan}>
@@ -63,7 +121,7 @@ const Profile = ({ text, img}) => {
                         <Input name="phone number" type={"number"} onchange={handleChange} value={data.number} class={Style.number} label={"phone number"}  />
                     </div>
                     
-                   
+                
                     <div className={Style.other}>
                     <Input name="address" type={"text"} onchange={handleChange} value={data.address} class={Style.address} label={"address"} />
                     <Input name="password" type={"password"} onchange={handleChange} value={data.password} class={Style.password} label={"password"}  />
@@ -71,14 +129,15 @@ const Profile = ({ text, img}) => {
                     </div>
                 </div>
 
-                <div className={Style.price}>
-                    <h2> £  </h2>
-                </div>
-
-
-                <button className={Style.cartB}>ADD TO CART</button>
+                <button className={Style.cartB}>SAVE</button>
                 </div>
                 </form>
+            </div>
+
+
+            <div className={Style.order} id={Style.order}>
+                <h1 > MY ORDERS</h1>
+            </div>
         </div>
             </div>
 
