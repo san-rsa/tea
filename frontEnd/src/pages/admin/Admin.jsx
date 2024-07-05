@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import List  from "../../components/sub component/List";
-import Style from "../../styles/Profile.module.css"
+import Style from "../../styles/Admin.module.css"
 import Nav from "../../components/sub component/Nav"
-import Input from "./sub/Inputs";
-import Order from "./sub/Order";
+import Input from "../user/sub/Inputs";
+import Order from "../user/sub/Order";
 
 
 const list =[ {
@@ -34,7 +34,7 @@ const list =[ {
 
 
 
-const Profile = ({ text, img}) => {
+const Admin = ({ text, img}) => {
 
     const [data, setInputs] = useState({});
 
@@ -85,7 +85,7 @@ const Profile = ({ text, img}) => {
 
             
         } 
-        else  if (event.target.name == "wishlist") {
+        else  if (event.target.name == "tea") {
 
             info.style.display = 'none'
             order.style.display = 'none'
@@ -129,11 +129,11 @@ const Profile = ({ text, img}) => {
                                     </div>
 
                                     <div >
-                                        <button name="order" onClick={change}> my order</button>
+                                        <button name="order" onClick={change}> orders</button>
                                     </div>
 
                                     <div >
-                                        <button name="wishlist" onClick={change}> wishlist</button>
+                                        <button name="tea" onClick={change}> tea</button>
                                     </div>
 
                                 </div>
@@ -173,12 +173,12 @@ const Profile = ({ text, img}) => {
 
 
             <div className={Style.order} id={Style.order}>
-                <h1 > MY ORDERS</h1>
+                <h1 > ORDERS</h1>
                 <Order/>
             </div>
 
             <div className={Style.wishlist} id={Style.wishlist} >
-                <h1 > WISHLIST</h1>
+                <h1 > TEA</h1>
 
             {list.map((project) => (
 
@@ -210,4 +210,4 @@ const Profile = ({ text, img}) => {
 
 
 
-export default Profile
+export default Admin

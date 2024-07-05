@@ -8,7 +8,7 @@ import Checkout from "./pages/Checkout"
 import Login from "./pages/user/Login";
 import Register from "./pages/user/Register";
 import Profile from "./pages/user/Profile";
-import Admin from "./pages/user/Admin";
+import Admin from "./pages/admin/Admin";
 
 import "./styles/style.css"
 

@@ -15,8 +15,9 @@
     grid-template-columns: auto 60%;
 }
 
-#info {display: none;}
-#order {display: flex;}
+#info {display: block;}
+#order {display: none;}
+#wishlist {display: none; text-align: left;}
 
 
 
@@ -159,10 +160,13 @@ input::placeholder {
 
 
 
-    .tabs * {
-     display: contents;
-     position: fixed;
+    .tabs div {
+     display: none;
     }
+    #info {display: block;}
+    #order {display: block;}
+    #wishlist {display: block;}
+
  
  .imgD img{
 
