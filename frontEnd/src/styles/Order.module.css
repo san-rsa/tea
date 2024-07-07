@@ -43,11 +43,12 @@ span {
 
 /* btn */
 
-.link {
+.link {  
+    bottom: 70px;
     float: right;
     text-align: center;
     position: relative;
-    bottom: 100px;
+  
     right: 20px;
 
     

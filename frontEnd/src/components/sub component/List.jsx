@@ -5,14 +5,16 @@ const List = ({name, price, img}) => {
 
     return (
 
-        <Link to={"/desc"}>
+      
                     <div className="tcard">
+                          <Link to={"/desc"}>
             <img src={img} alt="" />
             <h2>{name}</h2>
             <p>{price}</p>
-            <button>cart</button>
+               </Link>   
+            <button> <List to={""}>cart</List> </button>
         </div>
-        </Link>
+  
     )
 }
 

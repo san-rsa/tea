@@ -9,6 +9,10 @@ import Login from "./pages/user/Login";
 import Register from "./pages/user/Register";
 import Profile from "./pages/user/Profile";
 import Admin from "./pages/admin/Admin";
+import Add from "./pages/admin/sub/tea/Add";
+import Edit from "./pages/admin/sub/tea/Edit";
+
+
 
 import "./styles/style.css"
 
@@ -29,6 +33,10 @@ function App() {
         <Route path="/register" element={<Register />}/>
         <Route path="/user" element={<Profile />}/>
         <Route path="/admin" element={<Admin />}/>
+        <Route path="/admin/addtea" element={<Add />}/>
+        <Route path="/admin/edittea" element={<Edit />}/>
+        <Route path="/admin" element={<Admin />}/>
+      
 
 
     </Routes>

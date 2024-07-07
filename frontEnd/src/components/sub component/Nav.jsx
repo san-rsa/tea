@@ -19,7 +19,7 @@ const Nav = () => {
 
         <div className={Style.rnav}>
             <Link className={Style.navr} to={"/cart"}><FontAwesomeIcon icon={faCartShopping}/> </Link>
-            <Link className={Style.navr}to={"/account"}><FontAwesomeIcon icon={faUser}/> </Link>
+            <Link className={Style.navr}to={"/login"}><FontAwesomeIcon icon={faUser}/> </Link>
         </div>
 
     </nav>

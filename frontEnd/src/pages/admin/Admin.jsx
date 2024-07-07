@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import List  from "../../components/sub component/List";
+import List  from "./sub/List";
 import Style from "../../styles/Admin.module.css"
 import Nav from "../../components/sub component/Nav"
 import Input from "../user/sub/Inputs";
 import Order from "../user/sub/Order";
+import { Link } from "react-router-dom";
 
 
 const list =[ {
@@ -69,41 +70,55 @@ const Admin = ({ text, img}) => {
         const name = event.target.name
         const info = document.getElementById(Style.info);
         const order = document.getElementById(Style.order);
-        const wishlist = document.getElementById(Style.wishlist);
+        const tea = document.getElementById(Style.tea);
+        const admin = document.getElementById(Style.admin);
+        const user = document.getElementById(Style.user);
+
 
         if (event.target.name == "info") {
 
             info.style.display = 'block';
             order.style.display = 'none';
-            wishlist.style.display = 'none';
+            tea.style.display = 'none';
+            admin.style.display = 'none';
+            user.style.display = 'none';
+
             
         } else  if (event.target.name == "order") {
 
             info.style.display = 'none'
-            wishlist.style.display = 'none';
+            tea.style.display = 'none';
             order.style.display = 'block'
+            admin.style.display = 'none';
+            user.style.display = 'none';
 
             
-        } 
-        else  if (event.target.name == "tea") {
+        }        else  if (event.target.name == "tea") {
 
             info.style.display = 'none'
             order.style.display = 'none'
-            wishlist.style.display = 'block';
+            tea.style.display = 'block';
+            admin.style.display = 'none';
+            user.style.display = 'none';
 
-            
+        }         else  if (event.target.name == "admin") {
+
+            info.style.display = 'none'
+            order.style.display = 'none'
+            tea.style.display = 'none';
+            admin.style.display = 'block';
+            user.style.display = 'none';
+
+        }         else  if (event.target.name == "user") {
+
+            info.style.display = 'none'
+            order.style.display = 'none'
+            tea.style.display = 'none';
+            admin.style.display = 'none';
+            user.style.display = 'block';
+
         } 
-        // else if (event.target.name == "info") {
-
-        //     info.style.display = 'flex'
-        //     order.style.display = 'none'
-            
-        // } else {
-            
-        // }
-
-        // info ?  info.style.display = 'flex' :  info.style.display = 'none'
-
+       
     }
 
 
@@ -130,6 +145,14 @@ const Admin = ({ text, img}) => {
 
                                     <div >
                                         <button name="order" onClick={change}> orders</button>
+                                    </div>
+
+                                    <div >
+                                        <button name="admin" onClick={change}> admins</button>
+                                    </div>
+
+                                    <div >
+                                        <button name="user" onClick={change}> users</button>
                                     </div>
 
                                     <div >
@@ -177,17 +200,22 @@ const Admin = ({ text, img}) => {
                 <Order/>
             </div>
 
-            <div className={Style.wishlist} id={Style.wishlist} >
+            <div className={Style.tea} id={Style.tea} >
                 <h1 > TEA</h1>
+                <button className={Style.add}> <Link to={"/admin/addtea"}> ADD NEW</Link> </button>
+
 
             {list.map((project) => (
 
                 <div className="card"> 
 
+
+
                 <List
                     price={project.price}
                     name={project.name}
                     img={project.getImageSrc()}
+                    stock={"500"}
                     />    
                     </div>
 
@@ -196,6 +224,15 @@ const Admin = ({ text, img}) => {
 
             </div>
  
+
+            <div className={Style.admin} id={Style.admin}>
+                <h1 > ADMIN</h1>
+            </div>
+
+
+            <div className={Style.user} id={Style.user}>
+                <h1 > USER</h1>
+            </div>
 
             </div>
             </div>

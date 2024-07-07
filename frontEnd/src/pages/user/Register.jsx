@@ -47,7 +47,7 @@ const Register = ({ img}) => {
             <button className="login" onClick={handleSubmit}> Sign up</button> 
 
 
-            <h3 > Have an account sign in <Link to={"/register"}> here now</Link> </h3>
+            <h3 > Have an account sign in <Link to={"/login"}> here now</Link> </h3>
         </div>
 </form>
             </div>
