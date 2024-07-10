@@ -51,17 +51,7 @@ const Admin = ({ text, img}) => {
       console.log(data);
     }
 
-    function ItemList({ items }) {
-        return (
-          <div>
-            <ul>
-              {items.length
-                ? items.map((item) => <li key={item.id}>{item.name}</li>)
-                : null}
-            </ul>
-          </div>
-        );
-      }
+
       
 
 
@@ -205,9 +195,9 @@ const Admin = ({ text, img}) => {
                 <button className={Style.add}> <Link to={"/admin/addtea"}> ADD NEW</Link> </button>
 
 
-            {list.map((project) => (
+            {list.map((project, id) => (
 
-                <div className="card"> 
+                <div className="card" key={id}> 
 
 
 

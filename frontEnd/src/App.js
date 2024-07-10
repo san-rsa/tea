@@ -35,7 +35,7 @@ function App() {
         <Route path="/admin" element={<Admin />}/>
         <Route path="/admin/addtea" element={<Add />}/>
         <Route path="/admin/edittea" element={<Edit />}/>
-        <Route path="/admin" element={<Admin />}/>
+        {/* <Route path="/admin" element={<Admin />}/> */}
       
 
 

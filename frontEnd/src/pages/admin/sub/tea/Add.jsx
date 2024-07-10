@@ -35,7 +35,7 @@ const Add = ({ img}) => {
                 <div className={Style.inp}>
 
             <Input name="name" type={"text"} onchange={handleChange} value={data.name} class={Style.name} label={"name"} />   
-            <Input name="img" type={"url"} onchange={handleChange} value={data.img} class={Style.img} label={"image url address"} />
+            <Input name="img" type={"text"} onchange={handleChange} value={data.img} class={Style.img} label={"image url address"} />
             
             <Input name="category" type={"text"} onchange={handleChange} value={data.category} class={Style.category} label={"category"} />
 
