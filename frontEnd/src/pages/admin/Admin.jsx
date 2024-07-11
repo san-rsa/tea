@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import List  from "./sub/List";
+import AdminList from "./sub/AdminList"
+import UserList from "./sub/UserList"
 import Style from "../../styles/Admin.module.css"
 import Nav from "../../components/sub component/Nav"
 import Input from "../user/sub/Inputs";
@@ -8,7 +10,7 @@ import { Link } from "react-router-dom";
 
 
 const list =[ {
-    getImageSrc: () => require( "../../img/Rectangle 3 (1).png"),
+    getImageSrc: () => require( "../../img/Rectangle 6.png"),
     name: "bournevita",
     price: "£ 5.00"
 },  {
@@ -217,11 +219,47 @@ const Admin = ({ text, img}) => {
 
             <div className={Style.admin} id={Style.admin}>
                 <h1 > ADMIN</h1>
+                <button className={Style.add}> <Link to={"/admin/addtea"}> ADD NEW</Link> </button>
+
+                {list.map((project, id) => (
+
+                    <div className="card" key={id}> 
+
+
+
+                    <AdminList
+                        name={project.name}
+                        img={project.getImageSrc()}
+                        email={"eeee@gmail.com"}
+                        />    
+                        </div>
+
+
+                    )   )   }
             </div>
 
 
             <div className={Style.user} id={Style.user}>
                 <h1 > USER</h1>
+
+
+                <button className={Style.add}> <Link to={"/admin/addtea"}> ADD NEW</Link> </button>
+
+                {list.map((project, id) => (
+
+                    <div className="card" key={id}> 
+
+
+
+                    <UserList
+                        name={project.name}
+                        img={project.getImageSrc()}
+                        email={"eeee@gmail.com"}
+                        />    
+                        </div>
+
+
+                    )   )   }
             </div>
 
             </div>
