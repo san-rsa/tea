@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Style from "../style/AdminList.module.css"
+import Style from "../../style/AdminList.module.css"
 
 
 const List = ({name, img, email}) => {

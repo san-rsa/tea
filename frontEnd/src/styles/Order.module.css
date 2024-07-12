@@ -44,14 +44,24 @@ span {
 /* btn */
 
 .link {  
-    bottom: 70px;
+    bottom: 85px;
     float: right;
     text-align: center;
+    display: inline;
     position: relative;
   
     right: 20px;
+  
+}
 
-    
+.link2 {
+    bottom: 70px;
+}
+
+.link button {
+    display: inline;
+    font-size: medium;
+    margin: 5px 0;
 }
 
 

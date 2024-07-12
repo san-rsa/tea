@@ -18,8 +18,8 @@
 #info {display: block;}
 #order {display: none;}
 #tea {display: none; text-align: left;}
-#admin {display: none;}
-#user {display: none;}
+#admin {display: none; text-align: left;}
+#user {display: none; text-align: left;}
 
 
 .left button {
@@ -131,6 +131,30 @@ input::placeholder {
     padding: 6px;
 }
 
+
+.search * {
+    display: inline;
+    font-size: large;
+    font-size: x-large;
+    text-align: center;
+    border-radius: 11px;
+}
+
+.search {
+    text-align: center;
+}
+
+.search button {
+    background-color: #5d6960;
+}
+
+#order :last-of-type button {
+    display: ;
+}
+
+.Order_link__xw56k {
+    display: none;
+}
 
 
 /* mobile */

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Style from "../../../styles/Order.module.css"
+import Style from "../../styles/Order.module.css"
 
 
 
@@ -22,6 +22,8 @@ const Order = ({ text, img}) => {
                    <div className={Style.link}>
 
                         <button className={Style.view}> view</button>
+                        <button className={Style.order} id={Style.reorder}> re-order</button>
+
 
 
                     </div>

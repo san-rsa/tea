@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import List  from "./sub/List";
-import AdminList from "./sub/AdminList"
+import AdminList from "./sub/admin/AdminList"
 import UserList from "./sub/UserList"
 import Style from "../../styles/Admin.module.css"
 import Nav from "../../components/sub component/Nav"
-import Input from "../user/sub/Inputs";
-import Order from "../user/sub/Order";
+import Input from "./sub/Inputs";
+import Search from "./sub/Search";
+
+import Order from "./sub/Orderlist";
 import { Link } from "react-router-dom";
 
 
@@ -46,12 +48,16 @@ const Admin = ({ text, img}) => {
       const value = event.target.value;
       setInputs(values => ({...values, [name]: value}))
     }
-  
+       const reorder = document.getElementById(Style.reorder);
     const handleSubmit = (event) => {
       event.preventDefault();
       alert(data);
       console.log(data);
     }
+    // reorder.style.display = 'none';
+
+    console.log(reorder);
+
 
 
       
@@ -65,6 +71,8 @@ const Admin = ({ text, img}) => {
         const tea = document.getElementById(Style.tea);
         const admin = document.getElementById(Style.admin);
         const user = document.getElementById(Style.user);
+   
+
 
 
         if (event.target.name == "info") {
@@ -110,6 +118,7 @@ const Admin = ({ text, img}) => {
             user.style.display = 'block';
 
         } 
+
        
     }
 
@@ -188,12 +197,31 @@ const Admin = ({ text, img}) => {
 
 
             <div className={Style.order} id={Style.order}>
+
+
                 <h1 > ORDERS</h1>
+
+            <div className={Style.search} >
+                <Search name="order" type={"text"} onchange={handleChange} value={data.order} class={Style.order} /> 
+                <button><Link to={"search"}> search</Link> </button> 
+            </div>
+
                 <Order/>
             </div>
 
             <div className={Style.tea} id={Style.tea} >
+
+
+            
+
                 <h1 > TEA</h1>
+
+            <div className={Style.search} >
+               <Search name="tea" type={"text"} onchange={handleChange} value={data.tea} class={Style.tea} />   
+
+                <button><Link to={"search"}> search</Link> </button> 
+            </div>
+
                 <button className={Style.add}> <Link to={"/admin/addtea"}> ADD NEW</Link> </button>
 
 
@@ -219,7 +247,7 @@ const Admin = ({ text, img}) => {
 
             <div className={Style.admin} id={Style.admin}>
                 <h1 > ADMIN</h1>
-                <button className={Style.add}> <Link to={"/admin/addtea"}> ADD NEW</Link> </button>
+                <button className={Style.add}> <Link to={"/admin/addadmin"}> ADD NEW</Link> </button>
 
                 {list.map((project, id) => (
 
@@ -240,10 +268,17 @@ const Admin = ({ text, img}) => {
 
 
             <div className={Style.user} id={Style.user}>
+                
+
+
+
                 <h1 > USER</h1>
+           
+            <div className={Style.search} >
+                <Search name="user" type={"text"} onchange={handleChange} value={data.user} class={Style.user} />   
 
-
-                <button className={Style.add}> <Link to={"/admin/addtea"}> ADD NEW</Link> </button>
+                <button><Link to={"search"}> search</Link> </button> 
+            </div>
 
                 {list.map((project, id) => (
 

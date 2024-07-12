@@ -3,7 +3,7 @@ import List  from "../../components/sub component/List";
 import Style from "../../styles/Profile.module.css"
 import Nav from "../../components/sub component/Nav"
 import Input from "./sub/Inputs";
-import Order from "./sub/Order";
+import Order from "./Order";
 
 
 const list =[ {

@@ -9,12 +9,18 @@ import Login from "./pages/user/Login";
 import Register from "./pages/user/Register";
 import Profile from "./pages/user/Profile";
 import Admin from "./pages/admin/Admin";
-import Add from "./pages/admin/sub/tea/Add";
-import Edit from "./pages/admin/sub/tea/Edit";
+import Addtea from "./pages/admin/sub/tea/Add";
+import Edittea from "./pages/admin/sub/tea/Edit";
+import Addadmin from "./pages/admin/sub/admin/Add";
+import Orders from "./pages/Orders"
+import Search from "./pages/Search";
+
+
 
 
 
 import "./styles/style.css"
+
 
   
 
@@ -33,9 +39,13 @@ function App() {
         <Route path="/register" element={<Register />}/>
         <Route path="/user" element={<Profile />}/>
         <Route path="/admin" element={<Admin />}/>
-        <Route path="/admin/addtea" element={<Add />}/>
-        <Route path="/admin/edittea" element={<Edit />}/>
-        {/* <Route path="/admin" element={<Admin />}/> */}
+        <Route path="/admin/addtea" element={<Addtea />}/>
+        <Route path="/admin/edittea" element={<Edittea />}/>
+        <Route path="/admin/addadmin" element={<Addadmin />}/>
+        <Route path="/orders" element={<Orders />}/>
+        <Route path="/search" element={<Search />}/>
+
+
       
 
 
