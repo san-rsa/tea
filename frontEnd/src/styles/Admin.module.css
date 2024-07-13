@@ -148,9 +148,12 @@ input::placeholder {
     background-color: #5d6960;
 }
 
-#order :last-of-type button {
-    display: ;
-}
+
+#info {display: block;}
+#order {display: block;}
+#tea {display: block; text-align: left;}
+#admin {display: block; text-align: left;}
+#user {display: block; text-align: left;}
 
 .Order_link__xw56k {
     display: none;

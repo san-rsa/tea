@@ -13,7 +13,7 @@ import Addtea from "./pages/admin/sub/tea/Add";
 import Edittea from "./pages/admin/sub/tea/Edit";
 import Addadmin from "./pages/admin/sub/admin/Add";
 import Orders from "./pages/Orders"
-import Search from "./pages/Search";
+import Search from "./pages/admin/sub/ResultAdmin";
 
 
 

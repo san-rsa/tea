@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 
-import List  from "../components/sub component/List";
 import "../styles/style.css"
 import Style from "../styles/Checkout.module.css"
 import Nav from "../components/sub component/Nav"
@@ -9,6 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 
 import {faX } from '@fortawesome/free-solid-svg-icons'
+import  Checkoutlist  from "../components/sub component/Checkoutlist";
 
 const list =[ {
     getImageSrc: () => require( "../img/Rectangle 3 (1).png"),
@@ -48,64 +48,28 @@ const Checkout = ({ text, img}) => {
             <div className={Style.checkout}>
 
 
-                <div className={Style.item}>
-                    <div className={Style.img}>
-                        <img src={require("../img/Rectangle 5.png")} alt="tea" />
-                    </div>
+                            {list.map((project) => (
 
+                    <div className=""> 
 
-
-
-                    <div className={Style.text}>
-                        <div className={Style.name}>
-                            <h2>tea name</h2>
-                        </div>
-                    <div className={Style.delete}>
-                        <Link className="del" to={"/delete"}> <FontAwesomeIcon  icon={faX} /> </Link>
-                    </div>
-
-
-                    <div>
-
-
-                    <div className={Style.quan}>
-                        <div className={Style.count}>
-                            <p> X5</p>
+                    <Checkoutlist
+                        price={project.price}
+                        name={project.name}
+                        img={project.getImageSrc()}
+                        qty={"6"}
+                        weight={"600kg"}
+                        />    
                         </div>
 
-                        <div className={Style.weight}>
-                            <p> WEIGHT: 700g</p>
-                        </div>
 
-                        </div>
-                        <div className={Style.price}>
-                            <h2> £ {"5.00"} </h2>
-                        </div>
-                    </div>
-
-                    </div>
-
-
-                </div>
+                    )   )   }
 
 
                   <div className={Style.cartbtn} >
                        <Link to={"/checkout"}> <button className={Style.checkout} >COMFIRM</button></Link>
                     </div>
           
-            {/* {list.map((project) => (
 
-<div className="card"> 
-
-  <List
-      price={project.price}
-      name={project.name}
-      img={project.getImageSrc()}
-    />    
-    </div>
-
-
-)   )   } */}
         </div>
 
 

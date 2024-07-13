@@ -1,51 +1,22 @@
 import React, { useState } from "react";
-
-import Cartlist  from "../components/sub component/Cartlist";
-import Style from "../styles/Cart.module.css"
-import Nav from "../components/sub component/Nav"
+import Style from "../../styles/Cart.module.css"
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 
 import {faX } from '@fortawesome/free-solid-svg-icons'
 
-const list =[ {
-    getImageSrc: () => require( "../img/Rectangle 3 (1).png"),
-    name: "bournevita",
-    price:5
-},  {
-    getImageSrc: () => require("../img/Rectangle 3 (2).png"),
-    name: "top tea",
-    price: 7
-},
-{
-    getImageSrc: () => require( "../img/Rectangle 3.png"),
-    name: "lip tea",
-    price:9
-},
-{
-    getImageSrc: () => require("../img/Rectangle 3 (1).png"),
-    name: "milo",
-    price: 5
-},
-{
-    getImageSrc: () => require("../img/Rectangle 3 (1).png"),
-    name: "lat tea",
-    price: 9
-}
-]
 
 
-
-const Cart = ({ text, img}) => {
+const Cart = ({ name, img, weight1, weight2, weight3, price}) => {
 
     
     const [quan, setquan] = useState(Number(1))
-    const [prc, setprc] = useState(Number())
+    const [prc, setprc] = useState(Number(price))
 
     function handleChange(params) {
         setquan(params.target.value);
-        setprc(Number(params.target.value) * 5 )
+        setprc(Number(params.target.value) * price )
     }
 
 
@@ -53,7 +24,7 @@ const Cart = ({ text, img}) => {
         p.preventDefault()
         setquan(prevItems => {
            let no= Number(prevItems) + 1;
-           let pr = Number(no)*5;
+           let pr = Number(no)*price;
            setprc(pr);
           return no;
         });
@@ -63,7 +34,7 @@ const Cart = ({ text, img}) => {
         p.preventDefault()
         setquan(prevItems => {
            let no= Number(prevItems) - 1;
-           let pr = Number(no) * 5;
+           let pr = Number(no) * price;
            setprc(pr)
           return no;
         });
@@ -73,14 +44,13 @@ const Cart = ({ text, img}) => {
 
     return (
         <div>
-         <Nav />                
-         <h1>CART</h1>
-            <div className={Style.cart}>
+
+            <div className={Style.cartlist}>
 
 
                 <div className={Style.item}>
                     <div className={Style.img}>
-                        <img src={require("../img/Rectangle 5.png")} alt="tea" />
+                        <img src={require("../../img/Rectangle 5.png")} alt="tea" />
                     </div>
 
 
@@ -88,7 +58,7 @@ const Cart = ({ text, img}) => {
 
                     <div className={Style.text}>
                         <div className={Style.name}>
-                            <h2>tea name</h2>
+                            <h2> {name}</h2>
                         </div>
                     <div className={Style.delete}>
                         <Link className="del" to={"/delete"}> <FontAwesomeIcon  icon={faX} /> </Link>
@@ -109,11 +79,11 @@ const Cart = ({ text, img}) => {
 
                         <div className={Style.weight}>
                         <select id="weight" name="weight">
-                            <option value="400g">400g</option>
-                            <option value="700g">
-                                700g
+                            <option value={weight1 + "kg"}>{weight1 + "kg"}</option>
+                            <option value={weight2 + "kg"}>
+                                {weight2 + "kg"}
                             </option>
-                            <option value="800g">800g</option>
+                            <option value={weight3 + "kg"}>{weight3 + "kg"}</option>
                             </select>
                         </div>
                         </div>
@@ -124,37 +94,6 @@ const Cart = ({ text, img}) => {
 
                 </div>
 
-            {list.map((project) => (
-                    
-
-
-                <div className=""> 
-                
-
-                <Cartlist
-                    price={project.price}
-                    name={project.name}
-                    img={project.getImageSrc()}
-                    weight1={"500"}
-                    weight2={"800"}
-                    weight3={"900"}
-            
-
-
-
-                    />    
-                    </div>
-
-
-                )   )   }
-   
-
-
-                  <div className={Style.cartbtn} >
-                       <Link to={"/list"}> <button className={Style.more}> SHOP MORE  </button></Link>
-                       <Link to={"/checkout"}> <button className={Style.checkout} >CHECKOUT</button></Link>
-                    </div>
-          
 
         </div>
 

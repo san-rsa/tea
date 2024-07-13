@@ -7,7 +7,7 @@ import Nav from "../../components/sub component/Nav"
 import Input from "./sub/Inputs";
 import Search from "./sub/Search";
 
-import Order from "./sub/Orderlist";
+import Order from "./sub/Orderview";
 import { Link } from "react-router-dom";
 
 
@@ -219,7 +219,7 @@ const Admin = ({ text, img}) => {
             <div className={Style.search} >
                <Search name="tea" type={"text"} onchange={handleChange} value={data.tea} class={Style.tea} />   
 
-                <button><Link to={"search"}> search</Link> </button> 
+                <button><Link to={"/search"}> search</Link> </button> 
             </div>
 
                 <button className={Style.add}> <Link to={"/admin/addtea"}> ADD NEW</Link> </button>
