@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import Style from "../../styles/Order.module.css"
+import Style from "../../../styles/Order.module.css"
+import { Link } from "react-router-dom";
 
 
 
-const Order = ({ text, img}) => {
+const Order = ({ id, date, price}) => {
 
 
     return (
@@ -19,10 +20,9 @@ const Order = ({ text, img}) => {
  
                     </div>
 
-                   <div className={Style.link}>
+                   <div className={Style["link"]}>
 
-                        <button className={Style.view}> view</button>
-                        <button className={Style.order} id={Style.reorder}> re-order</button>
+                        <button className={Style.view}> <Link to={"/order"} >view</Link></button>
 
 
 

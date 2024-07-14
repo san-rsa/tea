@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Style from "../../styles/Checkout.module.css"
+import Style from "../../../styles/Checkout.module.css"
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 

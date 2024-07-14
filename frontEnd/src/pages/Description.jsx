@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import List  from "../components/sub component/List";
+import List  from "../components/sub component/list/List";
 import Style from "../styles/Desc.module.css"
 import Nav from "../components/sub component/Nav"
 

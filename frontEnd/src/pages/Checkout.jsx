@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 
 import {faX } from '@fortawesome/free-solid-svg-icons'
-import  Checkoutlist  from "../components/sub component/Checkoutlist";
+import  Checkoutlist  from "../components/sub component/list/Checkoutlist";
 
 const list =[ {
     getImageSrc: () => require( "../img/Rectangle 3 (1).png"),

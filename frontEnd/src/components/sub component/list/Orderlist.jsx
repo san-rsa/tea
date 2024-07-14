@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Style from "../../styles/Checkout.module.css"
+import Style from "../../../styles/Checkout.module.css"
 import { Link } from "react-router-dom";
 
 
@@ -13,7 +13,7 @@ const Orderlist = ({ name, img, qty, weight, price}) => {
 
                 <div className={Style.item}>
                     <div className={Style.img}>
-                        <img src={require("../../img/Rectangle 5.png")} alt="tea" />
+                        <img src={require("../../../img/Rectangle 5.png")} alt="tea" />
                     </div>
 
 
@@ -32,7 +32,7 @@ const Orderlist = ({ name, img, qty, weight, price}) => {
 
                     <div className={Style.quan}>
                         <div className={Style.count}>
-                            <p> QUANTITY: {qty}</p>
+                            <p> X{qty}</p>
                         </div>
 
                         <div className={Style.weight}>

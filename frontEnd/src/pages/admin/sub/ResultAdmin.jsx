@@ -1,13 +1,15 @@
 import React from "react";
 import Style from "../../../styles/Search.module.css"
 
-import List  from "../../../components/sub component/List";
+import List  from "../../../components/sub component/list/List";
 import "../../../styles/style.css"
 import "../../../styles/menu.css"
 import { Image } from "@chakra-ui/react";
 import Nav from "../../../components/sub component/Nav"
-import Catlist from "../../../components/sub component/Catlist"
-import Orrderlist from "../../../components/sub component/Orderlist"
+import Catlist from "../../../components/sub component/list/Catlist"
+import Orrderview from "../../../components/sub component/list/Orderview"
+
+import UserList from "./UserList"
 
 
 
@@ -48,9 +50,28 @@ const Search = ({ text, img}) => {
          <Nav />                
          <h1>SEARCH</h1>
 
-            <div className="menu">
+         <div className={Style.user}>
+            <h2 > USERS</h2>
+            
+            {list.map((project) => (
 
-            <h2> TEA</h2>
+            <div className={Style.usr}> 
+
+            <UserList
+                price={project.price}
+                name={project.name}
+                img={project.getImageSrc()}
+                />    
+                </div>
+
+
+            )   )   }
+
+         </div>
+           
+            <div className="">
+            <h2> TEAS</h2>
+         
           
             {list.map((project) => (
 
@@ -69,7 +90,7 @@ const Search = ({ text, img}) => {
 
 
         <div className={Style.cat}>
-            <h2>CATEGORY</h2>
+            <h2>CATEGORIES</h2>
 
                 {list.map((project) => (
 

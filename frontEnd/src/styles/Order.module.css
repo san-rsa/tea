@@ -54,6 +54,10 @@ span {
   
 }
 
+.link a {
+    display: block;
+}
+
 .link2 {
     bottom: 70px;
 }

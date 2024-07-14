@@ -1,6 +1,6 @@
 import React from "react";
 
-import List  from "../components/sub component/List";
+import List  from "../components/sub component/list/List";
 import "../styles/style.css"
 import "../styles/menu.css"
 import { Image } from "@chakra-ui/react";

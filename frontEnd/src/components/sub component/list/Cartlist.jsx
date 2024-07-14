@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Style from "../../styles/Cart.module.css"
+import Style from "../../../styles/Cart.module.css"
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -50,7 +50,7 @@ const Cart = ({ name, img, weight1, weight2, weight3, price}) => {
 
                 <div className={Style.item}>
                     <div className={Style.img}>
-                        <img src={require("../../img/Rectangle 5.png")} alt="tea" />
+                        <img src={require("../../../img/Rectangle 5.png")} alt="tea" />
                     </div>
 
 

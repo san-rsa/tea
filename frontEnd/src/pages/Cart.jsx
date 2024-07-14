@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import Cartlist  from "../components/sub component/Cartlist";
+import Cartlist  from "../components/sub component/list/Cartlist";
 import Style from "../styles/Cart.module.css"
 import Nav from "../components/sub component/Nav"
 import { Link } from "react-router-dom";

@@ -3,6 +3,7 @@ nav {
     background: #28895A;
     margin: 0;
     padding: 0;
+    width: fit-content%;
 
 }
 
@@ -15,8 +16,26 @@ nav h1 {
 .rnav {
     float: right;
     padding: 2px 5px;
-    margin: auto 7px;    
+    margin: auto 5%;    
     display: inline-flex;
+}
+
+.rnav button {
+    border: none;
+    font-size: large;
+    box-shadow: none;
+    
+}
+
+.rnav input {
+    border: none;
+    font-size: small;
+    box-shadow: none;
+    width: 100px;
+}
+
+#form {
+
 }
 
 .navr {

@@ -42,7 +42,7 @@ function App() {
         <Route path="/admin/addtea" element={<Addtea />}/>
         <Route path="/admin/edittea" element={<Edittea />}/>
         <Route path="/admin/addadmin" element={<Addadmin />}/>
-        <Route path="/orders" element={<Orders />}/>
+        <Route path="/order" element={<Orders />}/>
         <Route path="/search" element={<Search />}/>
 
 

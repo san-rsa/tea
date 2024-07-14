@@ -1,6 +1,33 @@
 import React, { useState } from "react";
 import Style from "../styles/Order.module.css"
+import Orderlist from "../components/sub component/list/Orderlist";
+import Nav from "../components/sub component/Nav";
 
+const list =[ {
+    getImageSrc: () => require( "../img/Rectangle 3 (1).png"),
+    name: "bournevita",
+    price:5
+},  {
+    getImageSrc: () => require("../img/Rectangle 3 (2).png"),
+    name: "top tea",
+    price: 7
+},
+{
+    getImageSrc: () => require( "../img/Rectangle 3.png"),
+    name: "lip tea",
+    price:9
+},
+{
+    getImageSrc: () => require("../img/Rectangle 3 (1).png"),
+    name: "milo",
+    price: 5
+},
+{
+    getImageSrc: () => require("../img/Rectangle 3 (1).png"),
+    name: "lat tea",
+    price: 9
+}
+]
 
 
 const Order = ({ text, img}) => {
@@ -8,26 +35,29 @@ const Order = ({ text, img}) => {
 
     return (
         <div>
-            <div className={Style.orders}>
+            <Nav />
+            <div className={Style}>
 
+            <h1>ORDER DETAILS</h1>
 
-                <div className={Style.item}>
-                    <div className={Style.det}>
-                           <h3 className={Style.id}>name: <span>44477755</span> </h3>
-                           <h3 className={Style.date}> Date:  <span>22/08/2022</span></h3>
-                           <h3 className={Style.price}>Total: <span>€ 500</span> </h3>
- 
-                    </div>
+            <div>
+                 
+        {list.map((project) => (
 
-                   <div className={Style.link}>
+            <div className=""> 
 
-                        <button className={Style.view}> view</button>
-
-
-                    </div>
-
-
+            <Orderlist
+                price={project.price}
+                name={project.name}
+                img={project.getImageSrc()}
+                weight={5}
+                qty={5}
+                />    
                 </div>
+
+
+)   )   }
+            </div>
 
         </div>
 

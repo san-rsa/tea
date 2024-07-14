@@ -1,5 +1,5 @@
 import React from "react";
-import List from "./sub component/List";
+import List from "./sub component/list/List";
 import "../styles/style.css";
 
 

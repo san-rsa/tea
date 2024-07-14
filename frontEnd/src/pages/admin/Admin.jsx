@@ -7,7 +7,7 @@ import Nav from "../../components/sub component/Nav"
 import Input from "./sub/Inputs";
 import Search from "./sub/Search";
 
-import Order from "./sub/Orderview";
+import Order from "../../components/sub component/list/Orderview";
 import { Link } from "react-router-dom";
 
 
