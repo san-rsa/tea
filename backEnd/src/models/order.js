@@ -16,6 +16,10 @@ const orderSchema = new mongoose.Schema({
         quantity: {type: Number, required: true, min: 1, default: 1
         },
 
+        weight: {type: Number, required: true, min: 1, default: 1
+        },
+
+
         price: {type: Number, default: 0,
         },
   

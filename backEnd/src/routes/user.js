@@ -1,8 +1,7 @@
-const express = require('express')
 const User = require('../models/user')
-const Auth = require('../middleware/auth')
+const Auth = require('../middleware/mid')
 
-const router = new express.Router()
+// const router = new express.Router()
 
 //signup
 // router.post('/users', async (req, res) => {
@@ -55,7 +54,7 @@ const router = new express.Router()
 //         res.status(500).send()        
 //     }
 // })
-module.exports = router
+// module.exports = router
 
 
 
@@ -75,18 +74,19 @@ module.exports = router
 
 const express = require("express");
 const csrf = require("csurf");
+const router = express.Router();
 var passport = require("passport");
 var LocalStrategy = require("passport-local").Strategy;
 const Product = require("../models/product");
 const Order = require("../models/order");
 const Cart = require("../models/cart");
-const middleware = require("../middleware");
+const middleware = require("../middleware/mid");
 const {
   userSignUpValidationRules,
   userSignInValidationRules,
   validateSignup,
   validateSignin,
-} = require("../config/validator");
+} = require("../connection/validator");
 const csrfProtection = csrf();
 router.use(csrfProtection);
 

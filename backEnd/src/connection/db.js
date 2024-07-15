@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const setupDB = async () => {
   try {
-    const uri = process.env.MONGO_URI || "mongodb://localhost/bags-ecommerce";
+    const uri = process.env.MONGO_URI ;
 
     await mongoose
       .connect(uri, {useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true,

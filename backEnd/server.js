@@ -9,7 +9,7 @@ const session = require("express-session");
 const passport = require("passport");
 const flash = require("connect-flash");
 const Category = require("./src/models/category");
-// var MongoStore = require("connect-mongo")(session);
+var MongoStore = require("connect-mongo");
 const connectDB = require("./src/connection/db");
 
 const app = express();
@@ -22,21 +22,24 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
 // admin route
-const adminRouter = require("./src/routes/admin");
-app.use("/admin", adminRouter);
+// const adminRouter = require("./src/routes/admin");
+// app.use("/admin", adminRouter);
 
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
+
+
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
-    store: new MongoStore({
-      mongooseConnection: mongoose.connection,
+    store: MongoStore.create({
+      mongoUrl: process.env.MONGO_URI,
+      // mongooseConnection:  mongoose.connection,
     }),
     //session expires after 3 hours
     cookie: { maxAge: 60 * 1000 * 60 * 3 },
@@ -81,15 +84,16 @@ app.use(function (req, res, next) {
   next();
 });
 
-//routes config
-const indexRouter = require("./routes/index");
-const productsRouter = require("./routes/products");
-const usersRouter = require("./routes/user");
-const pagesRouter = require("./routes/pages");
-const categoryRouter = require("./routes/category");
+//routes config 
+// app.use('/', routes.index);
+const indexRouter = require(  "./src/routes/index"); 
+const productsRouter = require("./src/routes/product");
+const usersRouter = require("./src/routes/user");
+// const pagesRouter = require("./src/routes/pages");
+const categoryRouter = require("./src/routes/category");
 app.use("/products", productsRouter);
 app.use("/user", usersRouter);
-app.use("/pages", pagesRouter);
+// app.use("/pages", pagesRouter);
 app.use("/category", categoryRouter);
 app.use("/", indexRouter);
 
@@ -110,7 +114,7 @@ app.use(function (err, req, res, next) {
   res.render("error");
 });
 
-var port = process.env.PORT || 3000;
+var port = process.env.PORT || 5000;
 app.set("port", port);
 app.listen(port, () => {
   console.log("Server running at port " + port);

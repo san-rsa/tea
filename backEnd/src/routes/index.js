@@ -5,8 +5,9 @@ const Product = require("../models/product");
 const Category = require("../models/category");
 const Cart = require("../models/cart");
 const Order = require("../models/order");
-const middleware = require("../middleware");
-const router = express.Router();
+const middleware = require("../middleware/mid");
+// const router = express.Router();
+const router = new express.Router()
 
 const csrfProtection = csrf();
 router.use(csrfProtection);
