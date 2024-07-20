@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, createContext, useContext  } from "react";
 
 import Nav from "../../components/sub component/Nav"
 import Input from "./sub/Inputs";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Style from "../../styles/Login.module.css"
 
 
@@ -10,6 +10,38 @@ import Style from "../../styles/Login.module.css"
 const Login = ({ img}) => {
 
     const [data, setInputs] = useState({});
+    const [token, setTokens] = useState('');
+    const [data2, setData] = useState('');
+
+    const [errorMessage, setErrorMessage] = useState(null); // New state for handling error messages
+    const { setToken } = useContext(AuthContext);
+    const navigate = useNavigate();
+
+
+
+
+
+
+
+     const AuthContext = createContext();
+
+ const AuthProvider = ({ children }) => {
+  const [token, setToken] = useState(null);
+  const [loading, setLoading] = useState(true); // <-- Add a loading state
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem("token");
+    setToken(storedToken);
+    setLoading(false); // Mark loading as complete after setting the token
+  }, []);
+
+  return (
+    <AuthContext.Provider value={{ token, setToken, loading }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
+
 
     const handleChange = (event) => {
       const name = event.target.name;
@@ -17,10 +49,88 @@ const Login = ({ img}) => {
       setInputs(values => ({...values, [name]: value}))
     }
   
-    const handleSubmit = (event) => {
+    const  handleSubmit = async (event) => {
       event.preventDefault();
-      alert(data);
-      console.log(data);
+    // headers.append('Content-Type', 'application/json');
+    // headers.append('Accept', 'application/json');
+    // headers.append('Authorization', 'Basic ' + base64.encode(data.email + ":" +  data.password));
+    // headers.append('Origin','http://localhost:8000');
+
+    const t = 'tttt'
+    const accessToken = localStorage.getItem("accessToken");
+    console.log(accessToken);
+   
+    const myHeaders = new Headers();
+    myHeaders.append('Content-Type', 'application/json');
+    myHeaders.append('Authorization', `Bearer ${t}`);
+    // const api = await fetch('http://localhost:8000/login/', {
+    // method: 'POST',
+    // headers: myHeaders,
+    // body: JSON.stringify(data)
+    // })      
+   
+
+        
+  
+    
+
+
+    // .then((res) => {
+    //     // window.location.replace("/login");  
+    //     const { token } = res.json();
+    //     setToken(token);
+   
+        
+    //     console.log(token)    
+    //    if (res.status == 200)     {
+    //     navigate("/user"); 
+    //    } 
+    //     console.log(res.status)
+  
+       
+    // }).catch((e) => {
+    //   console.log(e);
+     
+    // })       
+     
+
+
+
+ 
+  
+    //   console.log( data)
+
+
+
+
+
+
+      try {
+        const response =fetch('http://localhost:8000/login/', {
+            method: 'POST',
+            headers: myHeaders,
+            body: JSON.stringify(data)
+            })   
+        setToken(response.data.token);
+        localStorage.setItem("token", response.data.token);
+        navigate("/dashboard");
+      } catch (error) {
+        console.error("Authentication failed:", error);
+        setToken(null);
+        localStorage.removeItem("token");
+        if (error.response && error.response.data) {
+          setErrorMessage(error.response.data); // Set the error message if present in the error response
+        } else {
+          setErrorMessage("An unexpected error occurred. Please try again.");
+        }}  
+
+
+
+
+
+
+
+      
     }
 
 

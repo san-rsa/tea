@@ -1,14 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import Nav from "../../components/sub component/Nav"
 import Input from "./sub/Inputs";
-import { Link } from "react-router-dom";
+import { Link, Navigate, redirect, useNavigate } from "react-router-dom";
 import Style from "../../styles/Register.module.css"
+import Alert from "../../components/sub component/Alert";
+
 
 
 
 const Register = ({ img}) => {
     const [data, setInputs] = useState({});
+    const [data2, setInputs2] = useState({});
+let navigate = useNavigate()
+    let [msg, msg2] = ""
 
   const handleChange = (event) => {
     const name = event.target.name;
@@ -16,17 +21,44 @@ const Register = ({ img}) => {
     setInputs(values => ({...values, [name]: value}))
   }
 
-  const handleSubmit = (event) => {
+  const HandleSubmit = (event) => {
     event.preventDefault();
-    alert(data);
-    console.log(data);
+
+    fetch('http://localhost:8000/register/', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(data)
+    }).then((res) => {
+       if (res.status == 200)     {
+        navigate("/login"); 
+       } if (res.status !== 200) {
+          msg = "fail"
+       }
+        console.log(res.status)       
+    }).catch((e) => {
+      console.log(e);
+      msg = "fail"
+    })
+
+
+ 
+  
+      console.log(msg, data)
   }
+
+    
+
+
+
+
+
+  
 
 
     return (
         <div>
          <Nav />
-
+          <Alert text={msg} text2={msg2}/>
 <form>
         <div className="form">
 
@@ -34,17 +66,17 @@ const Register = ({ img}) => {
 
                 <div className={Style.inp}>
 
-            <Input name="first name" type={"text"} onchange={handleChange} value={data.fname} class={Style.fname} label={"first name"} />   
-            <Input name="last name" type={"text"} onchange={handleChange} value={data.lname} class={Style.lname} label={"second name"} />
+            <Input name="fname" type={"text"} onchange={handleChange} value={data.fname} class={Style.fname} label={"first name"} />   
+            <Input name="lname" type={"text"} onchange={handleChange} value={data.lname} class={Style.lname} label={"second name"} />
             <Input name="email" type={"email"} onchange={handleChange} value={data.email} class={Style.email} label={"email"} />
-            <Input name="phone number" type={"number"} onchange={handleChange} value={data.number} class={Style.number} label={"phone number"} />
+            <Input name="number" type={"number"} onchange={handleChange} value={data.number} class={Style.number} label={"phone number"} />
 
             <Input name="address" type={"text"} onchange={handleChange} value={data.address} class={Style.address} label={"address"} />
 
             <Input name="password" type={"password"} onchange={handleChange} value={data.password} class={Style.password} label={"password"} />
                 </div>
 
-            <button className="login" onClick={handleSubmit}> Sign up</button> 
+            <button className="login" onClick={HandleSubmit}> Sign up</button> 
 
 
             <h3 > Have an account sign in <Link to={"/login"}> here now</Link> </h3>
