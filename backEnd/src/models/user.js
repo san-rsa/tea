@@ -16,7 +16,7 @@ const userSchema = new mongoose.Schema({
     },
 
 
-    password: {type: String, required: true, minLength: 7, trim: true,
+    password: {type: String, required: true, minLength: 8, trim: true,
 
         validate(value) {
             if( value.toLowerCase().includes('password')) {
@@ -26,24 +26,16 @@ const userSchema = new mongoose.Schema({
     },
 
 
-    tokens: [{ token: {
-            type: String,
-            required: true
-        }
-    }],
+    tokens: [{ token: {type: String, required: true }}],
 
-    address: {type: String, required: true,
-    },
+    address: {type: String, required: true },
 
     // paymentId: {type: String, required: true,
     // },
 
-    createdAt: {type: Date, default: Date.now,
-    },
-},
+    createdAt: {type: Date, default: Date.now },
 
-{
-    timestamps: true
+    role: { type: String, enum: ['user', 'admin'], default: 'user' }
 })
 
 
@@ -70,6 +62,12 @@ userSchema.statics.findByCredentials = async (email, password) => {
 
     return user
 }
+
+
+userSchema.methods.verifyPassword = async function (password) {
+    const user = this;
+    const isMatch = await bcrypt.compare(password, user.password);
+    return isMatch};
 
 //Hash plain password before saving
 userSchema.pre('save', async function(next) {
