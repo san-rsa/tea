@@ -8,26 +8,19 @@ import Style from "../../styles/Login.module.css"
 
 
 const Login = ({ img}) => {
+     const AuthContext = createContext();
 
     const [data, setInputs] = useState({});
     const [token, setTokens] = useState('');
     const [data2, setData] = useState('');
 
     const [errorMessage, setErrorMessage] = useState(null); // New state for handling error messages
-    const { setToken } = useContext(AuthContext);
     const navigate = useNavigate();
 
-
-
-
-
-
-
-     const AuthContext = createContext();
-
  const AuthProvider = ({ children }) => {
-  const [token, setToken] = useState(null);
+  const [token, setTokepn] = useState(null);
   const [loading, setLoading] = useState(true); // <-- Add a loading state
+    const { setToken } = useContext(AuthContext);
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
@@ -63,66 +56,71 @@ const Login = ({ img}) => {
     const myHeaders = new Headers();
     myHeaders.append('Content-Type', 'application/json');
     myHeaders.append('Authorization', `Bearer ${t}`);
-    // const api = await fetch('http://localhost:8000/login/', {
-    // method: 'POST',
-    // headers: myHeaders,
-    // body: JSON.stringify(data)
-    // })      
-   
+    const api = await fetch('http://localhost:8000/auth/login/', {
+    method: 'POST',
+    headers: myHeaders,
+    body: JSON.stringify(data)
+     })
 
-        
+
+     let apis = await api.json()
+
+     console.log(apis)
   
-    
-
-
-    // .then((res) => {
-    //     // window.location.replace("/login");  
-    //     const { token } = res.json();
-    //     setToken(token);
-   
-        
-    //     console.log(token)    
-    //    if (res.status == 200)     {
-    //     navigate("/user"); 
-    //    } 
-    //     console.log(res.status)
   
-       
-    // }).catch((e) => {
-    //   console.log(e);
+  // .then((res) => {
+  //       const { token } = res.json();
+  //      // setToken(token);
+        
+  //       console.log(token, res)    
+  //      if (res.status == 200)     {
+  //       navigate("/user"); 
+  //      } 
+  //       console.log(res.status)
+  
+  //   }).then((info) => {
+  //     const { token } = info.json();
+  //     //setToken(token);
+      
+  //     console.log(token)    
+  //     console.log(info)
+
      
-    // })       
+  // }).catch((e) => {
+  //     console.log(e);
+     
+  //   })       
      
 
 
 
  
   
-    //   console.log( data)
+      console.log( data)
 
 
 
 
 
 
-      try {
-        const response =fetch('http://localhost:8000/login/', {
-            method: 'POST',
-            headers: myHeaders,
-            body: JSON.stringify(data)
-            })   
-        setToken(response.data.token);
-        localStorage.setItem("token", response.data.token);
-        navigate("/dashboard");
-      } catch (error) {
-        console.error("Authentication failed:", error);
-        setToken(null);
-        localStorage.removeItem("token");
-        if (error.response && error.response.data) {
-          setErrorMessage(error.response.data); // Set the error message if present in the error response
-        } else {
-          setErrorMessage("An unexpected error occurred. Please try again.");
-        }}  
+      // try {
+      //   const response =fetch('http://localhost:8000/login/', {
+      //       method: 'POST',
+      //       headers: myHeaders,
+      //       body: JSON.stringify(data)
+      //       })   
+      //   setToken(response.data.token);
+      //   localStorage.setItem("token", response.data.token);
+      //   navigate("/dashboard");
+      // } catch (error) {
+      //   console.error("Authentication failed:", error);
+      //   setToken(null);
+      //   localStorage.removeItem("token");
+      //   if (error.response && error.response.data) {
+      //     setErrorMessage(error.response.data); // Set the error message if present in the error response
+      //   } else {
+      //     setErrorMessage("An unexpected error occurred. Please try again.");
+      //   }}  
 
 
 

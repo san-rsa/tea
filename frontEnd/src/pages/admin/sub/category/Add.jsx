@@ -21,7 +21,7 @@ const Add = ({ img}) => {
   const HandleSubmit = async (event) => {
     event.preventDefault();
 
-   const api = fetch('http://localhost:8000/admin/add/product/', {
+   const api = fetch('http://localhost:8000/admin/add/category/', {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify(data)
@@ -61,39 +61,7 @@ const Add = ({ img}) => {
             <Input name="name" type={"text"} onchange={handleChange} value={data.name} class={Style.name} label={"name"} />   
             <Input name="imgUrl" type={"text"} onchange={handleChange} value={data.img} class={Style.img} label={"image url address"} />
             
-            <Input name="categoryId" type={"text"} onchange={handleChange} value={data.category} class={Style.category} label={"category"} />
-
-
-
-          <div className={Style.sizes}>
-
-             <p>size</p>
-          <div className={Style.size}>
-             
-              <div >
-                <Input name="small" type={"number"} onchange={handleChange} value={data.weight} class={Style.weight} label={"small"} />
-
-                <Input name="sprice" type={"number"} onchange={handleChange} value={data.price} class={Style.lname} label={"S price"} />
-
-              </div>
-              <div >
-                <Input name="medium" type={"number"} onchange={handleChange} value={data.weight} class={Style.weight} label={"medium "} />
-
-                <Input name="mprice" type={"number"} onchange={handleChange} value={data.price} class={Style.lname} label={"M price"} />
-
-              </div>
-              <div >
-                <Input name="large" type={"number"} onchange={handleChange} value={data.weight} class={Style.weight} label={"large "} />
-
-                <Input name="lprice" type={"number"} onchange={handleChange} value={data.price} class={Style.lname} label={"L price"} />
-
-              </div>
-            </div>
-          </div>
-  
-
-            <Input name="description" type={"text"} onchange={handleChange} value={data.description} class={Style.description} label={"description"} />
-                </div>
+             </div>
 
             <button className="submit" onClick={HandleSubmit}> Submit</button> 
 

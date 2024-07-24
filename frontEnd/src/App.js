@@ -14,6 +14,10 @@ import Edittea from "./pages/admin/sub/tea/Edit";
 import Addadmin from "./pages/admin/sub/admin/Add";
 import Orders from "./pages/Orders"
 import Search from "./pages/admin/sub/ResultAdmin";
+import Addbanner from "./pages/admin/sub/banner/Add";
+import Editbanner from "./pages/admin/sub/banner/Edit";
+import Addcategory from "./pages/admin/sub/category/Add";
+import Editcategory from "./pages/admin/sub/category/Edit";
 
 
 
@@ -44,6 +48,10 @@ function App() {
         <Route path="/admin/addadmin" element={<Addadmin />}/>
         <Route path="/order" element={<Orders />}/>
         <Route path="/search" element={<Search />}/>
+        <Route path="/admin/editbanner" element={<Editbanner />}/>
+        <Route path="/admin/addbanner" element={<Addbanner />}/>
+        <Route path="/admin/editcategory" element={<Editcategory />}/>
+        <Route path="/admin/addcategory" element={<Addcategory />}/>
 
 
       

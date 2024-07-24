@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import List  from "./sub/List";
 import AdminList from "./sub/admin/AdminList"
 import UserList from "./sub/UserList"
@@ -8,7 +8,7 @@ import Input from "./sub/Inputs";
 import Search from "./sub/Search";
 
 import Order from "../../components/sub component/list/Orderview";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 const list =[ {
@@ -36,10 +36,56 @@ const list =[ {
     price: "£ 7.00"
 }
 ]
+ 
+
+
+const Admin =  () => {
+
+const [, setproduct] = useState([])
 
 
 
-const Admin = ({ text, img}) => {
+
+            useEffect(() => {
+                fetch("http://localhost:8000/getall/product")
+                .then((res) =>  res.json())
+                .then((data) => setproduct(data.data));
+            }, []);
+
+          //  console.log(product)
+
+    
+    //    const api = fetch('http://localhost:8000/getall/product', {
+    //     })
+        
+    //     .then((res) => {
+    //           console.log(res)       
+    //     }).then(
+    //       data => console.log(data))
+        
+    //     .catch((e) => {
+    //       console.log(e);
+    //       let msg = "fail"
+    //     })
+    
+    
+    // headers.append('Content-Type', 'application/json');
+    // headers.append('Accept', 'application/json');
+    // headers.append('Authorization', 'Basic ' + base64.encode(data.email + ":" +  data.password));
+    // headers.append('Origin','http://localhost:8000');
+
+    const t = 'tttt'
+    const accessToken = localStorage.getItem("accessToken");
+    console.log(accessToken);
+   
+    // myHeaders.append('Authorization', `Bearer ${t}`);
+    // const api =  fetch('http://localhost:8000/admin/', {
+    // method: 'GET',
+    //  })
+
+
+     
+     
 
     const [data, setInputs] = useState({});
 
@@ -56,7 +102,7 @@ const Admin = ({ text, img}) => {
     }
     // reorder.style.display = 'none';
 
-    console.log(reorder);
+    //console.log(reorder);
 
 
 
@@ -71,6 +117,9 @@ const Admin = ({ text, img}) => {
         const tea = document.getElementById(Style.tea);
         const admin = document.getElementById(Style.admin);
         const user = document.getElementById(Style.user);
+        const banner = document.getElementById(Style.banner);
+        const category = document.getElementById(Style.category);
+
    
 
 
@@ -82,6 +131,9 @@ const Admin = ({ text, img}) => {
             tea.style.display = 'none';
             admin.style.display = 'none';
             user.style.display = 'none';
+            banner.style.display = 'none';
+            category.style.display = 'none';
+
 
             
         } else  if (event.target.name == "order") {
@@ -91,6 +143,8 @@ const Admin = ({ text, img}) => {
             order.style.display = 'block'
             admin.style.display = 'none';
             user.style.display = 'none';
+            banner.style.display = 'none';
+            category.style.display = 'none';
 
             
         }        else  if (event.target.name == "tea") {
@@ -100,6 +154,8 @@ const Admin = ({ text, img}) => {
             tea.style.display = 'block';
             admin.style.display = 'none';
             user.style.display = 'none';
+            banner.style.display = 'none';
+            category.style.display = 'none';
 
         }         else  if (event.target.name == "admin") {
 
@@ -108,6 +164,8 @@ const Admin = ({ text, img}) => {
             tea.style.display = 'none';
             admin.style.display = 'block';
             user.style.display = 'none';
+            banner.style.display = 'none';
+            category.style.display = 'none';
 
         }         else  if (event.target.name == "user") {
 
@@ -116,8 +174,30 @@ const Admin = ({ text, img}) => {
             tea.style.display = 'none';
             admin.style.display = 'none';
             user.style.display = 'block';
+            banner.style.display = 'none';
+            category.style.display = 'none';
 
-        } 
+        }  else  if (event.target.name == "banner") {
+
+            info.style.display = 'none'
+            order.style.display = 'none'
+            tea.style.display = 'none';
+            admin.style.display = 'none';
+            user.style.display = 'none';
+            banner.style.display = 'block';
+            category.style.display = 'none';
+
+        }   else  if (event.target.name == "category") {
+
+            info.style.display = 'none'
+            order.style.display = 'none'
+            tea.style.display = 'none';
+            admin.style.display = 'none';
+            user.style.display = 'none';
+            banner.style.display = 'none';
+            category.style.display = 'block';
+
+        }
 
        
     }
@@ -158,6 +238,14 @@ const Admin = ({ text, img}) => {
 
                                     <div >
                                         <button name="tea" onClick={change}> tea</button>
+                                    </div>
+
+                                    <div >
+                                        <button name="banner" onClick={change}> banner</button>
+                                    </div>
+
+                                    <div >
+                                        <button name="category" onClick={change}> category</button>
                                     </div>
 
                                 </div>
@@ -225,19 +313,20 @@ const Admin = ({ text, img}) => {
                 <button className={Style.add}> <Link to={"/admin/addtea"}> ADD NEW</Link> </button>
 
 
-            {list.map((project, id) => (
+            {product.map((data, id) => (
 
-                <div className="card" key={id}> 
+                    console.log(data.size)
+                // <div className="card" key={data._id}> 
 
 
 
-                <List
-                    price={project.price}
-                    name={project.name}
-                    img={project.getImageSrc()}
-                    stock={"500"}
-                    />    
-                    </div>
+                // <List
+                //     price={data.size[0]}
+                //     name={data.name}
+                //     img={data.imgUrl[0]}
+                //     stock={"500"}
+                //     />    
+                //     </div>
 
 
 )   )   }
@@ -297,6 +386,23 @@ const Admin = ({ text, img}) => {
                     )   )   }
             </div>
 
+            <div className={Style.banner} id={Style.banner}>
+                    <h1> BANNERS</h1>
+
+                    <button className={Style.add}> <Link to={"/admin/addbanner"}> ADD NEW</Link> </button>
+            </div>
+
+
+            <div className={Style.category} id={Style.category}>
+                <h1> CATEGORIES</h1>
+
+                <button className={Style.add}> <Link to={"/admin/addcategory"}> ADD NEW</Link> </button>
+                </div>
+
+
+
+
+            
             </div>
             </div>
 

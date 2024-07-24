@@ -20,6 +20,9 @@
 #tea {display: none; text-align: left;}
 #admin {display: none; text-align: left;}
 #user {display: none; text-align: left;}
+#banner {display: none; text-align: left;}
+#category {display: none; text-align: left;}
+
 
 
 .left button {
@@ -177,6 +180,8 @@ input::placeholder {
     #tea {display: block; text-align: left;}
     #admin {display: block; text-align: left;}
     #user {display: block; text-align: left;}
+    #banner {display: block; text-align: left;}
+    #category {display: block; text-align: left;}
 
     .name input, .contact input {
         font-size: medium;

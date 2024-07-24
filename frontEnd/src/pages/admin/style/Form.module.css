@@ -24,3 +24,24 @@ label {
 .email {
     
 }
+
+.size{
+    display: flex;
+
+}
+
+.size input {
+    width: 65px;
+}
+
+.size div  {
+    margin: 0 2px;
+}
+
+.sizes p {
+    margin: 0;
+}
+
+.sizes {
+    border: 3px #08422a solid; 
+}

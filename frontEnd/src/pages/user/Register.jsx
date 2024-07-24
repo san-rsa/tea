@@ -21,21 +21,24 @@ let navigate = useNavigate()
     setInputs(values => ({...values, [name]: value}))
   }
 
-  const HandleSubmit = (event) => {
+  const HandleSubmit = async (event) => {
     event.preventDefault();
 
-    fetch('http://localhost:8000/register/', {
+   const api = fetch('http://localhost:8000/auth/register/', {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify(data)
-    }).then((res) => {
+    })
+    
+    .then((res) => {
        if (res.status == 200)     {
         navigate("/login"); 
-       } if (res.status !== 200) {
-          msg = "fail"
-       }
-        console.log(res.status)       
-    }).catch((e) => {
+       } 
+        console.log(res)       
+    }).then(
+      data => console.log(data))
+    
+    .catch((e) => {
       console.log(e);
       msg = "fail"
     })
@@ -76,7 +79,7 @@ let navigate = useNavigate()
             <Input name="password" type={"password"} onchange={handleChange} value={data.password} class={Style.password} label={"password"} />
                 </div>
 
-            <button className="login" onClick={HandleSubmit}> Sign up</button> 
+            <button className="login"  onClick={HandleSubmit}> Sign up</button> 
 
 
             <h3 > Have an account sign in <Link to={"/login"}> here now</Link> </h3>
