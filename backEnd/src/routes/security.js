@@ -1,3 +1,4 @@
+require('dotenv').config()
 const User = require('../models/user')
 // const Auth = require('../middleware/mid')
 const express = require('express')
@@ -184,7 +185,6 @@ const bcrypt = require('bcrypt')
 const jwt= require('jsonwebtoken')
 const OTP = require('../models/OTP')
 const otpGenerator = require("otp-generator");
-require('dotenv').config()
 //signup handle
 
 
@@ -219,7 +219,7 @@ router.post('/register', async(req, res)=> {
         //secure password
         let hashedPassword
         try {
-            hashedPassword = await bcrypt.hash(password,20)
+            hashedPassword = await bcrypt.hash(password,10)
         } catch (error) {
             return res.status(500).json({
                 success: false,
@@ -227,6 +227,7 @@ router.post('/register', async(req, res)=> {
             })
         }
 
+        console.log(hashedPassword)
         const user = await User.create({
             name, email, password:hashedPassword, role,  number, address 
         })
@@ -341,16 +342,33 @@ router.post('/register', async(req, res)=> {
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
-  const user = await User.findOne({ username });
 
-  if (!user) return res.status(400).send("Invalid username or password.");
+  
 
-  const validPassword = await bcrypt.compare(password, user.password);
+  const user = await User.findOne({ email });
+    
+    console.log( user)
+  if (!user) return res.status(400).json("Invalid username.");
+
+  const validPassword = await bcrypt.compare(password, user.password, function(err, result) {
+    console.log( user.password, password )
+
+    if (result === true ) {
+      console.log(err)
+      console.log(result);
+    } else{
+      console.log(err);
+      console.log(result);}}
+    );
+  console.log(validPassword)
 
   if (!validPassword)
-    return res.status(400).send("Invalid username or password.");
+    return res.status(400).json("Invalid password.");
 
-  const token = jwt.sign({ useremail: user.email }, process.env.JWT_SECRET);
+  const token = jwt.sign({ email: user.email, password: user.password }, process.env.JWT_SECRET);
+
+
+
 
   res.send({ token });
 });

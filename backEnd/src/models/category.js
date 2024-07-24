@@ -4,10 +4,13 @@ const slug = require("mongoose-slug-updater");
 mongoose.plugin(slug);
 
 const categorySchema = new mongoose.Schema({
-  title: {type: String, required: true
+  name: {type: String, required: true
   },
 
-  slug: {type: String, unique: true, slug: "title"
+  imgUrl: [{type: String, required: true, trim: true
+  }],
+
+  slug: {type: String, unique: true, slug: "name"
   },
 });
 
