@@ -43,14 +43,16 @@ function App() {
         <Route path="/register" element={<Register />}/>
         <Route path="/user" element={<Profile />}/>
         <Route path="/admin" element={<Admin />}/>
-        <Route path="/admin/addtea" element={<Addtea />}/>
-        <Route path="/admin/edittea" element={<Edittea />}/>
+
+        
+        <Route path="/admin/addtea/" element={<Addtea />}/>
+        <Route path="/admin/edittea/:id" element={<Edittea />}/>
         <Route path="/admin/addadmin" element={<Addadmin />}/>
         <Route path="/order" element={<Orders />}/>
         <Route path="/search" element={<Search />}/>
-        <Route path="/admin/editbanner" element={<Editbanner />}/>
+        <Route path="/admin/editbanner/:id" element={<Editbanner />}/>
         <Route path="/admin/addbanner" element={<Addbanner />}/>
-        <Route path="/admin/editcategory" element={<Editcategory />}/>
+        <Route path="/admin/editcategory/:id" element={<Editcategory />}/>
         <Route path="/admin/addcategory" element={<Addcategory />}/>
 
 

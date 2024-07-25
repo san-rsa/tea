@@ -1,52 +1,27 @@
-import React from "react";
+import {React, useState, useEffect} from "react";
 import List from "./sub component/list/List";
 import "../styles/style.css";
 
 
-
-const list =[ {
-    getImageSrc: () => require( "../img/Rectangle 3 (1).png"),
-    name: "bournevita",
-    price: "£ 5.00"
-},  {
-    getImageSrc: () => require("../img/Rectangle 3 (2).png"),
-    name: "top tea",
-    price: "£ 4.00"
-},
-{
-    getImageSrc: () => require( "../img/Rectangle 3.png"),
-    name: "lip tea",
-    price: "£ 9.00"
-},
-{
-    getImageSrc: () => require("../img/Rectangle 3 (1).png"),
-    name: "milo",
-    price: "£ 5.00"
-},
-{
-    getImageSrc: () => require("../img/Rectangle 3 (1).png"),
-    name: "lat tea",
-    price: "£ 7.00"
-}
-]
-
 const Menu = () => {
+
+    const [product, setproduct] = useState([])
+
+
+    console.log( process.env.REACT_APP_API_LINK)
+
+    useEffect(() => {
+        fetch("http://localhost:8000" + "/getall/product")
+        .then((res) =>  res.json())
+        .then((data) => setproduct(data.data));
+    }, []);
+
+
 
 
     return (
-    // <div class="trending">
-    //      <h1>TRENDING</h1>
-    //    { list.map((prop) => {
-            
-           
-    //         <List 
-    //             // img={prop.getImageSrc()}
-    //             name={prop.name}
-    //             price={prop.price}
-    //             />
-    
-    
-    //     })  }  </div>
+
+        
 
     <div>  
        <h1>TRENDING</h1>
@@ -54,14 +29,15 @@ const Menu = () => {
     <div className="trending">
 
  
-        {list.map((project) => (
+        {product.slice(0, 4).map((project) => (
 
-<div className="card"> 
+<div className="card" key={project._id}> 
 
   <List
-      price={project.price}
+      id={project._id}
+      price={project.size[0].price}
       name={project.name}
-      img={project.getImageSrc()}
+      img={project.imgUrl}
     />    
     </div>
 

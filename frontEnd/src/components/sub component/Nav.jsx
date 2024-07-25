@@ -34,9 +34,9 @@ const Nav = () => {
 
     return (
         <nav>
-        <div className={Style.lnav}>
+        {/* <div className={Style.lnav}>
             <a ><FontAwesomeIcon icon={faBars} size="1x"/> </a> 
-        </div>
+        </div> */}
              <Link to={"/"}><h1 id="navh1">TEA NAME</h1></Link>
                    <div className={Style.rnav}>
 <Link className={Style.navr}to={"/login"}><FontAwesomeIcon icon={faUser}/> </Link>

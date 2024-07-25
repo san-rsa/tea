@@ -1,8 +1,50 @@
 import {Carousel } from 'react-bootstrap';
 //  import {Sty} from'bootstrap/dist/css/bootstrap.min.css';
+import Bannerlist from "./list/Bannerlist"
+import {React, useState, useEffect} from "react";
+import Style from "../../styles/Carousel.module.css"
 
 
+
+// let slideIndex2 = 0
+// function showSlidesNews() {
+//     let i;
+//     let card = document.getElementsByClassName("");
+//     let slides = document.getElementsByClassName(Style.carousel);
+ 
+
+//     for (i = 0; i < slides.length; i++) {
+//      slides[i].style.width = "0";
+//       console.log(slides)
+      
+//     }
+//     slideIndex2++;
+//     if (slideIndex2 > slides.length) {slideIndex2 = 1}
+  
+//     slides[slideIndex2-1].style.width = "100%";
+  
+//     setTimeout(showSlidesNews, 7000); // Change image every 2 seconds   
+  
+//   };
+
+ 
 function CarouselFadeExample() {
+
+
+
+    const [banner, setbanner] = useState([])
+
+
+    console.log( process.env.REACT_APP_API_LINK)
+
+    useEffect(() => {
+        fetch("http://localhost:8000" + "/getall/banner")
+        .then((res) =>  res.json())
+        .then((data) => setbanner(data.data));
+    }, []);
+
+// showSlidesNews()
+
   return (
     <div>
           <Carousel fade>
@@ -131,8 +173,35 @@ function CarouselFadeExample() {
 
 
 
-    </div>
+
+
+
+
+
+<div> 
+          {banner.slice(0, 2).map((project) => (
+
+            <div className={Style.carousel} key={project._id}> 
+            
+              <Bannerlist
+                  text={project.text}
+                  img={project.imgUrl}
+                />    
+                </div>
+            
+            
+            )   )   }
+        </div>
+
+
+
+
+
+
+
+     </div>
   );
 }
+
 
 export default CarouselFadeExample;

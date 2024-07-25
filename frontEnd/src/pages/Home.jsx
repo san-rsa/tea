@@ -14,16 +14,14 @@ function App() {
     <div>
            
         <Nav />
-        <Banner 
-            text={"xxxxxxxxxxxxxx"}
-            img={require("../img/Rectangle 5.png")}/>
+
+
+        <Banner />
            
-              <Trending />
+        <Trending />
             
 
-            <Banner 
-              text={"xxxx xxxxx xxxx"}
-              img={require("../img/Rectangle 6.png")}/>
+            <Banner />
 
               <Category />
               <Carousel />

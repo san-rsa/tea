@@ -22,6 +22,11 @@ a {
   display: inline-grid;
   margin: 5% ;
 }
+
+.category button{
+  display: block;
+  margin: auto;
+}
 .tcard img, .mcard img{
   height: 120px;
   border-radius: 24px;
@@ -55,6 +60,10 @@ button ::-webkit-outer-spin-button, button ::-webkit-inner-spin-button {
   padding: 1px 3%;
   text-align: center; color: white; font-size: 24px; font-family: Inter; font-weight: 600; word-wrap: break-word;
   margin: 2%;
+}
+
+.carousel {
+  width: ;
 }
 
 

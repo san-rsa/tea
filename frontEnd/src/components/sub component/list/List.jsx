@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-const List = ({name, price, img}) => {
+const List = ({name, price, img, id}) => {
 
 
     return (
@@ -11,20 +11,12 @@ const List = ({name, price, img}) => {
 
                 <img src={img} alt="" />
                 <h2>{name}</h2>
-                <p>{price}</p>
+                <p>€ {price}</p>
             </Link>
   
-            <button><Link to={"/cart"} >cart</Link> </button>
+            <button><Link to={"/cart/" + id} >cart</Link> </button>
         </div>
 
-        // <div className="tcard">
-        // <Link to={"/desc"}>
-        // <img src={img} alt="" />
-        // <h2>{name}</h2>
-        // <p>{price}</p>
-        // </Link>   
-        // <button> <List to={""}>cart</List> </button>
-        // </div>
     )
 }
 

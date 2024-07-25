@@ -39,11 +39,31 @@ const Edit = ({ img}) => {
             
             <Input name="category" type={"text"} onchange={handleChange} value={data.category} class={Style.category} label={"category"} />
 
+            <div className={Style.sizes}>
 
-            <Input name="price" type={"number"} onchange={handleChange} value={data.price} class={Style.lname} label={"price"} />
+              <p>size</p>
+              <div className={Style.size}>
 
+              <div >
+                <Input name="small" type={"number"} onchange={handleChange} value={data.weight} class={Style.weight} label={"small"} />
 
-            <Input name="weight" type={"number"} onchange={handleChange} value={data.weight} class={Style.weight} label={"weight"} />
+                <Input name="sprice" type={"number"} onchange={handleChange} value={data.price} class={Style.lname} label={"S price"} />
+
+              </div>
+              <div >
+                <Input name="medium" type={"number"} onchange={handleChange} value={data.weight} class={Style.weight} label={"medium "} />
+
+                <Input name="mprice" type={"number"} onchange={handleChange} value={data.price} class={Style.lname} label={"M price"} />
+
+              </div>
+              <div >
+                <Input name="large" type={"number"} onchange={handleChange} value={data.weight} class={Style.weight} label={"large "} />
+
+                <Input name="lprice" type={"number"} onchange={handleChange} value={data.price} class={Style.lname} label={"L price"} />
+
+              </div>
+              </div>
+              </div>
 
   
 

@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import List  from "./sub/List";
+import Bannerlist  from "./sub/Bannerlist";
+import Categorylist  from "./sub/Categorylist";
+
 import AdminList from "./sub/admin/AdminList"
 import UserList from "./sub/UserList"
 import Style from "../../styles/Admin.module.css"
@@ -8,49 +11,49 @@ import Input from "./sub/Inputs";
 import Search from "./sub/Search";
 
 import Order from "../../components/sub component/list/Orderview";
-import { Link, useNavigate } from "react-router-dom";
-
-
-const list =[ {
-    getImageSrc: () => require( "../../img/Rectangle 6.png"),
-    name: "bournevita",
-    price: "£ 5.00"
-},  {
-    getImageSrc: () => require("../../img/Rectangle 3 (2).png"),
-    name: "top tea",
-    price: "£ 4.00"
-},
-{
-    getImageSrc: () => require( "../../img/Rectangle 3.png"),
-    name: "lip tea",
-    price: "£ 9.00"
-},
-{
-    getImageSrc: () => require("../../img/Rectangle 3 (1).png"),
-    name: "milo",
-    price: "£ 5.00"
-},
-{
-    getImageSrc: () => require("../../img/Rectangle 3 (1).png"),
-    name: "lat tea",
-    price: "£ 7.00"
-}
-]
- 
+import { Link } from "react-router-dom";
 
 
 const Admin =  () => {
 
-const [, setproduct] = useState([])
+const [admin, setadmin] = useState([])
+const [banner, setbanner] = useState([])
+const [category, setcategory] = useState([])
+const [order, setorder] = useState([])
+const [product, setproduct] = useState([])
+const [user, setuser] = useState([])
 
 
 
 
-            useEffect(() => {
-                fetch("http://localhost:8000/getall/product")
-                .then((res) =>  res.json())
-                .then((data) => setproduct(data.data));
-            }, []);
+
+function Api() {
+    useEffect(() => {
+        fetch("http://localhost:8000/getall/banner")
+        .then((res) =>  res.json())
+        .then((data) => setbanner(data.data));
+    }, []);
+
+    useEffect(() => {
+        fetch("http://localhost:8000/getall/category")
+        .then((res) =>  res.json())
+        .then((data) => setcategory(data.data));
+    }, []);
+
+    useEffect(() => {
+        fetch("http://localhost:8000/getall/product")
+        .then((res) =>  res.json())
+        .then((data) => setproduct(data.data));
+    }, []);
+
+    useEffect(() => {
+        fetch("http://localhost:8000/getall/user")
+        .then((res) =>  res.json())
+        .then((data) => setuser(data.data));
+    }, []);
+}
+
+Api()
 
           //  console.log(product)
 
@@ -313,21 +316,20 @@ const [, setproduct] = useState([])
                 <button className={Style.add}> <Link to={"/admin/addtea"}> ADD NEW</Link> </button>
 
 
-            {product.map((data, id) => (
+            {product.map((data) => (
 
-                    console.log(data.size)
-                // <div className="card" key={data._id}> 
+         
+                 <div className="card" key={data._id}> 
 
-
-
-                // <List
-                //     price={data.size[0]}
-                //     name={data.name}
-                //     img={data.imgUrl[0]}
-                //     stock={"500"}
-                //     />    
-                //     </div>
-
+                <List
+                    price={data.size[0]['price']}
+                    id={data._id}
+                    name={data.name}
+                    img={data.imgUrl[0]}
+                    />    
+                   </div>
+              
+            
 
 )   )   }
 
@@ -338,13 +340,14 @@ const [, setproduct] = useState([])
                 <h1 > ADMIN</h1>
                 <button className={Style.add}> <Link to={"/admin/addadmin"}> ADD NEW</Link> </button>
 
-                {list.map((project, id) => (
+                {admin.map((project) => (
 
-                    <div className="card" key={id}> 
+                    <div className="card" key={project._id}> 
 
 
 
                     <AdminList
+                        id={project._id}
                         name={project.name}
                         img={project.getImageSrc()}
                         email={"eeee@gmail.com"}
@@ -369,16 +372,17 @@ const [, setproduct] = useState([])
                 <button><Link to={"search"}> search</Link> </button> 
             </div>
 
-                {list.map((project, id) => (
+                {user.map((project, id) => (
 
-                    <div className="card" key={id}> 
+                    <div className="card" key={project._id}> 
 
 
 
                     <UserList
+                        id={project._id}
                         name={project.name}
-                        img={project.getImageSrc()}
-                        email={"eeee@gmail.com"}
+                        img={project.imgUrl}
+                        email={project.email}
                         />    
                         </div>
 
@@ -390,6 +394,25 @@ const [, setproduct] = useState([])
                     <h1> BANNERS</h1>
 
                     <button className={Style.add}> <Link to={"/admin/addbanner"}> ADD NEW</Link> </button>
+
+
+                    {banner.map((data) => (
+
+         
+                    <div className="card" key={data._id}> 
+
+                    <Bannerlist
+                    id={data._id}
+                    name={data.text}
+                    img={data.imgUrl[0]}
+                    />    
+                    </div>
+
+
+
+                    )   )   }
+
+
             </div>
 
 
@@ -397,6 +420,24 @@ const [, setproduct] = useState([])
                 <h1> CATEGORIES</h1>
 
                 <button className={Style.add}> <Link to={"/admin/addcategory"}> ADD NEW</Link> </button>
+
+
+
+                {category.map((data) => (
+
+         
+                    <div className="card" key={data._id}> 
+
+                    <Categorylist
+                    id={data._id}
+                    name={data.name}
+                    img={data.imgUrl[0]}
+                    />    
+                    </div>
+
+
+
+                    )   )   }
                 </div>
 
 

@@ -1,36 +1,27 @@
-import React from "react";
 import List from "./sub component/list/Catlist";
 import "../styles/style.css";
+import {React, useState, useEffect} from "react";
 
-
-
-const list =[ {
-    getImageSrc: () => require( "../img/Rectangle 3 (1).png"),
-    name: "bournevita",
-    price: "£ 5.00"
-},  {
-    getImageSrc: () => require("../img/Rectangle 3 (2).png"),
-    name: "top tea",
-    price: "£ 4.00"
-},
-{
-    getImageSrc: () => require( "../img/Rectangle 3.png"),
-    name: "lip tea",
-    price: "£ 9.00"
-},
-{
-    getImageSrc: () => require("../img/Rectangle 3 (1).png"),
-    name: "milo",
-    price: "£ 5.00"
-},
-{
-    getImageSrc: () => require("../img/Rectangle 3 (1).png"),
-    name: "lat tea",
-    price: "£ 7.00"
-}
-]
 
 const Menu = () => {
+
+
+
+ 
+
+   const [cat, setcat] = useState([])
+
+
+    console.log( process.env.REACT_APP_API_LINK)
+
+    useEffect(() => {
+        fetch("http://localhost:8000" + "/getall/category")
+        .then((res) =>  res.json())
+        .then((data) => setcat(data.data));
+    }, []);
+
+
+
 
 
     return (
@@ -39,19 +30,20 @@ const Menu = () => {
 
     <div className="category">
 
+    {cat.slice(0, 4).map((project) => (
+
+        <div className='card' key={project._id}> 
+
+        <List
+            id={project._id}
+            name={project.name}
+            img={project.imgUrl}
+            />    
+            </div>
+
+
+        )   )   }
  
-        {list.map((project) => (
-
-<div className="card"> 
-
-  <List
-      name={project.name}
-      img={project.getImageSrc()}
-    />    
-    </div>
-
-
-)   )   }
 
     <button>Show all</button>
     </div>

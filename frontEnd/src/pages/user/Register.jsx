@@ -77,8 +77,12 @@ let navigate = useNavigate()
             <Input name="address" type={"text"} onchange={handleChange} value={data.address} class={Style.address} label={"address"} />
 
             <Input name="password" type={"password"} onchange={handleChange} value={data.password} class={Style.password} label={"password"} />
+            <Input name="imgUrl" type={"text"} onchange={handleChange} value={data.img} class={Style.img} label={"image url address"} />
+        
+
                 </div>
 
+           
             <button className="login"  onClick={HandleSubmit}> Sign up</button> 
 
 
