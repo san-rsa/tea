@@ -1,41 +1,21 @@
-import React from "react";
+import {React, useEffect, useState} from "react";
 
 import List  from "../components/sub component/list/List";
-import "../styles/style.css"
-import "../styles/menu.css"
-import { Image } from "@chakra-ui/react";
 import Nav from "../components/sub component/Nav"
 
-const list =[ {
-    getImageSrc: () => require( "../img/Rectangle 3 (1).png"),
-    name: "bournevita",
-    price: "£ 5.00"
-},  {
-    getImageSrc: () => require("../img/Rectangle 3 (2).png"),
-    name: "top tea",
-    price: "£ 4.00"
-},
-{
-    getImageSrc: () => require( "../img/Rectangle 3.png"),
-    name: "lip tea",
-    price: "£ 9.00"
-},
-{
-    getImageSrc: () => require("../img/Rectangle 3 (1).png"),
-    name: "milo",
-    price: "£ 5.00"
-},
-{
-    getImageSrc: () => require("../img/Rectangle 3 (1).png"),
-    name: "lat tea",
-    price: "£ 7.00"
-}
-]
 
 
 
 const Menu = ({ text, img}) => {
+    const [product, setproduct] = useState([])
 
+
+
+    useEffect(() => {
+        fetch("http://localhost:8000" + "/getall/product")
+        .then((res) =>  res.json())
+        .then((data) => setproduct(data.data));
+    }, []);
 
 
     return (
@@ -45,19 +25,22 @@ const Menu = ({ text, img}) => {
             <div className="menu">
 
           
-            {list.map((project) => (
+            {product.map((data) => (
 
-<div className="card"> 
+         
+            <div className="card" key={data._id}> 
 
-  <List
-      price={project.price}
-      name={project.name}
-      img={project.getImageSrc()}
-    />    
-    </div>
+            <List
+            price={data.size[0]['price']}
+            id={data._id}
+            name={data.name}
+            img={data.imgUrl[0]}
+            />    
+            </div>
 
 
-)   )   }
+
+            )   )   }
         </div>
 
 

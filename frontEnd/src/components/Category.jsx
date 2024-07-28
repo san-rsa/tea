@@ -1,6 +1,7 @@
 import List from "./sub component/list/Catlist";
 import "../styles/style.css";
 import {React, useState, useEffect} from "react";
+import { Link } from "react-router-dom";
 
 
 const Menu = () => {
@@ -45,8 +46,8 @@ const Menu = () => {
         )   )   }
  
 
-    <button>Show all</button>
-    </div>
+         <Link to={"/catlist"}> <button className={''} >MORE</button></Link>
+ </div>
    </div>
 
   )}

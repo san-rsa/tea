@@ -18,7 +18,7 @@ const Login = ({ img}) => {
     const navigate = useNavigate();
 
  const AuthProvider = ({ children }) => {
-  const [token, setTokepn] = useState(null);
+  const [token, setTokens] = useState(null);
   const [loading, setLoading] = useState(true); // <-- Add a loading state
     const { setToken } = useContext(AuthContext);
 
@@ -61,6 +61,9 @@ const Login = ({ img}) => {
     headers: myHeaders,
     body: JSON.stringify(data)
      })
+
+     const { tokens } = await api.json();
+    setTokens(tokens);
 
 
      let apis = await api.json()

@@ -49,7 +49,7 @@
 
 
 
-.count button, .weight button {
+.count button, .weightb {
     padding: 0;
     margin: 0;
     background-color: inherit;
@@ -72,11 +72,21 @@
     font-size: xx-large;
 }
 
-.weight button {
+.weightb {
     margin: auto 2%;
     border: 1px #F2F2F2 solid;
     border-radius: 7px;
-    padding: 5px;
+    padding: 5px 10px;
+    width: 80px;
+
+}
+
+
+
+.active {
+    border: 2px #2bff00 solid;
+    border-radius: 10px;
+    background-color: #03200b;
 
 }
 
