@@ -1,6 +1,7 @@
 require('dotenv').config()
 const Product = require('../models/product')
 const Category = require('../models/category')
+const Cart = require('../models/cart')
 const Banner = require('../models/banner')
 const express = require('express')
 const router = express.Router()
@@ -29,16 +30,21 @@ router.get('/banner/:id', async (req, res, next) => {
         }
     })
 
-    router.get('/cart/:id', async (req, res, next) => {
-        try {
-            const data = await User.findById(req.params.id)
+router.get("/cart", async (req, res) => {
+                const owner = req.body.user//._id;
 
-            res.json(data);
-        } catch (error) {
-            return next(error);
-        }
-    })
-
+                try {
+                  const cart = await Cart.findOne({ userId: owner });
+                  if (cart && cart.products.length > 0) {
+                    res.status(200).json(cart);
+                  } else {
+                    res.send(null);
+                  }
+                } catch (error) {
+                  res.status(500).json(error);
+                }
+              });
+  
     router.get('/cartegory/:id', async (req, res, next) => {
         try {
             const data = await Category.findById(req.params.id)
@@ -61,7 +67,9 @@ router.get('/banner/:id', async (req, res, next) => {
 
     router.get('/product/:id', async (req, res, next) => {
         try {
-            const data = await Product.findById(req.params.id)
+            const data = await Product.findOne({name: req.params.id})
+
+            console.log(req.params.id, data)
 
             res.json(data);
         } catch (error) {

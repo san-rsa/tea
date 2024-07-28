@@ -16,17 +16,20 @@ const cartSchema = new mongoose.Schema({
         quantity: {type: Number, required: true, min: 1, default: 1
         },
 
-        weight: {type: Number, required: true, min: 1, default: 1
+        weight: {type: Number, min: 1, default: 1
         },
         price: {type: Number, default: 0,
+        },
+
+        total: {type: Number, default: 0,
         },
 
         productCode: {type: String,
         },
     }],
 
-    totalQty: {type: Number, default: 0, required: true,
-    },
+    // totalQty: {type: Number, default: 0, required: true,
+    // },
 
     totalCost: {type: Number, default: 0, required: true,
     },

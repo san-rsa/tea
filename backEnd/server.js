@@ -214,11 +214,15 @@ app.use(flash());
 
 //route importing and mounting
 const user = require('./src/routes/security')
-const add = require('./src/routes/admin/add');
-const edit = require('./src/routes/admin/edit');
-const del = require('./src/routes/admin/delete');
+const adminadd = require('./src/routes/admin/add');
+const adminedit = require('./src/routes/admin/edit');
+const admindel = require('./src/routes/admin/delete');
 const getall = require('./src/routes/getall');
 const getone = require('./src/routes/getone');
+const cart = require('./src/routes/cart');
+const add = require('./src/routes/add');
+
+
 
 
 
@@ -226,11 +230,14 @@ const getone = require('./src/routes/getone');
 
 
 app.use('/auth', user)
-app.use('/admin/add', add)
-app.use('/admin/edit', edit)
-app.use('/admin/delete', del)
+app.use('/admin/add', adminadd)
+app.use('/admin/edit', adminedit)
+app.use('/admin/delete', admindel)
 app.use("/getall/", getall)
 app.use("/getone", getone)
+app.use("/cart", cart)
+app.use("/add", add)
+
 
 
 
