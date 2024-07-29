@@ -12,25 +12,23 @@ const userSchema = new mongoose.Schema({
             if( !validator.isEmail( value )) {
                 throw new Error( 'Email is invalid' )
             }
-        }
-    },
+        }},
 
-    imgUrl: {type: String, trim: true },
+    imgUrl: {type: String,  },
 
 
-    password: {type: String, required: true, minLength: 8, trim: true,
+    password: {type: String, required: true, minLength: 8,
 
         validate(value) {
             if( value.toLowerCase().includes('password')) {
                 throw new Error('password musn\'t contain password')
             }
-        }
-    },
+        }},
 
 
     tokens: [{ token: {type: String, required: true }}],
 
-    address: {type: String, required: true },
+    address: {type: String,  },
 
     // paymentId: {type: String, required: true,
     // },
@@ -43,7 +41,7 @@ const userSchema = new mongoose.Schema({
 
 //Generate auth token
 userSchema.methods.generateAuthToken = async function () {
-    const user = this
+    const user = this;
     const token = jwt.sign({ _id: user._id.toString()}, process.env.JWT_SECRET)
     user.tokens = user.tokens.concat({token})
      await user.save()
@@ -66,22 +64,54 @@ userSchema.statics.findByCredentials = async (email, password) => {
 }
 
 
-userSchema.methods.verifyPassword = async function (password) {
-    const user = this;
-    const isMatch = await bcrypt.compare(password, user.password);
-    return isMatch};
+// userSchema.methods.verifyPassword = async function (password) {
+//     const user = this;
+//     const isMatch = await bcrypt.compare(password, user.password);
+//     return isMatch};
 
 //Hash plain password before saving
-userSchema.pre('save', async function(next) {
-    const user = this
-    if (user.isModified('password')) {
-        user.password = await bcrypt.hash(user.password, 8)
-    }
+// userSchema.pre('save', async function(next) {
+//     const user = this
+//     if (user.isModified('password')) {
+//         user.password = await bcrypt.hash(user.password, 10)
+//     }
 
-    next()
-})
+//     next()
+// })
+
+
+
+     
+userSchema.pre('save', function(next) {
+    const user = this;
+
+    // only hash the password if it has been modified (or is new)
+    if (!user.isModified('password')) return next();
+
+    // generate a salt
+    bcrypt.genSalt(10, function(err, salt) {
+        if (err) return next(err);
+
+        // hash the password using our new salt
+        bcrypt.hash(user.password, salt, function(err, hash) {
+            if (err) return next(err);
+            // override the cleartext password with the hashed one
+            user.password = hash;
+            next();
+        });
+    });
+});
+     
+userSchema.methods.comparePassword = function(candidatePassword, cb) {
+    bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
+        if (err) return cb(err);
+        cb(null, isMatch);
+    });
+};
+     
+
+
 
 
 const User = mongoose.model('User', userSchema)
-
 module.exports = User

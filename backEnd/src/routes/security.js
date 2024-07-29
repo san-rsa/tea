@@ -195,7 +195,6 @@ router.post('/register', async(req, res)=> {
         const name = fname + ' ' + lname
         const role = 'user'
 
-        console.log(name, password, email, address )
         // Check if All Details are there or not
 
 		if (!name || !email || !password ) {
@@ -215,23 +214,11 @@ router.post('/register', async(req, res)=> {
         }
 
 
-
-        //secure password
-        let hashedPassword
-        try {
-            hashedPassword = await bcrypt.hash(password,10)
-        } catch (error) {
-            return res.status(500).json({
-                success: false,
-                message : `Hashing pasword error for ${password}: `+error.message
-            })
-        }
-
-        console.log(hashedPassword)
         const user = await User.create({
-            name, email, password:hashedPassword, role,  number, address 
+            name, email, password, role,  number, address 
         })
             // res.redirect("/login")
+        console.log(name, password, email, address )
 
         return res.status(200).json({
             success: true,
@@ -252,126 +239,196 @@ router.post('/register', async(req, res)=> {
 
 
 
-// router.post('/login', async(req, res)=> {
+router.post('/login', async(req, res)=> {
 
 
 
-//     try {
-//         //data fetch
-//         const {email, password} = req.body
-//         //validation on email and password
-//         if(!email || !password){
-//             return res.status(400).json({
-//                 success:false,
-//                 message: "Plz fill all the details carefully"
-//             })
-//         }
-//         console.log(email, password)
+    try {
+        //data fetch
+        const {email, password} = req.body
+        //validation on email and password
+        if(!email || !password){
+            return res.status(400).json({
+                success:false,
+                message: "Plz fill all the details carefully"
+            })
+        }
+        console.log(email, password)
 
-//         //check for registered User
-//         let user= await  User.findOne({email})
-//         //if user not registered or not found in database
-//         if(!user){
-//             return res.status(401).json({
-//                 success: false,
-//                 message: "You have to Signup First"
-//             })
-//         }
+        //check for registered User
+        let user= await  User.findOne({email})
+        //if user not registered or not found in database
+        if(!user){
+            return res.status(401).json({
+                success: false,
+                message: "You have to Signup First"
+            })
+        }
 
-//         const payload ={
-//             email: user.email,
-//             id: user._id,
-//             role: user.role,
-//         }
-//         //verify password and generate a JWt token 🔎
-//         if(await bcrypt.compare(password,user.password)){
-
-//             console.log(password );
-//             //if password matched
-//              //now lets create a JWT token
-//              const token = jwt.sign(payload, 'tttt', {expiresIn: "5h"}
-//                         );
-
-                       
-
-//             user = User.toObject()
-//             user.tokens = token
-
-//              console.log(token);
-
-//             user.password = undefined
-//             const options = {
-//                 expires: new Date( Date.now()+ 3*24*60*60*1000),
-//                 httpOnly: true  //It will make cookie not accessible on clinet side -> good way to keep hackers away
-
-//             }
-//             res.cookie(
-//                 "token",
-//                 token,
-//                 options
-//             ).status(200).json({
-//                 success: true,
-//                 token,
-//                 user,
-//                 message: "Logged in Successfully✅"
-
-//             })
-
-//         }else{
-//             //password donot matched
-//             return res.status(403).json({
-//                 success: false,
-//                 message: "Password incorrects⚠️"
-//             })
-//         }
-
-//     } catch (error) {
-//         console.error(error)
-//         res.status(500).json({
-//             success: false,
-//             message: "Login failure⚠️ :" + error
-//         })
-//     }
-
-// })
+        const payload ={
+            email: user.email,
+            id: user._id,
+            role: user.role,
+        }
+        //verify password and generate a JWt token 🔎
 
 
 
 
+       user.comparePassword(password, function(err, isMatch) {
+        
+        if(err) {
+            //password donot matched
+            return res.status(403).json({
+                success: false,
+                message: "Password incorrects⚠️"
+            })
+        }
 
-router.post("/login", async (req, res) => {
-  const { email, password } = req.body;
+        const token = jwt.sign(payload, process.env.JWT_SECRET, {expiresIn: "5h"});
 
 
+            user =  //User.toObject()
+            user.tokens = token
+
+             console.log(token);
+
+            user.password = undefined
+            const options = {
+                expires: new Date( Date.now()+ 3*24*60*60*1000),
+                httpOnly: true  //It will make cookie not accessible on clinet side -> good way to keep hackers away
+
+            }
+            res.cookie("token", token, options
+            ).status(200).json({
+                success: true,
+                token,
+                message: "Logged in Successfully✅"
+
+            })
+
+
+        console.log(password, isMatch, process.env.JWT_SECRET,token); // -&gt; Password123: true
+    });
+
+
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({
+            success: false,
+            message: "Login failure⚠️ :" + error
+        })
+    }
+
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+router.get("/autoLogin", (req, res) => {
+    const cookie = req.headers.cookie;
   
+    // if we received no cookies then user needs to login.
+    if (!cookie || cookie === null) {
+      return res.sendStatus(401);
+    }
+  
+    return res.sendStatus(200);
+  });
 
-  const user = await User.findOne({ email });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//workinfg
+
+
+// router.post("/login", async (req, res) => {
+//   const { email, password } = req.body;
+
+
+
+
+//   const user = await User.findOne({ email });
+//   if (!user) return res.status(400).json("Invalid username.");
+
+
+     
+//     // test a matching password
+//     user.comparePassword(password, function(err, isMatch) {
+//         if (err) throw err;
+
+//         const token = jwt.sign({ email: user.email, password: user.password }, process.env.JWT_SECRET);
+
+
+//         res.status(200).json({ token });
+//         console.log(password, isMatch, process.env.JWT_SECRET,token); // -&gt; Password123: true
+//     });
+     
+
+
     
-    console.log( user)
-  if (!user) return res.status(400).json("Invalid username.");
-
-  const validPassword = await bcrypt.compare(password, user.password, function(err, result) {
-    console.log( user.password, password )
-
-    if (result === true ) {
-      console.log(err)
-      console.log(result);
-    } else{
-      console.log(err);
-      console.log(result);}}
-    );
-  console.log(validPassword)
-
-  if (!validPassword)
-    return res.status(400).json("Invalid password.");
-
-  const token = jwt.sign({ email: user.email, password: user.password }, process.env.JWT_SECRET);
+//     console.log( user)
 
 
-
-
-  res.send({ token });
-});
+// });
 
 
 

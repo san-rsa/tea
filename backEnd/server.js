@@ -166,9 +166,9 @@ const express = require("express");
 const session = require("express-session");
 const passport = require("passport");
 const flash = require("connect-flash");
-const Category = require("./models/category");
+const Category = require("./src/models/category");
 var MongoStore = require("connect-mongo");
-const connectDB = require("./connection/db");
+const connectDB = require("./src/connection/db");
 // const auth = require("./src/connection/auth")
 
 
@@ -183,7 +183,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 
-require("./connection/passport");
+require("./src/connection/passport");
 
 // mongodb configuration
 // view engine setup
@@ -213,15 +213,15 @@ app.use(flash());
 
 
 //route importing and mounting
-const user = require('./routes/security')
-const adminadd = require('./routes/admin/add');
-const adminedit = require('./routes/admin/edit');
-const admindel = require('./routes/admin/delete');
-const getall = require('./routes/getall');
-const getone = require('./routes/getone');
-const cart = require('./routes/cart');
-const add = require('./routes/add');
-const add = require('./routes/edit');
+const user = require('./src/routes/security')
+const adminadd = require('./src/routes/admin/add');
+const adminedit = require('./src/routes/admin/edit');
+const admindel = require('./src/routes/admin/delete');
+const getall = require('./src/routes/getall');
+const getone = require('./src/routes/getone');
+const cart = require('./src/routes/cart');
+const add = require('./src/routes/add');
+const edit = require('./src/routes/edit');
 
 
 
