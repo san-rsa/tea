@@ -235,10 +235,17 @@ const getone = require('./src/routes/getone');
 const cart = require('./src/routes/cart');
 const add = require('./src/routes/add');
 const edit = require('./src/routes/edit');
+const router = express.Router()
 
 
 
 
+
+router.get('/', (req, res) => {
+  res.json({
+    message: 'API - 👋🌎🌍🌏',
+  });
+});
 
 
 
