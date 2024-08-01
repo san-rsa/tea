@@ -14,6 +14,7 @@
   "license": "ISC",
   "dependencies": {
     "admin-bro": "",
+    "dotenv": "",
     "admin-bro-expressjs": "",
     "admin-bro-mongoose": "",
     "bcrypt": "^5.1.1",
