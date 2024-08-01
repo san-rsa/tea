@@ -1,5 +1,4 @@
 import React, { useState, useEffect, createContext, useContext  } from "react";
-
 import Nav from "../../components/sub component/Nav"
 import Input from "./sub/Inputs";
 import { Link, useNavigate } from "react-router-dom";
@@ -7,33 +6,13 @@ import Style from "../../styles/Login.module.css"
 
 
 
-const Login = ({ img}) => {
-     const AuthContext = createContext();
+const Login = () => {
 
     const [data, setInputs] = useState({});
-    const [token, setTokens] = useState('');
-    const [data2, setData] = useState('');
 
-    const [errorMessage, setErrorMessage] = useState(null); // New state for handling error messages
     const navigate = useNavigate();
 
- const AuthProvider = ({ children }) => {
-  const [token, setTokens] = useState(null);
-  const [loading, setLoading] = useState(true); // <-- Add a loading state
-    const { setToken } = useContext(AuthContext);
 
-  useEffect(() => {
-    const storedToken = localStorage.getItem("token");
-    setToken(storedToken);
-    setLoading(false); // Mark loading as complete after setting the token
-  }, []);
-
-  return (
-    <AuthContext.Provider value={{ token, setToken, loading }}>
-      {children}
-    </AuthContext.Provider>
-  );
-};
 
 
     const handleChange = (event) => {
@@ -44,46 +23,54 @@ const Login = ({ img}) => {
   
     const  handleSubmit = async (event) => {
       event.preventDefault();
-    // headers.append('Content-Type', 'application/json');
-    // headers.append('Accept', 'application/json');
-    // headers.append('Authorization', 'Basic ' + base64.encode(data.email + ":" +  data.password));
-    // headers.append('Origin','http://localhost:8000');
 
-    const t = 'tttt'
-    const accessToken = localStorage.getItem("accessToken");
-    console.log(accessToken);
+
    
-    const myHeaders = new Headers();
-    myHeaders.append('Content-Type', 'application/json');
-    myHeaders.append('Authorization', `Bearer ${t}`);
-    const api = await fetch('http://localhost:8000/auth/login/', {
+    const api = await fetch(process.env.REACT_APP_API_LINK + 'auth/login/', {
     method: 'POST',
-    headers: myHeaders,
+    credentials: "include",
+    headers: {'Content-Type': 'application/json'},
     body: JSON.stringify(data)
      })
+     
+     if (api.status === 200) {
+      navigate("/user");
+    }
+     
 
-     const { tokens } = await api.json();
-    setTokens(tokens);
 
 
-     let apis = await api.json()
-
-     console.log(apis)
-  
-  
-  // .then((res) => {
-  //       const { token } = res.json();
-  //      // setToken(token);
+     
+     
+    //  .then((res) => {
+    //     const { tokenss } = res.json();
+    //    // setToken(token);
         
-  //       console.log(token, res)    
-  //      if (res.status == 200)     {
-  //       navigate("/user"); 
-  //      } 
-  //       console.log(res.status)
+    //     console.log(tokenss, res)    
+    //    if (res.status == 200)     {
+    //     // navigate("/user"); 
+    //    } 
+    //     console.log(res.status)
   
-  //   }).then((info) => {
-  //     const { token } = info.json();
-  //     //setToken(token);
+    // }).then((info) => {
+    //   const { token } = info.json();
+    
+    //   console.log(token, info)
+
+    
+    // })
+            //setToken(token);
+
+     
+
+    //  const { tokens } = await api.json();
+    // setTokens(tokens);
+
+
+     console.log(api)
+  
+  
+
       
   //     console.log(token)    
   //     console.log(info)

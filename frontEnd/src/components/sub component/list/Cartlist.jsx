@@ -50,7 +50,7 @@ const Cart = ({ name, img, weight1, weight2, weight3, price}) => {
 
                 <div className={Style.item}>
                     <div className={Style.img}>
-                        <img src={require("../../../img/Rectangle 5.png")} alt="tea" />
+                        <img src={img} alt="tea" />
                     </div>
 
 

@@ -120,6 +120,29 @@ input::placeholder {
 
 
 
+/* logout */
+
+#logout button{
+    color: rgb(255, 0, 0);
+    
+
+
+}
+
+#logout2 {
+    background-color: red;
+    display: none;
+    margin: auto;
+}
+
+#logout2 button{
+    background-color: rgb(99, 13, 13);
+    color: aliceblue;
+    border: 2px red solid;
+
+}
+
+
 /* mobile */
 
 @media (max-width: 600px) {
@@ -128,6 +151,10 @@ input::placeholder {
         width: 100%;
         border-radius: 11px;
 
+    }
+
+    #logout2{
+        display: contents;
     }
     
     .name, .contact {

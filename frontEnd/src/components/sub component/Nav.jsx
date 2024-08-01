@@ -1,7 +1,7 @@
 import React, { useState, ReactDOM } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Style from "../../styles/Nav.module.css"
-import {Link} from "react-router-dom"
+import {Link, useNavigate} from "react-router-dom"
 import { faBars, faUser, faCartShopping, faSearch } from '@fortawesome/free-solid-svg-icons'
 import Search from "../../pages/admin/sub/Search";
 
@@ -11,12 +11,39 @@ const Nav = () => {
 
 
     const [data, setInputs] = useState({});
+    const navigate = useNavigate();
+
 
     const handleChange = (event) => {
       const name = event.target.name;
       const value = event.target.value;
       setInputs(values => ({...values, [name]: value}))
     }
+
+
+
+    const login = async () => {
+       
+           
+    const api = await fetch(process.env.REACT_APP_API_LINK + 'auth/autoLogin/', {
+        method: 'GET',
+        credentials: "include",
+        headers: {'Content-Type': 'application/json'},
+         })
+         
+         if (api.status === 200) {
+          navigate("/user");
+        } else {
+            navigate("/login")
+        }
+      }
+
+
+
+
+
+
+
     const [search, setelement] = useState()
 
     function hide (p){
@@ -39,7 +66,7 @@ const Nav = () => {
         </div> */}
              <Link to={"/"}><h1 id="navh1">TEA NAME</h1></Link>
                    <div className={Style.rnav}>
-<Link className={Style.navr}to={"/login"}><FontAwesomeIcon icon={faUser}/> </Link>
+<Link className={Style.navr}to={"/login"}  onClick={login} ><FontAwesomeIcon icon={faUser}/> </Link>
         
          <Link className={Style.navr} to={"/cart"}><FontAwesomeIcon icon={faCartShopping}/> </Link>
 

@@ -29,25 +29,28 @@ const [user, setuser] = useState([])
 
 function Api() {
     useEffect(() => {
-        fetch("http://localhost:8000/getall/banner")
+        fetch(process.env.REACT_APP_API_LINK + "getall/banner")
         .then((res) =>  res.json())
         .then((data) => setbanner(data.data));
     }, []);
 
     useEffect(() => {
-        fetch("http://localhost:8000/getall/category")
+        fetch(process.env.REACT_APP_API_LINK + "getall/category",  {
+            method: "GET",
+            credentials: "include",
+          }) 
         .then((res) =>  res.json())
         .then((data) => setcategory(data.data));
     }, []);
 
     useEffect(() => {
-        fetch("http://localhost:8000/getall/product")
+        fetch(process.env.REACT_APP_API_LINK + "getall/product")
         .then((res) =>  res.json())
         .then((data) => setproduct(data.data));
     }, []);
 
     useEffect(() => {
-        fetch("http://localhost:8000/getall/user")
+        fetch(process.env.REACT_APP_API_LINK + "getall/user")
         .then((res) =>  res.json())
         .then((data) => setuser(data.data));
     }, []);

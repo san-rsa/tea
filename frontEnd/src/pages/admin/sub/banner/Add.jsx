@@ -21,7 +21,7 @@ const Add = ({ img}) => {
   const HandleSubmit = async (event) => {
     event.preventDefault();
 
-   const api = fetch('http://localhost:8000/admin/add/banner/', {
+   const api = fetch(process.env.REACT_APP_API_LINK + 'admin/add/banner/', {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify(data)

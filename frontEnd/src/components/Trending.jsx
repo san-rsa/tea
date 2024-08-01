@@ -11,7 +11,7 @@ const Menu = () => {
     console.log( process.env.REACT_APP_API_LINK)
 
     useEffect(() => {
-        fetch("http://localhost:8000" + "/getall/product")
+        fetch(process.env.REACT_APP_API_LINK + "getall/product")
         .then((res) =>  res.json())
         .then((data) => setproduct(data.data));
     }, []);

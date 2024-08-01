@@ -2,7 +2,7 @@ body {
   text-align: center;
   background: #1F2523;
   color: #fff;
-  transition: all 3s;
+  transition: 3s;
   transition-duration: 4s;
 }
 
@@ -170,4 +170,15 @@ section {
       }
     }
   }
+}
+
+
+
+
+button:hover {
+  background-color: #1F2523;
+}
+
+button:active{
+  background-color: rgb(43, 255, 0);
 }

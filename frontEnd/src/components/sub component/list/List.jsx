@@ -4,20 +4,20 @@ const List = ({name, price, img, id}) => {
 
 
 
-     async function addToCart(id, quantity) {
+     async function addToCart() {
         try {
-          const response = await fetch("http://localhost:8000/cart/" + id, {
+          const response = await fetch(process.env.REACT_APP_API_LINK + "add/cart", {
             method: "POST",
+            credentials: "include",
+            headers: { "Content-type": "application/json; charset=UTF-8", },
             body: JSON.stringify({
               productId: id,
-              quantity: quantity,
+              quantity: 1,
+              weight: 0
             }),
-            headers: {
-              "Content-type": "application/json; charset=UTF-8",
-            },
+
           });
-          let data = await response.json();
-          alert("Item Added To Cart");
+          const data = await response.json();
           console.log(data);
         } catch (err) {
           alert("Something Went Wrong");
@@ -35,7 +35,7 @@ const List = ({name, price, img, id}) => {
                 <p>€ {price}</p>
             </Link>
   
-            <button onClick={(e) => addToCart(id, 1)} className="btn btn-md btn-info" > cart </button>
+            <button onClick={(e) => addToCart()}className="btn btn-md btn-info" > cart </button>
         </div>
 
     )

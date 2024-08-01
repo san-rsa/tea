@@ -16,7 +16,7 @@ const Menu = () => {
     console.log( process.env.REACT_APP_API_LINK)
 
     useEffect(() => {
-        fetch("http://localhost:8000" + "/getall/category")
+        fetch(process.env.REACT_APP_API_LINK + "getall/category")
         .then((res) =>  res.json())
         .then((data) => setcat(data.data));
     }, []);

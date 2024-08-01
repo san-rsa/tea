@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect,  } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import List  from "../../components/sub component/list/List";
 import Style from "../../styles/Profile.module.css"
 import Nav from "../../components/sub component/Nav"
@@ -34,9 +35,59 @@ const list =[ {
 
 
 
+
 const Profile = ({ text, img}) => {
+    const navigate = useNavigate();
+
 
     const [data, setInputs] = useState({});
+    const [order, setorder] = useState([])
+    const [product, setproduct] = useState([])
+    const [user, setuser] = useState([])
+    
+    
+    
+    
+    
+    function Api() {
+
+        
+    
+        useEffect(() => {
+            fetch(process.env.REACT_APP_API_LINK + "getall/category",  {
+                method: "GET",
+                credentials: "include",
+              }) 
+            .then((res) =>  res.json())
+            .then((data) => setorder(data.data));
+        }, []);
+    
+        useEffect(() => {
+            fetch(process.env.REACT_APP_API_LINK + "getall/product")
+            .then((res) =>  res.json())
+            .then((data) => setproduct(data.data));
+        }, []);
+    
+        useEffect(() => {
+            fetch(process.env.REACT_APP_API_LINK + "getall/user")
+            .then((res) =>  res.json())
+            .then((data) => setuser(data.data));
+        }, []);
+    }
+    
+    Api()
+
+
+
+
+
+
+
+
+
+
+
+
 
     const handleChange = (event) => {
       const name = event.target.name;
@@ -92,19 +143,29 @@ const Profile = ({ text, img}) => {
             wishlist.style.display = 'block';
 
             
-        } 
-        // else if (event.target.name == "info") {
+        } }
 
-        //     info.style.display = 'flex'
-        //     order.style.display = 'none'
+            const logout = async (event) => {
+       
+           
+                const api = await fetch(process.env.REACT_APP_API_LINK + 'auth/logout/', {
+                    method: 'GET',
+                    credentials: "include",
+                    headers: {'Content-Type': 'application/json'},
+                     })
+                     
+                     if (api.status === 200) {
+                      navigate("/");
+                    } 
+                  }
             
-        // } else {
+       
+        //else {
             
         // }
 
         // info ?  info.style.display = 'flex' :  info.style.display = 'none'
 
-    }
 
 
     return (
@@ -134,6 +195,10 @@ const Profile = ({ text, img}) => {
 
                                     <div >
                                         <button name="wishlist" onClick={change}> wishlist</button>
+                                    </div>
+
+                                    <div id={Style.logout} >
+                                        <button name="log-out" onClick={logout}> log out</button>
                                     </div>
 
                                 </div>
@@ -196,6 +261,10 @@ const Profile = ({ text, img}) => {
 
             </div>
  
+
+                <div id={Style.logout2} >
+                    <button name="log-out" onClick={logout}> log out</button>
+                </div>
 
             </div>
             </div>

@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import List  from "../components/sub component/list/List";
 import Style from "../styles/Desc.module.css"
 import Nav from "../components/sub component/Nav"
 import { useParams, Link } from "react-router-dom";
+import {  faX, faHeart } from '@fortawesome/free-solid-svg-icons'
 
 
 
 
-const Description = ({ text, img}) => {
+const Description = ({}) => {
 
     const [product, setproduct] = useState([])
     const [info, setinfo] = useState({})
@@ -15,6 +17,8 @@ const Description = ({ text, img}) => {
     const [prc, setprc] = useState(Number())
     const [price, setprice] = useState(Number())
     const [weight, setweight] = useState(Number())
+    const [wishlist, setwish] = useState()
+    const [set, setset] = useState('')
 
 
 
@@ -47,7 +51,7 @@ const Description = ({ text, img}) => {
             setprc(info.size[0].price )
             setquan(1)
             setprice(info.size[0].price )
-            setweight(0)
+            setweight(event.target.name)
 
 
 
@@ -68,7 +72,7 @@ const Description = ({ text, img}) => {
             setprc(info.size[1].price )
             setquan(1)
             setprice(info.size[1].price )
-            setweight(1)
+            setweight(event.target.name)
 
 
 
@@ -93,7 +97,7 @@ const Description = ({ text, img}) => {
             setprc(info.size[2].price )
             setquan(1)
             setprice(info.size[2].price )
-            setweight(2)
+            setweight(event.target.name)
 
 
         }  
@@ -101,15 +105,16 @@ const Description = ({ text, img}) => {
        }
 
 
+
     
         useEffect(() => {
-            fetch("http://localhost:8000" + "/getone/product/"+ link)
+            fetch(process.env.REACT_APP_API_LINK  + "getone/product/"+ link)
             .then((res) =>  res.json())
             .then((data) => setinfo(data));
         }, []);
 
         useEffect(() => {
-            fetch("http://localhost:8000" + "/getall/product")
+            fetch(process.env.REACT_APP_API_LINK  + "getall/product")
             .then((res) =>  res.json())
             .then((data) => setproduct(data.data));
         }, []);
@@ -137,6 +142,84 @@ const Description = ({ text, img}) => {
         });
        }
 
+  
+
+       async function addToCart(e) {
+        e.preventDefault()
+        try {
+          const response = await fetch(process.env.REACT_APP_API_LINK + "add/cart", {
+            method: "POST",
+            credentials: "include",
+            headers: { "Content-type": "application/json; charset=UTF-8", },
+            body: JSON.stringify({
+              productId: info._id,
+              quantity: quan,
+              weight: weight
+            }),
+
+          });
+          const data = await response.json();
+          console.log(data);
+        } catch (err) {
+          alert("Something Went Wrong");
+          console.log(err);
+        }
+      }
+
+     useEffect(() => {
+        fetch(process.env.REACT_APP_API_LINK  + "getone/wishlist/" + link, {
+            credentials: "include",
+            headers: { "Content-type": "application/json; charset=UTF-8", },
+        }).then((res) =>  res.json())
+        .then((data) =>  {
+            if (data.data == "true") {
+                setwish(faX)
+                setset("active")
+            } else {
+                setwish(faHeart)
+                setset("false")
+            }
+        } );
+    }, []);
+         function wish(e) {
+            e.preventDefault()
+            const  mood = wishlist.iconName
+
+
+            if (mood == "heart") {
+                fetch(process.env.REACT_APP_API_LINK + "add/wishlist", {
+                method: "POST",
+                credentials: "include",
+                headers: {
+                  "Content-type": "application/json",
+                },
+                body: JSON.stringify({productId: info._id }),
+             }).then((res) =>  res.json())
+             .then( ()=> setwish(faX))
+
+
+
+            } else {
+                
+            }
+
+
+
+       }
+
+    //    useEffect(() => {
+    //     fetch(process.env.REACT_APP_API_LINK  + "getone/wishlist/"+ link, {
+    //         credentials: "include"}
+    //     )
+    //     .then((res) =>  res.json())
+    //     .then((data) => setinfo(data));
+    // }, []);
+
+
+
+
+
+
        function minus(p) {
         p.preventDefault()
         setquan(prevItems => {
@@ -153,7 +236,6 @@ const Description = ({ text, img}) => {
           return no;
         });
        }
-   console.log( info)
 
     return (
         <div>
@@ -164,6 +246,8 @@ const Description = ({ text, img}) => {
             <div className={Style.tea}>
             <div className={Style.imgD}>
             <img src={info.imgUrl} alt=""/>
+            <button name="set" className={''} value={set} onClick={wish} ><FontAwesomeIcon icon={wishlist}/> </button>
+
         </div>
 
             <div className={Style.rtea}>
@@ -200,7 +284,7 @@ const Description = ({ text, img}) => {
 
 </div>
 
-<button className={Style.cartB}>ADD TO CART</button>
+<button className={Style.cartB} onClick={addToCart}>ADD TO CART</button>
 </div>
 </form>
             </div>

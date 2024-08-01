@@ -94,12 +94,28 @@
 
 .imgD img {
     width: -webkit-fill-available;
-    height: -webkit-fill-available;    
+    height:400px;    
     border-radius: 15px;
 }
 
 .imgD {
     margin: 3%;
+    position: relative;
+
+}
+
+.imgD button {
+    background: inherit;
+    border: none;
+    position: absolute;
+    margin: 0;
+    font-size: xxx-large;
+    bottom: 30px;
+    background: rgb(29, 88, 27);
+    font-weight: lighter;
+    float: right;
+    color: #f2faf4;
+    right: 15px;
 
 }
 
@@ -128,7 +144,6 @@
     }
  
  .imgD img{
-    float: left;
     width: 100%;
 }
 

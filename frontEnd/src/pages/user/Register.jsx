@@ -24,7 +24,7 @@ let navigate = useNavigate()
   const HandleSubmit = async (event) => {
     event.preventDefault();
 
-   const api = fetch('http://localhost:8000/auth/register/', {
+   const api = fetch(process.env.REACT_APP_API_LINK + 'auth/register/', {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify(data)
