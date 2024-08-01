@@ -186,6 +186,7 @@ const jwt= require('jsonwebtoken')
 //const OTP = require('../models/OTP')
 const otpGenerator = require("otp-generator");
 //signup handle
+const {auth, role} = require("../middleware/mid")
 
 
 
@@ -266,7 +267,6 @@ router.post('/login', async(req, res)=> {
         }
 
         const payload ={
-            email: user.email,
             id: user._id,
             role: user.role,
         }
@@ -275,7 +275,7 @@ router.post('/login', async(req, res)=> {
 
 
 
-       user.comparePassword(password, function(err, isMatch) {
+       user.comparePassword(password, async function(err, isMatch) {
         
         if(err) {
             //password donot matched
@@ -285,27 +285,38 @@ router.post('/login', async(req, res)=> {
             })
         }
 
-        const token = jwt.sign(payload, process.env.JWT_SECRET, {expiresIn: "5h"});
+        const token = await user.generateAuthToken()
+ 
+
+        // const token = jwt.sign(payload, process.env.JWT_SECRET, {expiresIn: "5h"});
 
 
-            user =  //User.toObject()
-            user.tokens = token
 
              console.log(token);
 
-            user.password = undefined
             const options = {
-                expires: new Date( Date.now()+ 3*24*60*60*1000),
-                httpOnly: true  //It will make cookie not accessible on clinet side -> good way to keep hackers away
+                expires: new Date(Date.now() + 86400000), 
+                httpOnly: true,  //It will make cookie not accessible on clinet side -> good way to keep hackers away
+                secure: process.env.NODE_ENV === "production",
 
             }
             res.cookie("token", token, options
+
             ).status(200).json({
                 success: true,
                 token,
                 message: "Logged in Successfully✅"
 
             })
+
+
+            // .cookie("token", token, options
+            // ).status(200).json({
+            //     success: true,
+            //     token,
+            //     message: "Logged in Successfully✅"
+
+            // })
 
 
         console.log(password, isMatch, process.env.JWT_SECRET,token); // -&gt; Password123: true
@@ -365,6 +376,22 @@ router.get("/autoLogin", (req, res) => {
 
 
 
+  router.get('/user', auth, async (req, res, next) => {
+    try {
+        const user = req.userId
+
+        
+
+
+        const data = await User.findOne({id: req.params.id})
+
+        console.log(user, data)
+
+        res.json(data);
+    } catch (error) {
+        return next(error);
+    }
+})
 
 
 
@@ -385,6 +412,61 @@ router.get("/autoLogin", (req, res) => {
 
 
 
+
+
+
+
+
+
+
+  router.get("/logout", auth, (req, res) => {
+
+    return res
+      .clearCookie("token")
+      .status(200)
+      .json({ message: "Successfully logged out 😏 🍀" });
+  })
+
+
+
+
+
+
+
+
+//logout
+router.post('/users/logout', auth, async (req, res) => {
+   
+    try {
+
+        const token = req.cookies.token;
+
+
+       token =  req.user.tokens.filter((token) => {
+            return token.token !== req.token 
+        })
+
+        await req.user.save()
+        res.clearCookie("token")
+        .status(200)
+        .json({ message: "Successfully logged out 😏 🍀" });    } catch (error) {
+        res.status(500).send()
+    }
+})
+
+//Logout All 
+router.post('/logoutAll', auth, async(req, res) => {
+    try {
+        const token = req.cookies.token;
+
+        req.user.tokens = []
+        await req.user.save()
+        res.clearCookie("token")
+        .status(200)
+        .json({ message: "Successfully logged out 😏 🍀" });    } catch (error) {
+        res.status(500).send()        
+    }
+})
 
 
 
@@ -440,7 +522,7 @@ router.get("/autoLogin", (req, res) => {
 
 
 //Handlers from controllers
-const {auth, isStudent, isAdmin} = require('../middleware/role')
+const {isStudent, isAdmin} = require('../middleware/role')
 
 
 

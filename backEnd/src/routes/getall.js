@@ -6,9 +6,13 @@ const express = require('express')
 const router = express.Router()
 const bcrypt = require('bcrypt')
 const jwt= require('jsonwebtoken')
+const {auth} = require('../middleware/mid')
+
 //const OTP = require('../models/OTP')
 const otpGenerator = require("otp-generator");
 const User = require('../models/user')
+const Wishlist = require('../models/wishlist')
+const Cart = require('../models/cart')
 // const Product = require('../models/product')
 // const Auth = require('../middleware/mid')
 
@@ -26,15 +30,14 @@ const banner = await Banner.find({})
       })
 })
 
-router.get('/cart', async(req, res)=> {
+router.get('/cart', auth, async(req, res)=> {
+  const user = req.userId
 
-  const cart = await User.find({})
-		
-
-   console.log(cart)  
+  
+  const data = await Cart.findOne({userId: user}).populate({path: "products", populate: {path: "productId"}})
       res.status(200).json({
         success: true,
-       data: cart
+       data: data
       })
 
 })
@@ -51,24 +54,21 @@ const category = await Category.find({})
 
 })
 
-router.get('/order', async(req, res)=> {
+router.get('/order', auth, async(req, res)=> {
+  const user = req.userId
 
-  const order = await User.find({})
-		
-   console.log(order)  
+  
+  const data = await Wishlist.findOne({userId: user})
       res.status(200).json({
         success: true,
-       data: order
+       data: data
       })
-
 
 })
 
 router.get('/product', async(req, res)=> {
     
 const product = await Product.find({})
-
-   console.log(product)  
       res.status(200).json({
         success: true,
        data: product
@@ -76,11 +76,23 @@ const product = await Product.find({})
 
 })
 
+
+router.get('/wishlist', auth, async(req, res)=> {
+  const user = req.userId
+
+  
+  const data = await Wishlist.findOne({userId: user})
+      res.status(200).json({
+        success: true,
+       data: data
+      })
+
+})
+
+
 router.get('/user', async(req, res)=> {
 
   const user = await User.find({})
-
-   console.log(user)  
       res.status(200).json({
         success: true,
        data: user

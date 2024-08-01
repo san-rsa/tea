@@ -26,7 +26,7 @@ const userSchema = new mongoose.Schema({
         }},
 
 
-    tokens: [{ token: {type: String, required: true }}],
+    // tokens: [{ token: {type: String, required: true }}],
 
     address: {type: String,  },
 
@@ -39,12 +39,21 @@ const userSchema = new mongoose.Schema({
 })
 
 
+
+
 //Generate auth token
 userSchema.methods.generateAuthToken = async function () {
     const user = this;
-    const token = jwt.sign({ _id: user._id.toString()}, process.env.JWT_SECRET)
-    user.tokens = user.tokens.concat({token})
-     await user.save()
+    const payload ={
+        email: user.email,
+        id: user._id.toString(),
+        role: user.role,
+    }
+
+
+    const token = jwt.sign(payload, process.env.JWT_SECRET, {expiresIn: "5h"});
+    // user.tokens = user.tokens.concat({token})
+    //  await user.save()
     return token
 }
 

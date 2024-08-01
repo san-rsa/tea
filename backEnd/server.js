@@ -162,25 +162,38 @@ const mongoose = require("mongoose");
 
 
 require('dotenv').config()
+
 const express = require("express");
+const app = express();
+
+
 const session = require("express-session");
 const passport = require("passport");
 const flash = require("connect-flash");
 const Category = require("./src/models/category");
 var MongoStore = require("connect-mongo");
 const connectDB = require("./src/connection/db");
+const cors = require("cors");
+
 // const auth = require("./src/connection/auth")
 
+const cookieParser = require("cookie-parser");
 
-const app = express();
-const cors = require("cors");
 
 const corsOptions = {
   origin: "http://localhost:3000",
+  credentials: true,
+  allowedHeaders: [
+    //"set-cookie",
+    "Content-Type",
+    "Access-Control-Allow-Origin",
+    "Access-Control-Allow-Credentials"
+  ],
 };
 
 
 app.use(cors(corsOptions));
+app.use(cookieParser());
 
 
 require("./src/connection/passport");
