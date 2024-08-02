@@ -185,6 +185,7 @@ const corsOptions = {
   credentials: true,
   allowedHeaders: [
     //"set-cookie",
+    "https://tea-alpha.vercel.app/",
     "Content-Type",
     "Access-Control-Allow-Origin",
     "Access-Control-Allow-Credentials"
