@@ -184,7 +184,6 @@ const router = express.Router()
 const bcrypt = require('bcrypt')
 const jwt= require('jsonwebtoken')
 //const OTP = require('../models/OTP')
-const otpGenerator = require("otp-generator");
 //signup handle
 const {auth, role} = require("../middleware/mid")
 

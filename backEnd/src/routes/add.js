@@ -13,14 +13,16 @@ router.post("/cart", auth, async (req, res) => {
     const user = req.userId
     const productId = req.body.productId
     const quantity = Number.parseInt(req.body.quantity );
-    const size = Number(req.body.weight)
+    const size = req.body.weight
+    const price = Number(req.body.price)
 
-    if (!size <= !2 && !size >= !0) {
+    if (!price <= !2 && !price >= !0) {
         return res.status(500).json({
             type: "Not Found",
             msg: "choose right weight"
         })
     }
+
     try {
         const cart = await Cart.findOne({ userId: user });
        // let productDetailss = await productById(productId);
@@ -38,7 +40,9 @@ router.post("/cart", auth, async (req, res) => {
 
         if (cart) {
             //---- Check if index exists ----
-            const indexFound = cart.products.findIndex(item => item.productId == productId);
+            const indexFounds = cart.products.findIndex(item => item.productId == productId);
+            const indexFound = cart.products.findIndex(item => item.sizeId == size);
+
 
 
             //------This removes an item from the the cart if the quantity is set to zero, We can use this method to remove an item from the list  -------
@@ -53,9 +57,9 @@ router.post("/cart", auth, async (req, res) => {
             //----------Check if product exist, just add the previous quantity with the new quantity and update the total price-------
             else if (indexFound !== -1) {
                 cart.products[indexFound].quantity = cart.products[indexFound].quantity + quantity;
-                cart.products[indexFound].total = cart.products[indexFound].quantity * productDetails.size[size].price;
-                cart.products[indexFound].price = productDetails.size[size].price
-                cart.products[indexFound].weight = productDetails.size[size].weight
+                cart.products[indexFound].total = cart.products[indexFound].quantity * productDetails.size[price].price;
+                cart.products[indexFound].price = productDetails.size[price].price
+                cart.products[indexFound].weight = productDetails.size[price].weight
 
                 cart.totalCost = cart.products.map(item => item.total).reduce((acc, next) => acc + next);
             }
@@ -63,11 +67,12 @@ router.post("/cart", auth, async (req, res) => {
             else if (quantity > 0) {
                 cart.products.push({
                     productId: productId,
+                    sizeId: size,
                     name : productDetails.name,
                     quantity: quantity,
-                    price: productDetails.size[size].price,
-                    weight: productDetails.size[size].weight,
-                    total: parseInt(productDetails.size[size].price * quantity)
+                    price: productDetails.size[price].price,
+                    weight: productDetails.size[price].weight,
+                    total: parseInt(productDetails.size[price].price * quantity)
                 })
                 cart.totalCost = cart.products.map(item => item.total).reduce((acc, next) => acc + next);
             }
@@ -94,13 +99,14 @@ router.post("/cart", auth, async (req, res) => {
                 products: [{
                     name: productDetails.name,
                     productId: productId,
+                    sizeId: size,
                     quantity,
-                    total: parseInt(productDetails.size[size].price * quantity),
-                    price:  productDetails.size[size].price,
-                    weight:  productDetails.size[size].weight
+                    total: parseInt(productDetails.size[price].price * quantity),
+                    price:  productDetails.size[price].price,
+                    weight:  productDetails.size[price].weight
 
                 }],
-                totalCost:  parseInt(productDetails.size[size].price * quantity)
+                totalCost:  parseInt(productDetails.size[price].price * quantity)
               });
         
         

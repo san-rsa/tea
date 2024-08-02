@@ -35,6 +35,8 @@ router.get('/cart', auth, async(req, res)=> {
 
   
   const data = await Cart.findOne({userId: user}).populate({path: "products", populate: {path: "productId"}})
+
+  console.log(data)
       res.status(200).json({
         success: true,
        data: data

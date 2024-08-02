@@ -7,7 +7,6 @@ const router = express.Router()
 const bcrypt = require('bcrypt')
 const jwt= require('jsonwebtoken')
 //const OTP = require('../../models/OTP')
-const otpGenerator = require("otp-generator");
 // const Product = require('../models/product')
 // const Product = require('../models/product')
 // const Auth = require('../middleware/mid')
