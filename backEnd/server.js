@@ -186,7 +186,7 @@ const corsOptions = {
   allowedHeaders: [
     //"set-cookie",
     "Content-Type",
-    "Access-Control-Allow-Origin",
+  // "Access-Control-Allow-Origin",
     "Access-Control-Allow-Credentials"
   ],
 };
