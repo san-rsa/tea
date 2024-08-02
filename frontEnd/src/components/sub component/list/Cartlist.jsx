@@ -8,37 +8,8 @@ import {faX } from '@fortawesome/free-solid-svg-icons'
 
 
 
-const Cart = ({ name, img, weight1, weight2, weight3, price}) => {
+const Cart = ({ name, img, weight, prc, quan, add, minus, del, id}) => {
 
-    
-    const [quan, setquan] = useState(Number(1))
-    const [prc, setprc] = useState(Number(price))
-
-    function handleChange(params) {
-        setquan(params.target.value);
-        setprc(Number(params.target.value) * price )
-    }
-
-
-    function add(p) {
-        p.preventDefault()
-        setquan(prevItems => {
-           let no= Number(prevItems) + 1;
-           let pr = Number(no)*price;
-           setprc(pr);
-          return no;
-        });
-       }
-
-       function minus(p) {
-        p.preventDefault()
-        setquan(prevItems => {
-           let no= Number(prevItems) - 1;
-           let pr = Number(no) * price;
-           setprc(pr)
-          return no;
-        });
-       }
 
 
 
@@ -61,7 +32,7 @@ const Cart = ({ name, img, weight1, weight2, weight3, price}) => {
                             <h2> {name}</h2>
                         </div>
                     <div className={Style.delete}>
-                        <Link className="del" to={"/delete"}> <FontAwesomeIcon  icon={faX} /> </Link>
+                        <button className={Style.del} id={id} onClick={del}> <FontAwesomeIcon  icon={faX} /> </button>
                     </div>
                         <div className={Style.price}>
                             <h2> £ {prc} </h2>
@@ -72,19 +43,13 @@ const Cart = ({ name, img, weight1, weight2, weight3, price}) => {
 
                     <div className={Style.quan}>
                         <div className={Style.count}>
-                            <button onClick={minus} value={quan}> - </button>
-                            <input type="number" min={0} name="qty" onChange={handleChange} value={quan} max={99} />
-                            <button onClick={add} value={quan}> + </button>
+                            <button id={id} onClick={minus} name="minus"> - </button>
+                            <input type="number" min={0} name={"qty"}  value={quan} max={99} />
+                            <button id={id} onClick={add} name="add"> + </button>
                         </div>
 
                         <div className={Style.weight}>
-                        <select id="weight" name="weight">
-                            <option value={weight1 + "kg"}>{weight1 + "kg"}</option>
-                            <option value={weight2 + "kg"}>
-                                {weight2 + "kg"}
-                            </option>
-                            <option value={weight3 + "kg"}>{weight3 + "kg"}</option>
-                            </select>
+                        <p id="weight" name="weight"> size: {weight}        </p>
                         </div>
                         </div>
                     </div>

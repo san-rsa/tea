@@ -7,35 +7,6 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 
-import {faX } from '@fortawesome/free-solid-svg-icons'
-
-const list =[ {
-    getImageSrc: () => require( "../img/Rectangle 3 (1).png"),
-    name: "bournevita",
-    price:5
-},  {
-    getImageSrc: () => require("../img/Rectangle 3 (2).png"),
-    name: "top tea",
-    price: 7
-},
-{
-    getImageSrc: () => require( "../img/Rectangle 3.png"),
-    name: "lip tea",
-    price:9
-},
-{
-    getImageSrc: () => require("../img/Rectangle 3 (1).png"),
-    name: "milo",
-    price: 5
-},
-{
-    getImageSrc: () => require("../img/Rectangle 3 (1).png"),
-    name: "lat tea",
-    price: 9
-}
-]
-
-
 
 const Cart = ({ text, img}) => {
 
@@ -44,23 +15,26 @@ const Cart = ({ text, img}) => {
     const [prc, setprc] = useState(Number())
     const [price, setprice] = useState(Number())
     const [weight, setweight] = useState(Number())
-    const [set, setset] = useState('')
+    const [imgs, setimg] = useState([])
 
 
 
 
+
+ async function Data() {
     useEffect(() => {
-        fetch(process.env.REACT_APP_API_LINK  + "getall/cart/", {
+         fetch(process.env.REACT_APP_API_LINK  + "getall/cart/", {
             credentials: "include",
             headers: { "Content-type": "application/json; charset=UTF-8", },
         }).then((res) =>  res.json())
-        .then((data) =>  setproduct(data.data) );
-    }, []);
+        .then((data) => (setproduct(data.data), setimg(data.data.products)));
+    }, [])
+}
 
 
 
 
-
+Data()
 
 
 
@@ -68,7 +42,29 @@ const Cart = ({ text, img}) => {
 console.log(product)
 
 
+   function sign(e) {
+    e.preventDefault()
 
+    console.log(e.target.name)
+    try {
+      const response =  fetch(process.env.REACT_APP_API_LINK + "edit/cart", {
+        method: "PATCH",
+        credentials: "include",
+        headers: { "Content-type": "application/json; charset=UTF-8", },
+        body: JSON.stringify({
+          productId: e.target.id,
+          quantity: 1,
+          sign: e.target.name
+        }),
+
+      }).then((res) =>  res.json())
+      .then((data) =>  setproduct(data.data))
+      console.log(Data);
+    } catch (err) {
+      alert("Something Went Wrong");
+      console.log(err);
+    }
+  }
 
 
 
@@ -92,40 +88,7 @@ console.log(product)
            }
     }
 
-
-    function add(p) {
-        p.preventDefault()
-        setquan(prevItems => {
-           let no= Number(prevItems) + 1;
-           let pr = Number(no)*prc;
-           setprice(pr);
-          return no;
-        });
-       }
-
-
-       
-       function minus(p) {
-        p.preventDefault()
-        setquan(prevItems => {
-           let no= Number(prevItems) - 1;
-           let pr = Number(no) * prc;
-           setprice(pr);
-
-           if (prevItems <= 1) {
-            setquan(1)
-           }
-
-
-
-          return no;
-        });
-       }
-
-    function handleChange(params) {
-        setquan(params.target.value);
-        setprc(Number(params.target.value) * 5 )
-    }
+  
 
 
 
@@ -137,7 +100,7 @@ console.log(product)
          <h1>CART</h1>
  
 
-            {product.products?.map((project) => (
+            {product.products?.map((project, id) => (
                     
 
 
@@ -145,14 +108,23 @@ console.log(product)
                 
 
                 <Cartlist
+                    key={id}
+                    id={project.sizeId}
                     price={project.price}
                     name={project.name}
-                    img={project.imgUrl}
+                   // img={project.productId.imgUrl}
+                    img={imgs[id].productId.imgUrl}
+
+                    prc={project.total}
+                    quan={project.quantity}
+                    weight={project.weight}
+             
+                
                     
-                    weight1={"500"}
-                    weight2={"800"}
-                    weight3={"900"}
-            
+
+                    add={sign}
+                    minus={sign}
+                    del={project.sizeId}
 
 
 

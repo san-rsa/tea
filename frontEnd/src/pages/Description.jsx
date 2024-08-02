@@ -19,6 +19,8 @@ const Description = ({}) => {
     const [weight, setweight] = useState(Number())
     const [wishlist, setwish] = useState()
     const [set, setset] = useState('')
+    const [priced, setpriced] = useState(Number())
+
 
 
 
@@ -31,7 +33,7 @@ const Description = ({}) => {
        function wght(event) {
         event.preventDefault() 
         
-        console.log(event.target.name)
+        console.log(priced, weight)
         
         if (event.target.name == 0) {
 
@@ -51,7 +53,8 @@ const Description = ({}) => {
             setprc(info.size[0].price )
             setquan(1)
             setprice(info.size[0].price )
-            setweight(event.target.name)
+            setweight(info.size[0]._id)
+            setpriced(0)
 
 
 
@@ -72,7 +75,9 @@ const Description = ({}) => {
             setprc(info.size[1].price )
             setquan(1)
             setprice(info.size[1].price )
-            setweight(event.target.name)
+            setweight(info.size[1]._id)
+            setpriced(1)
+
 
 
 
@@ -97,7 +102,9 @@ const Description = ({}) => {
             setprc(info.size[2].price )
             setquan(1)
             setprice(info.size[2].price )
-            setweight(event.target.name)
+            setweight(info.size[2]._id)
+            setpriced(2)
+
 
 
         }  
@@ -154,7 +161,8 @@ const Description = ({}) => {
             body: JSON.stringify({
               productId: info._id,
               quantity: quan,
-              weight: weight
+              weight: weight,
+              price: priced
             }),
 
           });

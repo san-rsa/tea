@@ -38,6 +38,8 @@
    background-color: #2D4135;
    margin: auto auto auto 4%;
    padding: 3px;
+   position: relative;
+   left: 15px;
    
 
 
@@ -59,6 +61,7 @@
     border: none;
     background-color: inherit;
     text-align: center;
+
 }
 
 
@@ -127,6 +130,16 @@
     
 }
 
+.del {
+    background: none;
+
+    color: #d13d3d;
+    border: none;
+    padding: 0px;
+    margin: 5px 9px;
+
+}
+
 
 
 /* mobile */
@@ -146,6 +159,18 @@
     .price h2, .name h2 {
         margin: 0 auto;
     }
+
+    .weight {display: none;}
+
+    .price h2, .name h2, .count {
+        font-size: medium;
+    }
+
+    .count{
+        left: 4px;
+        top: 5px;
+    }
+
  }
 
 
