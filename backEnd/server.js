@@ -180,16 +180,16 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 
 
-//const corsOptions = {
-  //origin: ["http://localhost:3000/", "https://tea-alpha.vercel.app/"],
-  //credentials: true,
-  //allowedHeaders: [
-    //"set-cookie",
-    //"Content-Type",
-  // "Access-Control-Allow-Origin",
-    //"Access-Control-Allow-Credentials"
-  //],
-//};
+const corsOptions = {
+  origin: process.env.ORIGIN,
+  credentials: true,
+  allowedHeaders: [
+    "set-cookie",
+    "Content-Type",
+  "Access-Control-Allow-Origin",
+    "Access-Control-Allow-Credentials"
+  ],
+};
 
 
 app.use(cors());
