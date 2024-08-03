@@ -8,9 +8,34 @@ import {faX } from '@fortawesome/free-solid-svg-icons'
 
 
 
-const Cart = ({ name, img, weight, prc, quan, add, minus, del, id}) => {
+const Cart = ({ name, img, weight, prc, quan, add, minus, del, id, size, refresh}) => {
 
 
+     function del(e) {
+        e.preventDefault()
+    
+          console.log(id)
+    
+          
+    
+        try {
+          const response =  fetch(process.env.REACT_APP_API_LINK + "del/cart", {
+            method: "DELETE",
+            credentials: "include",
+            headers: { "Content-type": "application/json; charset=UTF-8", },
+            body: JSON.stringify({
+              productId: id,
+            }),
+    
+          }).then((res) =>  res.json())
+        //   .then((data) =>  (data.data))
+        } catch (err) {
+          alert("Something Went Wrong");
+          console.log(err);
+        }
+      }
+
+      
 
 
     return (
@@ -32,7 +57,7 @@ const Cart = ({ name, img, weight, prc, quan, add, minus, del, id}) => {
                             <h2> {name}</h2>
                         </div>
                     <div className={Style.delete}>
-                        <button className={Style.del} id={id} onClick={del}> <FontAwesomeIcon  icon={faX} /> </button>
+                        <button className={Style.del} id={id} onClick={del} name="del"><FontAwesomeIcon id={id} icon={faX}/> </button>
                     </div>
                         <div className={Style.price}>
                             <h2> £ {prc} </h2>

@@ -21,7 +21,7 @@ const Cart = ({ text, img}) => {
 
 
 
- async function Data() {
+ 
     useEffect(() => {
          fetch(process.env.REACT_APP_API_LINK  + "getall/cart/", {
             credentials: "include",
@@ -29,13 +29,12 @@ const Cart = ({ text, img}) => {
         }).then((res) =>  res.json())
         .then((data) => (setproduct(data.data), setimg(data.data.products)));
     }, [])
-}
 
 
 
 
-Data()
 
+  
 
 
 
@@ -59,13 +58,38 @@ console.log(product)
 
       }).then((res) =>  res.json())
       .then((data) =>  setproduct(data.data))
-      console.log(Data);
     } catch (err) {
       alert("Something Went Wrong");
       console.log(err);
     }
   }
 
+
+
+  // async function del(e) {
+  //   // e.preventDefault()
+
+  //     console.log(e)
+
+  //     console.log(product.products[e].sizeId)
+
+
+  //   // try {
+  //   //   const response =  fetch(process.env.REACT_APP_API_LINK + "del/cart", {
+  //   //     method: "DELETE",
+  //   //     credentials: "include",
+  //   //     headers: { "Content-type": "application/json; charset=UTF-8", },
+  //   //     body: JSON.stringify({
+  //   //       productId: e.target.id,
+  //   //     }),
+
+  //   //   }).then((res) =>  res.json())
+  //   //   .then((data) =>  setproduct(data.data))
+  //   // } catch (err) {
+  //   //   alert("Something Went Wrong");
+  //   //   console.log(err);
+  //   // }
+  // }
 
 
 
@@ -112,7 +136,6 @@ console.log(product)
                     id={project.sizeId}
                     price={project.price}
                     name={project.name}
-                   // img={project.productId.imgUrl}
                     img={imgs[id].productId.imgUrl}
 
                     prc={project.total}
@@ -124,7 +147,7 @@ console.log(product)
 
                     add={sign}
                     minus={sign}
-                    del={project.sizeId}
+                    // del={del(id)}
 
 
 

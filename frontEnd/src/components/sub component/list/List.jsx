@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-const List = ({name, price, img, id}) => {
+const List = ({name, price, img, id, size}) => {
 
 
 
@@ -13,7 +13,8 @@ const List = ({name, price, img, id}) => {
             body: JSON.stringify({
               productId: id,
               quantity: 1,
-              weight: 0
+              price: 0,
+              weight: size
             }),
 
           });
@@ -35,7 +36,7 @@ const List = ({name, price, img, id}) => {
                 <p>€ {price}</p>
             </Link>
   
-            <button onClick={(e) => addToCart()}className="btn btn-md btn-info" > cart </button>
+            <button id={size} onClick={(e) => addToCart()}className="btn btn-md btn-info" > cart </button>
         </div>
 
     )

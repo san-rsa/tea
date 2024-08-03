@@ -35,6 +35,8 @@ const Menu = ({ text, img}) => {
             id={data._id}
             name={data.name}
             img={data.imgUrl[0]}
+            size={data.size[0]._id}
+
             />    
             </div>
 

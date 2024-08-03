@@ -40,13 +40,15 @@ const Profile = ({ text, img}) => {
     const navigate = useNavigate();
 
 
-    const [data, setInputs] = useState({});
+ 
     const [order, setorder] = useState([])
     const [product, setproduct] = useState([])
     const [user, setuser] = useState([])
     
     
-    
+       const [data, setInputs] = useState({
+        "fullname": user.name
+    });
     
     
     function Api() {
@@ -54,24 +56,29 @@ const Profile = ({ text, img}) => {
         
     
         useEffect(() => {
-            fetch(process.env.REACT_APP_API_LINK + "getall/category",  {
+            fetch(process.env.REACT_APP_API_LINK + "getall/wishlist",  {
                 method: "GET",
                 credentials: "include",
               }) 
             .then((res) =>  res.json())
-            .then((data) => setorder(data.data));
-        }, []);
-    
-        useEffect(() => {
-            fetch(process.env.REACT_APP_API_LINK + "getall/product")
-            .then((res) =>  res.json())
             .then((data) => setproduct(data.data));
         }, []);
     
+        // useEffect(() => {
+        //     fetch(process.env.REACT_APP_API_LINK + "getall/order", {
+          // method: "GET",
+           // credentials: "include",})
+        //     .then((res) =>  res.json())
+        //     .then((data) => setproduct(data.data));
+        // }, []);
+    
         useEffect(() => {
-            fetch(process.env.REACT_APP_API_LINK + "getall/user")
+            fetch(process.env.REACT_APP_API_LINK + "getone/user", {
+            method: "GET",
+            credentials: "include",
+            })
             .then((res) =>  res.json())
-            .then((data) => setuser(data.data));
+            .then((data) => setuser(data));
         }, []);
     }
     
@@ -80,7 +87,7 @@ const Profile = ({ text, img}) => {
 
 
 
-
+console.log(product.products)
 
 
 
@@ -179,7 +186,7 @@ const Profile = ({ text, img}) => {
                 <div className={Style.left}>
                             <div className={Style.imgD}>
                             <img src={require("../../img/Rectangle 6.png")} alt=""/>
-                            <h3> WALE ADENUGA</h3>
+                            <h3> {user.name}</h3>
                             <br></br>      
                             <br></br>  
                 
@@ -209,12 +216,12 @@ const Profile = ({ text, img}) => {
             <div className={Style.info} id={Style.info}>
                 <h1>PERSONAL INFORMATION</h1>
 
-                <form>
+                <form id={Style.form}>
                 <div className={Style.quan}>
                 <div className={Style.details}>
 
                     <div className={Style.name}>
-                        <Input name="first name" type={"text"} onchange={handleChange} value={data.fname} class={Style.fname} label={"first name"} />   
+                        <Input name="fullname" type={"text"} onchange={handleChange} value={data.fullname} class={Style.fname} label={"first name"} />   
                         <Input name="last name" type={"text"} onchange={handleChange} value={data.lname} class={Style.lname} label={"last name"} />
                     </div>
 
@@ -245,19 +252,29 @@ const Profile = ({ text, img}) => {
             <div className={Style.wishlist} id={Style.wishlist} >
                 <h1 > WISHLIST</h1>
 
-            {list.map((project) => (
 
-                <div className="card"> 
-
-                <List
-                    price={project.price}
-                    name={project.name}
-                    img={project.getImageSrc()}
-                    />    
-                    </div>
+                {product.products?.map((project, id) => (
+                    
 
 
-)   )   }
+                    <div className="card"> 
+                                        
+                    <List
+                    key={id}
+                    id={product.products[id].productId._id}
+                    price={product.products[id].productId.size[0].price}
+                    name={product.products[id].productId.name}
+                    img={product.products[id].productId.imgUrl}   
+
+
+
+                    /> 
+    
+    
+                        </div>
+    
+    
+                    )   )   }
 
             </div>
  

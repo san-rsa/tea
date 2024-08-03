@@ -314,6 +314,7 @@ const Description = ({}) => {
                 <List
                     id={project._id}
                     price={project.size[0].price}
+                    size={project.size[0]._id}
                     name={project.name}
                     img={project.imgUrl}
                     />    

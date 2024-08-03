@@ -40,6 +40,8 @@ const Menu = () => {
       price={project.size[0].price}
       name={project.name}
       img={project.imgUrl}
+      size={project.size[0]._id}
+
     />    
     </div>
 
