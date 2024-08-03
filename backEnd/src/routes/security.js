@@ -295,8 +295,8 @@ router.post('/login', async(req, res)=> {
 
             const options = {
                 expires: new Date(Date.now() + 86400000), 
-                httpOnly: true,  //It will make cookie not accessible on clinet side -> good way to keep hackers away
-                secure: process.env.NODE_ENV === "production",
+                //httpOnly: true,  //It will make cookie not accessible on clinet side -> good way to keep hackers away
+                // secure: process.env.NODE_ENV === "production",
 
             }
             res.cookie("token", token, options

@@ -186,7 +186,7 @@ const corsOptions = {
   origin: process.env.ORIGIN,
   credentials: true,
   allowedHeaders: [
-   // "set-cookie",
+    "set-cookie",
     "Content-Type",
     "Access-Control-Allow-Origin",
     "Access-Control-Allow-Credentials"
@@ -237,6 +237,9 @@ const getone = require('./src/routes/getone');
 const cart = require('./src/routes/cart');
 const add = require('./src/routes/add');
 const edit = require('./src/routes/edit');
+const del = require('./src/routes/del');
+
+
 const router = express.Router()
 
 
@@ -261,6 +264,7 @@ app.use("/getone", getone)
 app.use("/cart", cart)
 app.use("/add", add)
 app.use("/edit", edit)
+app.use("/del", del)
 
 
 

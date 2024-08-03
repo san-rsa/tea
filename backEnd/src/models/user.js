@@ -58,19 +58,19 @@ userSchema.methods.generateAuthToken = async function () {
 }
 
 //login in users
-userSchema.statics.findByCredentials = async (email, password) => {
-    const user = await User.findOne({ email })
-    if (!user) {
-        throw new Error('Unable to log in')
-    }
-    const isMatch = await bcrypt.compare(password, user.password)
-    console.log(isMatch)
-    if(!isMatch) {
-        throw new Error('Unable to login')
-    }
+// userSchema.statics.findByCredentials = async (email, password) => {
+//     const user = await User.findOne({ email })
+//     if (!user) {
+//         throw new Error('Unable to log in')
+//     }
+//     const isMatch = await bcrypt.compare(password, user.password)
+//     console.log(isMatch)
+//     if(!isMatch) {
+//         throw new Error('Unable to login')
+//     }
 
-    return user
-}
+//     return user
+// }
 
 
 // userSchema.methods.verifyPassword = async function (password) {

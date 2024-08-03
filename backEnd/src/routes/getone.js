@@ -152,9 +152,11 @@ router.get("/wishlist/:id", auth, async (req, res) => {
 
 
 
-    router.get('/user/:id', auth, async (req, res, next) => {
+    router.get('/user', auth, async (req, res, next) => {
 
         const user = req.userId
+    
+        console.log(user)
 
 
         try {
