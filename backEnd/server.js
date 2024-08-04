@@ -183,7 +183,7 @@ const cookieParser = require("cookie-parser");
 
 
 const corsOptions = {
-  origin: '*',
+  origin: 'process.env.ORIGIN',
   credentials: true,
   allowedHeaders: [
     "set-cookie",
