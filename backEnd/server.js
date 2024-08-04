@@ -173,7 +173,7 @@ const flash = require("connect-flash");
 const Category = require("./src/models/category");
 var MongoStore = require("connect-mongo");
 const connectDB = require("./src/connection/db");
-const cors = require("cors");
+//const cors = require("cors");
 
 // const auth = require("./src/connection/auth")
 
@@ -182,19 +182,19 @@ const cookieParser = require("cookie-parser");
 
 
 
-const corsOptions = {
-  origin: process.env.ORIGIN,
-  credentials: true,
-  allowedHeaders: [
-    "set-cookie",
-    "Content-Type",
-    "Access-Control-Allow-Origin",
-    "Access-Control-Allow-Credentials"
-  ],
-};
+// const corsOptions = {
+//   origin: process.env.ORIGIN,
+//   credentials: true,
+//   allowedHeaders: [
+//     "set-cookie",
+//     "Content-Type",
+//     "Access-Control-Allow-Origin",
+//     "Access-Control-Allow-Credentials"
+//   ],
+// };
 
 
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
 app.use(cookieParser());
 
 
