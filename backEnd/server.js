@@ -175,7 +175,7 @@ var MongoStore = require("connect-mongo");
 const connectDB = require("./src/connection/db");
 //const cors = require("cors");
 
- const auth = require("./src/connection/auth")
+// const auth = require("./src/connection/auth")
 
 const cookieParser = require("cookie-parser");
 
@@ -183,7 +183,7 @@ const cookieParser = require("cookie-parser");
 
 
 const corsOptions = {
-  origin: process.env.ORIGIN,
+  origin: '%',
   credentials: true,
   allowedHeaders: [
     "set-cookie",
@@ -195,7 +195,7 @@ const corsOptions = {
 };
 
 
-// app.use(cors(corsOptions));
+ app.use(cors(corsOptions));
 app.use(cookieParser());
 
 
