@@ -191,7 +191,7 @@ const {auth, role} = require("../middleware/mid")
 
 router.post('/register', async(req, res)=> {
     try {
-        const {fname, lname, email, password, number, address,}= req.body
+        const {fname, lname, email, password, phone, address,}= req.body
         const name = fname + ' ' + lname
         const role = 'user'
 
@@ -215,7 +215,7 @@ router.post('/register', async(req, res)=> {
 
 
         const user = await User.create({
-            name, email, password, role,  number, address 
+            name, email, password, role,  phone, address 
         })
             // res.redirect("/login")
         console.log(name, password, email, address )
@@ -295,9 +295,9 @@ router.post('/login', async(req, res)=> {
 
             const options = {
                 expires: new Date(Date.now() + 86400000), 
-                //httpOnly: true,  //It will make cookie not accessible on clinet side -> good way to keep hackers away
-                // secure: process.env.NODE_ENV === "production",
-		    sameSite: "none"
+                httpOnly: true,  //It will make cookie not accessible on clinet side -> good way to keep hackers away
+                 secure: process.env.NODE_ENV === "production",
+		    // sameSite: "none"
 
             }
             res.cookie("token", token, options

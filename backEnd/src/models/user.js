@@ -25,6 +25,10 @@ const userSchema = new mongoose.Schema({
             }
         }},
 
+        
+        
+    phone: {type:Number, required: true},
+
 
     // tokens: [{ token: {type: String, required: true }}],
 
@@ -91,14 +95,14 @@ userSchema.methods.generateAuthToken = async function () {
 
 
      
-userSchema.pre('save', function(next) {
+userSchema.pre('save', async function(next) {
     const user = this;
 
     // only hash the password if it has been modified (or is new)
     if (!user.isModified('password')) return next();
 
     // generate a salt
-    bcrypt.genSalt(10, function(err, salt) {
+    await bcrypt.genSalt(10, function(err, salt) {
         if (err) return next(err);
 
         // hash the password using our new salt
@@ -110,6 +114,16 @@ userSchema.pre('save', function(next) {
         });
     });
 });
+
+
+
+userSchema.pre('findOneAndUpdate', async function (next) {
+    const user = this;
+    if (user._update.$set.password) {
+      user._update.$set.password = await bcrypt.hash(user._update.$set.password, 10);
+    }
+    next();
+  });
      
 userSchema.methods.comparePassword = function(candidatePassword, cb) {
     bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {

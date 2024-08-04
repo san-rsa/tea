@@ -3,6 +3,8 @@ const router = new express.Router();
 const Cart = require("../models/cart");
 const Wishlist = require("../models/wishlist");
 const Product = require("../models/product");
+const User = require("../models/user");
+
 const {auth} = require("../middleware/mid")
 
 
@@ -17,24 +19,12 @@ router.patch("/cart", auth, async (req, res) => {
     const user = req.userId
     const productId = req.body.productId
     const quantity = Number.parseInt(req.body.quantity );
-    const size = req.body.weight
     const sign = req.body.sign
 
 
 
     try {
         const cart = await Cart.findOneAndUpdate({ userId: user });
-       // let productDetailss = await productById(productId);
-        // const productDetails = await Product.findOne({ _id: productId });
-
-        //      if (!productDetails) {
-        //     return res.status(500).json({
-        //         type: "Not Found",
-        //         msg: "Invalid request"
-        //     })
-        // }
-        //--If Cart Exists ----
-        console.log( size, user, productId, cart, quantity)
 
 
         if (cart) {
@@ -66,20 +56,13 @@ router.patch("/cart", auth, async (req, res) => {
                 }
 
                 cart.products[indexFound].total = cart.products[indexFound].quantity * cart.products[indexFound].price;
-                // cart.products[indexFound].price = productDetails.size[price].price
-                // cart.products[indexFound].weight = productDetails.size[price].weight
-
                 cart.totalCost = cart.products.map(item => item.total).reduce((acc, next) => acc + next);
             }
             //----Check if quantity is greater than 0 then add item to items array ----
             else if (quantity > 0) {
                 cart.products.push({
-                    // productId: productId,
-                    // sizeId: size,
-                    // name : productDetails.name,
+
                     quantity: quantity,
-                    // price: productDetails.size[price].price,
-                    // weight: productDetails.size[price].weight,
                     total: parseInt(cart.products[indexFound].price * quantity)
                 })
                 cart.totalCost = cart.products.map(item => item.total).reduce((acc, next) => acc + next);
@@ -111,6 +94,42 @@ router.patch("/cart", auth, async (req, res) => {
 });
 
 
+
+
+
+router.patch('/user', auth, async (req, res)=> {
+
+    const user = req.userId
+    try {
+
+        const update = {};
+        for (const key of Object.keys(req.body)){
+            if (req.body[key] !== '') {
+                update[key] = req.body[key];
+            }
+        }
+        User.findOneAndUpdate({_id: user}, {$set: update}, {new: true}).then( async (data) => {
+                console.log("success");
+         
+                        return res.status(200).json({
+            success: true,
+            data: data,
+            message: "user edited successfully ✅"
+           
+        }) 
+        })
+
+
+ 
+    } catch (error) {
+        console.error(error)
+        return res.status(500).json({
+            success: false,
+            message : "User edit failed"
+        })
+       
+   }  
+})
 
 
 
