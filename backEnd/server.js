@@ -185,7 +185,6 @@ const cookieParser = require("cookie-parser");
 const corsOptions = {
   origin: '*',
   credentials: true,
-   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: [
     "set-cookie",
       'credentials: true',
