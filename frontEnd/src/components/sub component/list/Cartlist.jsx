@@ -28,7 +28,7 @@ const Cart = ({ name, img, weight, prc, quan, add, minus, del, id, size, refresh
             }),
     
           }).then((res) =>  res.json())
-        //   .then((data) =>  (data.data))
+    
         } catch (err) {
           alert("Something Went Wrong");
           console.log(err);

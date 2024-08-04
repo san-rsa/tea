@@ -44,11 +44,9 @@ const Profile = ({ text, img}) => {
     const [order, setorder] = useState([])
     const [product, setproduct] = useState([])
     const [user, setuser] = useState([])
-    
-    
-       const [data, setInputs] = useState({
-        "fullname": user.name
-    });
+    const [data, setInputs] = useState({});
+    const [status, setstatus] = useState("true");
+
     
     
     function Api() {
@@ -56,6 +54,7 @@ const Profile = ({ text, img}) => {
         
     
         useEffect(() => {
+            
             fetch(process.env.REACT_APP_API_LINK + "getall/wishlist",  {
                 method: "GET",
                 credentials: "include",
@@ -78,7 +77,13 @@ const Profile = ({ text, img}) => {
             credentials: "include",
             })
             .then((res) =>  res.json())
-            .then((data) => setuser(data));
+            .then((data) =>{ return (setInputs({
+                "name": data.name,
+                "email": data.email,
+                "phone": data.phone,
+                "address": data?.address,
+                "password": data.password,
+            }), setuser(data))});
         }, []);
     }
     
@@ -87,13 +92,54 @@ const Profile = ({ text, img}) => {
 
 
 
-console.log(product.products)
+console.log(user)
 
 
 
 
 
+const edit = (e) => {
+    e.preventDefault()
 
+    const ed = document.getElementById(Style.edit);
+    const sv = document.getElementById(Style.save);
+    const pass = document.getElementById(Style.password);
+
+
+    sv.style.display = 'block';
+    ed.style.display = 'none';
+    pass.style.display = "block"
+
+
+    setstatus(!status)
+  };
+
+  const save = async (e) => {
+    e.preventDefault()
+
+    const api = await fetch(process.env.REACT_APP_API_LINK + 'edit/user/', {
+        method: 'PATCH',
+        credentials: "include",
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(data)
+         })
+         
+         if (api.status === 200) {
+            setuser(data)
+        }
+
+    const ed = document.getElementById(Style.edit);
+    const sv = document.getElementById(Style.save);
+    const pass = document.getElementById(Style.password);
+
+
+    sv.style.display = 'none';
+    ed.style.display = 'block';
+    pass.style.display = "none"
+
+
+    setstatus(!status)
+  };
 
 
     const handleChange = (event) => {
@@ -101,24 +147,7 @@ console.log(product.products)
       const value = event.target.value;
       setInputs(values => ({...values, [name]: value}))
     }
-  
-    const handleSubmit = (event) => {
-      event.preventDefault();
-      alert(data);
-      console.log(data);
-    }
 
-    function ItemList({ items }) {
-        return (
-          <div>
-            <ul>
-              {items.length
-                ? items.map((item) => <li key={item.id}>{item.name}</li>)
-                : null}
-            </ul>
-          </div>
-        );
-      }
       
 
 
@@ -186,7 +215,7 @@ console.log(product.products)
                 <div className={Style.left}>
                             <div className={Style.imgD}>
                             <img src={require("../../img/Rectangle 6.png")} alt=""/>
-                            <h3> {user.name}</h3>
+                            <h3> {user?.name}</h3>
                             <br></br>      
                             <br></br>  
                 
@@ -221,24 +250,23 @@ console.log(product.products)
                 <div className={Style.details}>
 
                     <div className={Style.name}>
-                        <Input name="fullname" type={"text"} onchange={handleChange} value={data.fullname} class={Style.fname} label={"first name"} />   
-                        <Input name="last name" type={"text"} onchange={handleChange} value={data.lname} class={Style.lname} label={"last name"} />
+                        <Input name="name" status={status} type={"text"} onchange={handleChange} value={data.name} class={Style.fname} label={"first name"} />   
                     </div>
 
                     <div className={Style.contact}>
-                        <Input name="email" type={"email"} onchange={handleChange} value={data.email} class={Style.email} label={"email"}   />
-                        <Input name="phone number" type={"number"} onchange={handleChange} value={data.number} class={Style.number} label={"phone number"}  />
+                        <Input name="email" status={status} type={"email"} onchange={handleChange} value={data.email} class={Style.email} label={"email"}   />
+                        <Input name="phone" status={status} type={"number"} onchange={handleChange} value={data.phone} class={Style.number} label={"phone number"}  />
                     </div>
                     
                 
                     <div className={Style.other}>
-                    <Input name="address" type={"text"} onchange={handleChange} value={data.address} class={Style.address} label={"address"} />
-                    <Input name="password" type={"password"} onchange={handleChange} value={data.password} class={Style.password} label={"password"}  />
+                    <Input name="address" status={status}  type={"text"} onchange={handleChange} value={data.address} class={Style.address} label={"address"} />
+                    <Input name="password" id={Style.password} status={status} type={"password"} onchange={handleChange} value={data.password} class={Style.password} label={"password"}  />
                     
                     </div>
                 </div>
-
-                <button className={Style.cartB}>SAVE</button>
+                <button className={Style.cartB} id={Style.edit} onClick={edit}>EDIT</button>
+                <button className={Style.cartB} id={Style.save} onClick={save}>SAVE</button>
                 </div>
                 </form>
             </div>

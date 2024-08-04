@@ -14,11 +14,11 @@ const List = ({name, img, email}) => {
                     <h2>{name}</h2>
                     <h4>{email}</h4>
                 </Link>
-                {/* <button id={Style.delete}>
+                <button id={Style.admin}>
                     <Link to={"admin/delete"}>
-                        delete
+                        add to admin
                     </Link>
-                </button> */}
+                </button>
             </div>
 
         </div>

@@ -14,8 +14,9 @@ const Cart = ({ text, img}) => {
     const [quan, setquan] = useState(Number(0))
     const [prc, setprc] = useState(Number())
     const [price, setprice] = useState(Number())
-    const [weight, setweight] = useState(Number())
+    const [weight, setweight] = useState('react')
     const [imgs, setimg] = useState([])
+
 
 
 
@@ -23,18 +24,27 @@ const Cart = ({ text, img}) => {
 
  
     useEffect(() => {
-         fetch(process.env.REACT_APP_API_LINK  + "getall/cart/", {
+
+
+        fetch(process.env.REACT_APP_API_LINK  + "getall/cart/", {
             credentials: "include",
             headers: { "Content-type": "application/json; charset=UTF-8", },
         }).then((res) =>  res.json())
-        .then((data) => (setproduct(data.data), setimg(data.data.products)));
+        .then((data) => (setproduct(data.data), setimg(data.data.products), setweight(weight)));
+    
+
+      
+    
+ 
     }, [])
 
 
 
 
 
-  
+  function setweight2(params) {
+    setweight(weight)
+  }
 
 
 
@@ -66,53 +76,11 @@ console.log(product)
 
 
 
-  // async function del(e) {
-  //   // e.preventDefault()
-
-  //     console.log(e)
-
-  //     console.log(product.products[e].sizeId)
+  function del(e) {
+    
+  }
 
 
-  //   // try {
-  //   //   const response =  fetch(process.env.REACT_APP_API_LINK + "del/cart", {
-  //   //     method: "DELETE",
-  //   //     credentials: "include",
-  //   //     headers: { "Content-type": "application/json; charset=UTF-8", },
-  //   //     body: JSON.stringify({
-  //   //       productId: e.target.id,
-  //   //     }),
-
-  //   //   }).then((res) =>  res.json())
-  //   //   .then((data) =>  setproduct(data.data))
-  //   // } catch (err) {
-  //   //   alert("Something Went Wrong");
-  //   //   console.log(err);
-  //   // }
-  // }
-
-
-
-
-
-
-
-
-
-
-
-
-    function qty(params) {
-        setquan(params.target.value);
-        setprc(Number(params.target.value) * prc )
-
-        
-        if (quan <= 0) {
-            setquan(1)
-           }
-    }
-
-  
 
 
 
@@ -147,6 +115,7 @@ console.log(product)
 
                     add={sign}
                     minus={sign}
+                    // refresh={'l'}
                     // del={del(id)}
 
 

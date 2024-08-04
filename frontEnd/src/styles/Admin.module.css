@@ -101,30 +101,22 @@ label {
     margin: auto 4%;
 }
 
-.other input {
-    font-size: x-large;
-    text-align: left;
-    width: 100%;
-    margin: 3%;
-    padding: 0 2%;
-    border-radius: 11px;
-}
 
-.name, .contact {
+.contact {
     display: flex;
     text-align: left;
     margin: 2%;
   
 }
 
-.name input, .contact input {
+ .contact input {
     margin: 3%;
     font-size: large;
     border-radius: 11px;
 
 }
 
-.name div, .contact div {
+ .contact div {
     padding-right: 7%;
 }
 
@@ -154,6 +146,89 @@ input::placeholder {
 
 .Order_link__xw56k {
     display: none;
+}
+
+
+
+
+.other {
+    text-align: left;
+}
+
+label {
+    margin: auto 4%;
+}
+
+.other input , .name input{
+    font-size: large;
+    text-align: left;
+    width: 100%;
+    margin: 3%;
+    padding: 0 2%;
+    border-radius: 11px;
+}
+
+#password {
+    display: none;
+}
+
+ .contact {
+    display: flex;
+    text-align: left;
+    margin: 2%;
+  
+}
+
+ .contact input {
+    margin: 3%;
+    font-size: large;
+    border-radius: 11px;
+    padding: 0 5%;
+}
+
+ .contact div {
+    padding-right: 7%;
+}
+
+
+input::placeholder {
+    color: #5d6960;
+    padding: 6px;
+}
+
+
+
+input:disabled {
+    color: #ffffff;
+    background-color: #075f3a;
+}
+
+#save {display: none;}
+#edit {display: block; background-color: rgb(3, 102, 64);}
+#edit:hover {
+    background-color: #5d6960;
+}
+
+/* logout */
+
+#logout button{
+    color: rgb(255, 0, 0);
+    
+
+
+}
+
+#logout2 {
+    background-color: red;
+    display: none;
+    margin: auto;
+}
+
+#logout2 button{
+    background-color: rgb(99, 13, 13);
+    color: aliceblue;
+    border: 2px red solid;
+
 }
 
 
@@ -198,7 +273,10 @@ input::placeholder {
 
 
 
-
+    #logout2{
+        display: contents;
+    }
+    
 
 
 

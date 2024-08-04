@@ -85,7 +85,7 @@ label {
     margin: auto 4%;
 }
 
-.other input {
+.other input , .name input{
     font-size: large;
     text-align: left;
     width: 100%;
@@ -93,22 +93,25 @@ label {
     padding: 0 2%;
     border-radius: 11px;
 }
+#password {
+    display: none;
+}
 
-.name, .contact {
+ .contact {
     display: flex;
     text-align: left;
     margin: 2%;
   
 }
 
-.name input, .contact input {
+ .contact input {
     margin: 3%;
     font-size: large;
     border-radius: 11px;
-
+    padding: 0 5%;
 }
 
-.name div, .contact div {
+ .contact div {
     padding-right: 7%;
 }
 
@@ -118,7 +121,17 @@ input::placeholder {
     padding: 6px;
 }
 
+input:disabled {
+    color: #ffffff;
+    background-color: #075f3a;
+}
 
+
+#save {display: none;}
+#edit {display: block; background-color: rgb(3, 102, 64);}
+#edit:hover {
+    background-color: #5d6960;
+}
 
 /* logout */
 
