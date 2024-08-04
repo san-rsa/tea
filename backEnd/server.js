@@ -187,7 +187,7 @@ const corsOptions = {
   credentials: true,
   allowedHeaders: [
     "set-cookie",
-      'credentials: true',
+      'credentials: '*',
     "Content-Type",
     "Access-Control-Allow-Origin",
     "Access-Control-Allow-Credentials"
