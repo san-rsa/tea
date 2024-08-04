@@ -9,10 +9,10 @@ const jwt= require('jsonwebtoken')
 //const OTP = require('../../models/OTP')
 // const Product = require('../models/product')
 // const Product = require('../models/product')
-// const Auth = require('../middleware/mid')
+ const {auth} = require('../../middleware/mid')
 
 
-router.post('/banner', async(req, res)=> {
+router.post('/banner', auth, async(req, res)=> {
     try {
         const {text, imgUrl}= req.body
 
