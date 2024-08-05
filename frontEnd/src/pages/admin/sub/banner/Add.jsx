@@ -23,6 +23,7 @@ const Add = ({ img}) => {
 
    const api = fetch(process.env.REACT_APP_API_LINK + 'admin/add/banner/', {
     method: 'POST',
+    credentials: "include",
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify(data)
     })
@@ -45,6 +46,7 @@ const Add = ({ img}) => {
   
       console.log(data)
   }
+  
 
 
     return (

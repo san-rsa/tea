@@ -1,14 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import Nav from "../../../../components/sub component/Nav"
 import Input from "../Inputs";
-import { Link } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import Style from "../../style/Form.module.css"
 
 
 
-const Edit = ({ img}) => {
+const Edit = () => {
     const [data, setInputs] = useState({});
+    const link = useParams().id
+    let navigate = useNavigate()
+
+
 
   const handleChange = (event) => {
     const name = event.target.name;
@@ -16,11 +20,50 @@ const Edit = ({ img}) => {
     setInputs(values => ({...values, [name]: value}))
   }
 
-  const handleSubmit = (event) => {
+          useEffect(() => {
+            fetch(process.env.REACT_APP_API_LINK  + "getone/banner/"+ link,{
+              method: "GET",
+              credentials: "include",
+              headers: {'Content-Type': 'application/json'},
+
+            }
+
+            )
+            .then((res) =>  res.json())
+            .then((data) => setInputs({"text": data.text, "imgUrl": data.imgUrl}));
+        }, []);
+
+
+
+  const HandleSubmit =  (event) => {
     event.preventDefault();
-    alert(data);
-    console.log(data);
+
+    fetch(process.env.REACT_APP_API_LINK + 'admin/edit/banner/' + link, {
+      method: 'PATCH',
+      credentials: "include",    
+      headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(data)
+    })
+    
+    .then((res) => {
+       if (res.status == 200)     {
+        navigate("/admin"); 
+       } 
+        console.log(res)       
+    }).then(
+      data => console.log(data))
+    
+    .catch((e) => {
+      console.log(e);
+      let msg = "fail"
+    })
+
+
+ 
+  
+      console.log(data)
   }
+
 
 
     return (
@@ -34,23 +77,12 @@ const Edit = ({ img}) => {
 
                 <div className={Style.inp}>
 
-            <Input name="name" type={"text"} onchange={handleChange} value={data.name} class={Style.name} label={"name"} />   
-            <Input name="img" type={"text"} onchange={handleChange} value={data.img} class={Style.img} label={"image url address"} />
-            
-            <Input name="category" type={"text"} onchange={handleChange} value={data.category} class={Style.category} label={"category"} />
+                <Input name="text" type={"text"} onchange={handleChange} value={data.text} class={Style.name} label={"name"} />   
+                <Input name="imgUrl" type={"text"} onchange={handleChange} value={data.imgUrl} class={Style.img} label={"image url address"} />
 
-
-            <Input name="price" type={"number"} onchange={handleChange} value={data.price} class={Style.lname} label={"price"} />
-
-
-            <Input name="weight" type={"number"} onchange={handleChange} value={data.weight} class={Style.weight} label={"weight"} />
-
-  
-
-            <Input name="description" type={"text"} onchange={handleChange} value={data.description} class={Style.description} label={"description"} />
                 </div>
 
-            <button className="submit" onClick={handleSubmit}> Submit</button> 
+            <button className="submit" onClick={HandleSubmit}> Submit</button> 
 
         </div>
 </form>

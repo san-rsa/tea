@@ -15,6 +15,9 @@ a {
   margin: auto;
 }
 
+input {
+  padding: 0 10px;
+}
 
 /* trending % menu */
 

@@ -2,8 +2,32 @@ import React from "react";
 import {Link} from "react-router-dom";
 import Style from "../style/AdminList.module.css"
 
-const List = ({name, img, email}) => {
 
+
+
+
+const List = ({name, img, email, id}) => {
+
+
+    function del(params) {
+        try {
+            const response =  fetch(process.env.REACT_APP_API_LINK + "admin/add/toadmin", {
+              method: "PATCH",
+              credentials: "include",
+              headers: { "Content-type": "application/json; charset=UTF-8", },
+              body: JSON.stringify({
+                productId: id,
+        
+              }),
+      
+            }).then((res) =>  res.json())
+      
+          } catch (err) {
+            alert("Something Went Wrong");
+            console.log(err);
+          }
+    }
+    
     return (
 
         <div className={Style.card}>
@@ -14,10 +38,10 @@ const List = ({name, img, email}) => {
                     <h2>{name}</h2>
                     <h4>{email}</h4>
                 </Link>
-                <button id={Style.admin}>
-                    <Link to={"admin/delete"}>
+                <button id={Style.admin} onClick={del}>
+                  
                         add to admin
-                    </Link>
+           
                 </button>
             </div>
 

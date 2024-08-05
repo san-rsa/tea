@@ -4,6 +4,30 @@ import style from "../style/List.module.css"
 
 
 const List = ({name, img, id}) => {
+
+    function del(e) {
+        e.preventDefault()
+    
+          console.log(id)
+    
+          
+    
+        try {
+          const response =  fetch(process.env.REACT_APP_API_LINK + "admin/del/banner", {
+            method: "DELETE",
+            credentials: "include",
+            headers: { "Content-type": "application/json; charset=UTF-8", },
+            body: JSON.stringify({
+              productId: id,
+            }),
+    
+          }).then((res) =>  res.json())
+    
+        } catch (err) {
+          alert("Something Went Wrong");
+          console.log(err);
+        }
+      }
     
 
 
@@ -18,7 +42,7 @@ const List = ({name, img, id}) => {
             </Link>   
 
                  <button id={style.edit}> <Link to={"/admin/editbanner/" + id }> edit  </Link> </button>
-               <button id={style.delete} > <Link to={"admin/delete/" + id}> delete </Link> </button>
+               <button id={style.delete} onClick={del} >  delete </button>
         </div>
 </div>
     )

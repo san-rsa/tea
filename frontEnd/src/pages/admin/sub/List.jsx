@@ -14,7 +14,7 @@ const List = ({name, price, img, stock, id}) => {
           
     
         try {
-          const response =  fetch(process.env.REACT_APP_API_LINK + "admin/del/cart", {
+          const response =  fetch(process.env.REACT_APP_API_LINK + "admin/del/product", {
             method: "DELETE",
             credentials: "include",
             headers: { "Content-type": "application/json; charset=UTF-8", },
@@ -42,7 +42,7 @@ const List = ({name, price, img, stock, id}) => {
             </Link>   
 
                  <button id={style.edit}> <Link to={"/admin/edittea/" + id }> edit  </Link> </button>
-               <button id={style.delete} onClick={del} > <Link to={"admin/delete/" + id}> delete </Link> </button>
+               <button id={style.delete} onClick={del} > delete </button>
         </div>
 </div>
     )

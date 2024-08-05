@@ -24,6 +24,7 @@ const [order, setorder] = useState([])
 const [product, setproduct] = useState([])
 const [user, setuser] = useState([])
 
+
 const [data, setInputs] = useState({});
 const [info, setinfo] = useState({})
 
@@ -78,13 +79,22 @@ function Api() {
     }, []);
 
 
-    // useEffect(() => { xxxx
-    //     fetch(process.env.REACT_APP_API_LINK + "getall/order", {
-      // method: "GET",
-       // credentials: "include",})
-    //     .then((res) =>  res.json())
-    //     .then((data) => setproduct(data.data));
-    // }, []);
+    useEffect(() => {
+        fetch(process.env.REACT_APP_API_LINK + "getall/admin", {
+      method: "GET",
+       credentials: "include",})
+        .then((res) =>  res.json())
+        .then((data) => setadmin(data.data));
+    }, []);
+
+    
+    useEffect(() => { 
+        fetch(process.env.REACT_APP_API_LINK + "getall/order", {
+      method: "GET",
+       credentials: "include",})
+        .then((res) =>  res.json())
+        .then((data) => setorder(data.data));
+    }, []);
 
     useEffect(() => { // user one vv
         fetch(process.env.REACT_APP_API_LINK + "getone/user", {
@@ -412,14 +422,14 @@ const edit = (e) => { // vvv
                 <button className={Style.add}> <Link to={"/admin/addtea"}> ADD NEW</Link> </button>
 
 
-            {product.map((data) => (
+            {product?.map((data) => (
 
          
                  <div className="card" key={data._id}> 
 
                 <List
                     price={data.size[0]['price']}
-                    id={data._id}
+                    id={data.name}
                     name={data.name}
                     img={data.imgUrl[0]}
                     />    
@@ -445,7 +455,7 @@ const edit = (e) => { // vvv
                     <AdminList
                         id={project._id}
                         name={project.name}
-                        img={project.getImageSrc()}
+                        img={project.imgUrl}
                         email={"eeee@gmail.com"}
                         />    
                         </div>

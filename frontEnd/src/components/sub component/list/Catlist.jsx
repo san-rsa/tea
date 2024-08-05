@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 const List = ({name, price, img, id}) => {
 
 
+
+
     return (
 
         <Link to={"/category/" +id}>

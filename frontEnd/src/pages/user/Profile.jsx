@@ -289,10 +289,10 @@ const edit = (e) => {
                                         
                     <List
                     key={id}
-                    id={product.products[id].productId._id}
-                    price={product.products[id].productId.size[0].price}
-                    name={product.products[id].productId.name}
-                    img={product.products[id].productId.imgUrl}   
+                    id={product.products[id].productId?._id}
+                    price={product.products[id].productId?.size[0].price}
+                    name={product.products[id].productId?.name}
+                    img={product.products[id].productId?.imgUrl}   
 
 
 
