@@ -1,6 +1,8 @@
 require('dotenv').config()
 const Product = require('../../models/product')
 const Category = require('../../models/category')
+const User = require('../../models/user')
+
 const Banner = require('../../models/banner')
 const express = require('express')
 const router = express.Router()
@@ -10,6 +12,26 @@ const jwt= require('jsonwebtoken')
 // const Product = require('../models/product')
 // const Product = require('../models/product')
  const {auth} = require('../../middleware/mid')
+
+ router.patch('/toadmin' ,async (req, res, next) => {
+    try {
+
+        const data = await User.findByIdAndUpdate(req.body.productId, {
+            $set: req.body, role: 'admin'
+        }, { new: true });
+        res.json(data);
+        console.log(data, "user updated successfully!");
+    } catch (error) {
+        return next(error);
+    }
+});
+
+
+
+
+
+ 
+
 
 
 router.post('/banner', auth, async(req, res)=> {
@@ -86,6 +108,7 @@ router.post('/category', async(req, res)=> {
 
 
 
+
         const cat = await Category.create({
             name, name, imgUrl
         })
@@ -139,7 +162,7 @@ router.post('/product', async(req, res)=> {
 
 
         const product = await Product.create({
-            name, imgUrl, description, size:[{weight: small, price: sprice}, {weight: medium, price: mprice}, {weight: large, price: lprice}]
+            name, imgUrl, description, categoryId, size:[{weight: small, price: sprice}, {weight: medium, price: mprice}, {weight: large, price: lprice}]
 
         })
 

@@ -91,10 +91,21 @@ router.get('/wishlist', auth, async(req, res)=> {
 
 })
 
+// user
+
+router.get('/admin', async(req, res)=> {
+
+  const user = await User.find({role: "admin"})
+      res.status(200).json({
+        success: true,
+       data: user
+      })
+
+})
 
 router.get('/user', async(req, res)=> {
 
-  const user = await User.find({})
+  const user = await User.find({role: "user"})
       res.status(200).json({
         success: true,
        data: user

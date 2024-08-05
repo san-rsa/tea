@@ -186,7 +186,7 @@ const corsOptions = {
   origin: process.env.ORIGIN,
   credentials: true,
   allowedHeaders: [
-    "set-cookie",
+    //"set-cookie",
     "Content-Type",
     "Access-Control-Allow-Origin",
     "Access-Control-Allow-Credentials"
@@ -258,7 +258,7 @@ router.get('/', (req, res) => {
 app.use('/auth', user)
 app.use('/admin/add', adminadd)
 app.use('/admin/edit', adminedit)
-app.use('/admin/delete', admindel)
+app.use('/admin/del', admindel)
 app.use("/getall/", getall)
 app.use("/getone", getone)
 app.use("/cart", cart)

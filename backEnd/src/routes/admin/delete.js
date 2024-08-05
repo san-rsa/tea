@@ -10,18 +10,35 @@ const jwt= require('jsonwebtoken')
 const otpGenerator = require("otp-generator");
 const User = require('../../models/user')
 // const Product = require('../models/product')
-// const Auth = require('../middleware/mid')
+const {auth} = require('../../middleware/mid')
 
 
 
 
+
+
+
+router.patch('/admin' ,async (req, res, next) => {
+    try {
+
+        const data = await User.findByIdAndUpdate(req.body.productId, {
+            $set: req.body, role: 'user'
+        }, { new: true });
+        res.json(data);
+        console.log(data, "user updated successfully!");
+    } catch (error) {
+        return next(error);
+    }
+});
 
 
  
 
-router.delete('/banner/:id', async (req, res, next) => {
+router.delete('/banner', auth, async (req, res, next) => {
+    const id = req.body.productId
+
     try {
-        const data = await Banner.findByIdAndRemove(req.params.id);
+        const data = await Banner.findByIdAndDelete(id);
         res.status(200).json({
             msg: data,
         });
@@ -34,7 +51,7 @@ router.delete('/banner/:id', async (req, res, next) => {
 
 router.delete('/cart/:id', async (req, res, next) => {
     try {
-        const data = await Banner.findByIdAndRemove(req.params.id);
+        const data = await Banner.findByIdAndDelete(req.params.id);
         res.status(200).json({
             msg: data,
         });
@@ -45,9 +62,13 @@ router.delete('/cart/:id', async (req, res, next) => {
 
 
 
-router.delete('/category/:id', async (req, res, next) => {
+router.delete('/category', auth, async (req, res, next) => {
+
+    const id = req.body.productId
+
     try {
-        const data = await Category.findByIdAndRemove(req.params.id);
+
+        const data = await Category.findByIdAndDelete(id);
         res.status(200).json({
             msg: data,
         });
@@ -69,9 +90,10 @@ router.delete('/order/:id', async (req, res, next) => {
 });
 
 
-router.delete('/product/:id', async (req, res, next) => {
+router.delete('/product/', async (req, res, next) => {
     try {
-        const data = await Product.findByIdAndRemove(req.params.id);
+        const id = req.body.productId
+        const data = await Product.findOneAndDelete({name: id});
         res.status(200).json({
             msg: data,
         });

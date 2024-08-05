@@ -20,15 +20,17 @@ const {auth} = require('../middleware/mid')
 
 
 
-// UPDATE Student
-router.get('/banner/:id', async (req, res, next) => {
+// UPDATE 
+router.get('/banner/:id', auth, async (req, res, next) => {
 
+
+    console.log(req.params.id)
         try {
             const data = await Banner.findById(req.params.id)
 
-            res.json(data);
+            res.status(200).json(data);
         } catch (error) {
-            return next(error);
+            res.status(500).json(error);
         }
     })
 
@@ -48,7 +50,7 @@ router.get("/cart", auth, async (req, res) => {
                 }
               });
   
-    router.get('/cartegory/:id', async (req, res, next) => {
+    router.get('/category/:id', async (req, res, next) => {
         try {
             const data = await Category.findById(req.params.id)
 
@@ -166,40 +168,6 @@ router.get("/wishlist/:id", auth, async (req, res) => {
             return next(error);
         }
     })
-
-
-    
-
-
-
-
-
-
-//     // Update Student Data
-//     .put(async (req, res, next) => {
-//         try {
-//             const data = await Student.findByIdAndUpdate(req.params.id, {
-//                 $set: req.body,
-//             }, { new: true });
-//             res.json(data);
-//             console.log("Student updated successfully!");
-//         } catch (error) {
-//             return next(error);
-//         }
-//     });
-
-// // DELETE Student
-// router.delete('/delete-student/:id', async (req, res, next) => {
-//     try {
-//         const data = await Student.findByIdAndRemove(req.params.id);
-//         res.status(200).json({
-//             msg: data,
-//         });
-//     } catch (error) {
-//         return next(error);
-//     }
-// });
-
 
 
 
