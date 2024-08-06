@@ -1,18 +1,26 @@
 import React from "react";
 import { Link } from "react-router-dom";
-const List = ({name, price, img, id}) => {
+const List = ({name,  img, id}) => {
 
 
 
 
     return (
 
-        <Link to={"/category/" +id}>
-                    <div className="tcard">
-            <img src={img} alt="" />
-            <h2>{name}</h2>
+ 
+       <div className="tcard">
+            <Link to={"/category/" + id}>
+              <div className="img">
+                    <img src={img} alt="" />
+              </div>
+              
+              <div className="cardText">
+                <h2>{name}</h2>
+              </div>
+
+            </Link>
+  
         </div>
-        </Link>
     )
 }
 

@@ -33,7 +33,7 @@ const Menu = () => {
 
     {cat.slice(0, 4).map((project) => (
 
-        <div className='card' key={project._id}> 
+        <div className='' key={project._id}> 
 
         <List
             id={project._id}
@@ -46,8 +46,10 @@ const Menu = () => {
         )   )   }
  
 
-         <Link to={"/catlist"}> <button className={''} >MORE</button></Link>
  </div>
+         <Link to={"/catlist"}> <button className={''} >MORE</button></Link>
+
+
    </div>
 
   )}

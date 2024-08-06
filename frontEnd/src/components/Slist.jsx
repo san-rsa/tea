@@ -48,9 +48,10 @@ const Menu = () => {
 
 )   )   }
 
-<Link to={"/list"}> <button className={'more'} >MORE</button></Link>
 
     </div>
+    <Link to={"/list"}> <button className={'more'} >MORE</button></Link>
+
    </div>
 
   )}

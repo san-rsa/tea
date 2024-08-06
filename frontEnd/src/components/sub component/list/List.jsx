@@ -30,10 +30,15 @@ const List = ({name, price, img, id, size}) => {
 
         <div className="tcard">
             <Link to={"/product/" + name}>
-
-                <img src={img} alt="" />
+              <div className="img">
+                    <img src={img} alt="" />
+              </div>
+              
+              <div className="cardText">
                 <h2>{name}</h2>
                 <p>€ {price}</p>
+              </div>
+
             </Link>
   
             <button id={size} onClick={(e) => addToCart()}className="btn btn-md btn-info" > cart </button>
