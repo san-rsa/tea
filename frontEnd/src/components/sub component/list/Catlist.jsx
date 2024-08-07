@@ -8,7 +8,7 @@ const List = ({name,  img, id}) => {
     return (
 
  
-       <div className="tcard">
+       <div className="cat">
             <Link to={"/category/" + id}>
               <div className="img">
                     <img src={img} alt="" />

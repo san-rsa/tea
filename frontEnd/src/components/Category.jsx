@@ -26,17 +26,17 @@ const Menu = () => {
 
 
     return (
-    <div>  
-       <h1>MENU BY Category</h1>
+    <div className="cat">  
+       <h1>CATEGORY</h1>
 
-    <div className="category">
+    <div className="cate">
 
-    {cat.slice(0, 4).map((project) => (
+    {cat.slice(0, 2).map((project) => (
 
         <div className='' key={project._id}> 
 
         <List
-            id={project._id}
+            id={project.slug}
             name={project.name}
             img={project.imgUrl}
             />    
@@ -47,7 +47,7 @@ const Menu = () => {
  
 
  </div>
-         <Link to={"/catlist"}> <button className={''} >MORE</button></Link>
+         {/* <Link to={"/catlist"}> <button className={'more'} >MORE</button></Link> */}
 
 
    </div>

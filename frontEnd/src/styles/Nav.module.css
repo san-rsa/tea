@@ -3,7 +3,8 @@ nav {
     background: #28895A;
     margin: 0;
     padding: 0;
-    width: fit-content%;
+    width: 100%;
+    position: relative;
 
 }
 
@@ -15,8 +16,11 @@ nav h1 {
 
 .rnav {
     float: right;
-    padding: 2px 5px;
-    margin: auto 5%;    
+    padding: 2px ;
+    right: 0px;
+    position: absolute;
+    top: 5px;
+    margin: auto 1%;    
     display: inline-flex;
 }
 

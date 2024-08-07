@@ -25,10 +25,10 @@ const Menu = () => {
 
         
 
-    <div>  
+    <div className="try">  
        <h1>TRY THIS</h1>
 
-    <div className="trending">
+    <div className="category">
 
  
         {product.slice(0, 4).map((project) => (
