@@ -5,6 +5,7 @@ import Style from "../styles/Desc.module.css"
 import Nav from "../components/sub component/Nav"
 import { useParams, Link } from "react-router-dom";
 import {  faX, faHeart } from '@fortawesome/free-solid-svg-icons'
+import { ToastContainer, toast, Bounce } from 'react-toastify';
 
 
 
@@ -165,14 +166,53 @@ const Description = ({}) => {
               price: priced
             }),
 
-          });
-          const data = await response.json();
-          console.log(data);
+          }).then((res) =>  {
+            if (res.status === 200) {
+                toast.success('added to cart', {
+              position: "top-center",
+              autoClose: 2000,
+              hideProgressBar: true,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+              transition: Bounce,
+              });
+            } else {
+             
+                toast.error('please try again later ', {
+              position: "top-center",
+              autoClose: 2000,
+              hideProgressBar: true,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+              transition: Bounce,
+              });
+            }
+          }
+        )
+            
         } catch (err) {
-          alert("Something Went Wrong");
+          toast.error('please try again later ' + err, {
+            position: "top-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            transition: Bounce,
+            });
           console.log(err);
-        }
-      }
+        };
+
+        } 
+      
 
      useEffect(() => {
         fetch(process.env.REACT_APP_API_LINK  + "getone/wishlist/" + link, {
@@ -208,7 +248,15 @@ const Description = ({}) => {
 
 
             } else {
-                
+                fetch(process.env.REACT_APP_API_LINK + "del/wishlist", {
+                    method: "DELETE",
+                    credentials: "include",
+                    headers: {
+                      "Content-type": "application/json",
+                    },
+                    body: JSON.stringify({productId: info._id }),
+                 }).then((res) =>  res.json())
+                 .then( ()=> setwish(faHeart))
             }
 
 
@@ -253,7 +301,7 @@ const Description = ({}) => {
 
             <div className={Style.tea}>
             <div className={Style.imgD}>
-            <img src={info.imgUrl} alt=""/>
+            <img src={info?.imgUrl} alt=""/>
             <button name="set" className={''} value={set} onClick={wish} ><FontAwesomeIcon icon={wishlist}/> </button>
 
         </div>

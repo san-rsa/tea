@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Style from "../../../styles/Cart.module.css"
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { ToastContainer, toast, Bounce } from 'react-toastify';
 
 
 import {faX } from '@fortawesome/free-solid-svg-icons'
@@ -10,6 +11,24 @@ import {faX } from '@fortawesome/free-solid-svg-icons'
 
 const Cart = ({ name, img, weight, prc, quan, add, minus, del, id, size, refresh}) => {
 
+  const [product, setproduct] = useState([])
+
+
+
+
+
+
+
+  useEffect(() => {
+
+
+      fetch(process.env.REACT_APP_API_LINK  + "getall/cart/", {
+          credentials: "include",
+          headers: { "Content-type": "application/json; charset=UTF-8", },
+      }).then((res) =>  res.json())
+      .then((data) => (setproduct(data.data)));
+
+  }, [])
 
      function del(e) {
         e.preventDefault()
@@ -27,13 +46,62 @@ const Cart = ({ name, img, weight, prc, quan, add, minus, del, id, size, refresh
               productId: id,
             }),
     
-          }).then((res) =>  res.json())
+          }).then((res) =>  {
+              if (res.status === 200) {
+                  toast.success('removed from cart', {
+                position: "top-center",
+                autoClose: 2000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                transition: Bounce,
+                });
+
+
+                fetch(process.env.REACT_APP_API_LINK  + "getall/cart/", {
+                  credentials: "include",
+                  headers: { "Content-type": "application/json; charset=UTF-8", },
+              }).then((res) =>  res.json())
+              .then((data) => (setproduct(data.data)));
+              } else {
+               
+                  toast.error('please try again later ', {
+                position: "top-center",
+                autoClose: 2000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                transition: Bounce,
+                });
+              }
+            }
+          )
+              
+          } catch (err) {
+            toast.error('please try again later ' + err, {
+              position: "top-center",
+              autoClose: 2000,
+              hideProgressBar: true,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+              transition: Bounce,
+              });
+            console.log(err);
+          }
+          }
+
     
-        } catch (err) {
-          alert("Something Went Wrong");
-          console.log(err);
-        }
-      }
+       
+      
 
       
 
@@ -45,17 +113,31 @@ const Cart = ({ name, img, weight, prc, quan, add, minus, del, id, size, refresh
 
 
                 <div className={Style.item}>
+
+                  
+                <Link to={"/product/" + name}>
+       
                     <div className={Style.img}>
                         <img src={img} alt="tea" />
                     </div>
+            </Link>
+             
 
 
 
 
                     <div className={Style.text}>
-                        <div className={Style.name}>
+
+                    <Link to={"/product/" + name}>
+       
+                      <div className={Style.name}>
                             <h2> {name}</h2>
                         </div>
+                      </Link>
+                   
+
+
+
                     <div className={Style.delete}>
                         <button className={Style.del} id={id} onClick={del} name="del"><FontAwesomeIcon id={id} icon={faX}/> </button>
                     </div>

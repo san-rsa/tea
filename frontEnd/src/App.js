@@ -21,6 +21,11 @@ import Addcategory from "./pages/admin/sub/category/Add";
 import Editcategory from "./pages/admin/sub/category/Edit";
 
 
+  import 'react-toastify/dist/ReactToastify.css';
+  // minified version is also included
+  // import 'react-toastify/dist/ReactToastify.min.css';
+
+
 
 
 
@@ -58,11 +63,11 @@ function App() {
         <Route path="/admin/editcategory/:id" element={<Editcategory />}/>
         <Route path="/admin/addcategory" element={<Addcategory />}/>
 
+   
 
-      
 
+    </Routes>       
 
-    </Routes>
   </BrowserRouter>    
  
   );

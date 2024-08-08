@@ -1,6 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { ToastContainer, toast, Bounce } from 'react-toastify';
+
+
 const List = ({name, price, img, id, size}) => {
+
 
 
 
@@ -17,11 +21,48 @@ const List = ({name, price, img, id, size}) => {
               weight: size
             }),
 
-          });
-          const data = await response.json();
-          console.log(data);
+          }).then((res) =>  {
+            if (res.status === 200) {
+                toast.success('added to cart', {
+              position: "top-center",
+              autoClose: 2000,
+              hideProgressBar: true,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+              transition: Bounce,
+              });
+            } else {
+             
+                toast.error('please try again later ', {
+              position: "top-center",
+              autoClose: 2000,
+              hideProgressBar: true,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+              transition: Bounce,
+              });
+            }
+          }
+        )
+            
         } catch (err) {
-          alert("Something Went Wrong");
+          toast.error('please try again later ' + err, {
+            position: "top-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            transition: Bounce,
+            });
           console.log(err);
         }
       }

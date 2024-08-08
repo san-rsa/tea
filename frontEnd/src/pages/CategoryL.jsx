@@ -14,7 +14,7 @@ const Menu = ({ text, img}) => {
     const link = useParams().id
 
     useEffect(() => {
-        fetch(process.env.REACT_APP_API_LINK + "category/"+ link)
+        fetch(process.env.REACT_APP_API_LINK + "getone/category/"+ link)
         .then((res) =>  res.json())
         .then((data) => setproduct(data.data));
     }, []);

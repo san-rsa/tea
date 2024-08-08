@@ -5,6 +5,7 @@
 .cartlist {
     display: block;
     width: 100%;
+    text-align: left;
 }
 
 .item {
@@ -89,11 +90,16 @@
     margin:auto 25px;
 }
 
+.cartlist a {
+    height: 120px;
+    width: 184px;
+    overflow: hidden;
+}
 
 
 /* pc */
 
-.img img {
+ .img img {
     width: -webkit-fill-available;
     height: -webkit-fill-available;
 }
@@ -147,12 +153,11 @@
  
 
     .img {
-        width: 50%;
         height: 100%;
     }
 
     .item {
-        height: 100px;
+        height: 80px;
     }
 
     .price h2, .name h2 {
@@ -169,6 +174,13 @@
         left: 4px;
         top: 5px;
     }
+
+    .cartlist a {
+        height: 80px;
+        width: 45px;
+        overflow: hidden;
+    }
+    
 
  }
 

@@ -4,11 +4,13 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import "./styles/style.css"
+import { ToastContainer, toast } from 'react-toastify';
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    
+     <ToastContainer />
     <App />
   </React.StrictMode>
 );

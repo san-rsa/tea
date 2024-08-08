@@ -31,10 +31,6 @@ const Cart = ({ text, img}) => {
             headers: { "Content-type": "application/json; charset=UTF-8", },
         }).then((res) =>  res.json())
         .then((data) => (setproduct(data.data), setimg(data.data.products), setweight(weight)));
-    
-
-      
-    
  
     }, [])
 

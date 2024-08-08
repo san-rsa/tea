@@ -1,11 +1,12 @@
 .banner {
     position: relative;
-    max-height: 550px;
+    height: 550px;
     overflow: hidden;
 }
 .banner img{
 
     width: 100%;
+    min-height: 550px;
 }
 
 .banner p, .banner h2 {
@@ -20,3 +21,16 @@
     border-radius: 13px;
 
 }
+
+
+@media (max-width: 600px) {
+
+    .banner {
+        height: 350px;
+    }
+    .banner img{
+    
+        width: 100%;
+        min-height: 350px;
+    }
+ }

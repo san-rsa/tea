@@ -24,7 +24,6 @@ input {
 .tcard {
   display: block;
   margin: auto 20px;
-  height: ;
   word-break: break-all;
   word-wrap: break-word;
   width: 150px;
@@ -32,7 +31,6 @@ input {
 }
 
 .trending {
-  display: ;
   margin: 5% ;
 }
 
@@ -68,6 +66,10 @@ input {
 
 .cat .img {
   margin: auto 50px;
+  overflow: hidden;
+  height: 340px;
+  position: relative;
+  
 }
 
 .cat img{
@@ -148,6 +150,25 @@ button ::-webkit-outer-spin-button, button ::-webkit-inner-spin-button {
 
 .tcard h2{
   font-size: small;
+}
+
+.cat .img {
+  height: 150px;
+  top: 20px;
+
+}
+
+.cat .cardText{
+  position: relative;
+  top: 20px;
+}
+
+
+.cat img{
+  width: 100%;
+  height: 200px;
+  margin: 5px;
+
 }
 
 }

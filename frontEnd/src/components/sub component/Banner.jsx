@@ -10,8 +10,6 @@ const Banner = ({ text, img}) => {
     const [banner, setbanner] = useState([])
 
 
-    console.log( process.env.REACT_APP_API_LINK)
-
     useEffect(() => {
         fetch(process.env.REACT_APP_API_LINK + "getall/banner")
         .then((res) =>  res.json())
