@@ -44,6 +44,7 @@ router.get('/cart', auth, async(req, res)=> {
 
 })
 
+
 router.get('/category', async(req, res)=> {
 
 const category = await Category.find({})

@@ -296,9 +296,9 @@ router.post('/login', async(req, res)=> {
             const options = {
                 expires: new Date(Date.now() + 86400000), 
                 httpOnly: true,  //It will make cookie not accessible on clinet side -> good way to keep hackers away
-                 secure: process.env.NODE_ENV === "production",
-		 sameSite: "none",
-		//  domain: 'https://tea-alpha.vercel.app'
+                secure: process.env.NODE_ENV === "production",
+		        // sameSite: "none",
+		        //  domain: 'https://tea-alpha.vercel.app'
 
 
             }
@@ -469,90 +469,6 @@ router.post('/logoutAll', auth, async(req, res) => {
         res.status(500).send()        
     }
 })
-
-
-
-
-
-
-
-
-
-
-
-
-//workinfg
-
-
-// router.post("/login", async (req, res) => {
-//   const { email, password } = req.body;
-
-
-
-
-//   const user = await User.findOne({ email });
-//   if (!user) return res.status(400).json("Invalid username.");
-
-
-     
-//     // test a matching password
-//     user.comparePassword(password, function(err, isMatch) {
-//         if (err) throw err;
-
-//         const token = jwt.sign({ email: user.email, password: user.password }, process.env.JWT_SECRET);
-
-
-//         res.status(200).json({ token });
-//         console.log(password, isMatch, process.env.JWT_SECRET,token); // -&gt; Password123: true
-//     });
-     
-
-
-    
-//     console.log( user)
-
-
-// });
-
-
-
-
-
-
-
-
-
-
-//Handlers from controllers
-const {isStudent, isAdmin} = require('../middleware/role')
-
-
-
-
-
-//testing protected route
-router.get("/test",auth, (req,res)=>{
-    res.json({
-        success: true,
-        message: "You are a valid Tester 👨‍💻"
-    })
-})
-//protected routes
-router.get('/student', auth, isStudent, (req,res)=>{
-    res.json({
-        success: true,
-        message: "You are a valid Student 🧑‍🎓"
-    })
-})
-
-router.get('/admin', auth, isAdmin, (req,res)=>{
-    res.json({
-        success: true,
-        message: "You are a valid Admin 😎"
-    })
-})
-
-
 
 
 

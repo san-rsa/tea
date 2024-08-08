@@ -50,15 +50,15 @@ router.get("/cart", auth, async (req, res) => {
                 }
               });
   
-    router.get('/category/:id', async (req, res, next) => {
-        try {
-            const data = await Category.findById(req.params.id)
-
-            res.json(data);
-        } catch (error) {
-            return next(error);
-        }
-    })
+              router.get('/category/:id', async(req, res)=> {
+    
+                const product = await Product.find({categoryId: req.params.id})
+                      res.status(200).json({
+                        success: true,
+                       data: product
+                      })
+                
+                })
 
     router.get('/order/:id', auth, async (req, res, next) => {
         const user = req.userId
