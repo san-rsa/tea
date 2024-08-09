@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-
 import Cartlist  from "../components/sub component/list/Cartlist";
 import Style from "../styles/Cart.module.css"
 import Nav from "../components/sub component/Nav"
@@ -8,49 +7,30 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 
 
-const Cart = ({ text, img}) => {
 
-    const [product, setproduct] = useState([])
-    const [quan, setquan] = useState(Number(0))
-    const [prc, setprc] = useState(Number())
-    const [price, setprice] = useState(Number())
-    const [weight, setweight] = useState('react')
-    const [imgs, setimg] = useState([])
-
-
-
-
-
-
- 
-    useEffect(() => {
-
-
-        fetch(process.env.REACT_APP_API_LINK  + "getall/cart/", {
+    export async function getCart(setproduct, setimg, setweight, weight) {
+            fetch(process.env.REACT_APP_API_LINK  + "getall/cart/", {
             credentials: "include",
             headers: { "Content-type": "application/json; charset=UTF-8", },
         }).then((res) =>  res.json())
-        .then((data) => (setproduct(data.data), setimg(data.data.products), setweight(weight)));
+        .then((data) => { return (setproduct(data.data), setimg(data.data.products))});
  
-    }, [])
+    }
+
+const Cart = () => {
+
+    const [product, setproduct] = useState([])
+    const [imgs, setimg] = useState([])
 
 
-
-
-
-  function setweight2(params) {
-    setweight(weight)
-  }
-
-
-
-console.log(product)
-
-
+    useEffect(() => {
+            
+     getCart(setproduct, setimg)
+  }, []);
+  
+  
    function sign(e) {
     e.preventDefault()
-
-    console.log(e.target.name)
     try {
       const response =  fetch(process.env.REACT_APP_API_LINK + "edit/cart", {
         method: "PATCH",
@@ -69,16 +49,6 @@ console.log(product)
       console.log(err);
     }
   }
-
-
-
-  function del(e) {
-    
-  }
-
-
-
-
 
 
 
@@ -105,14 +75,11 @@ console.log(product)
                     prc={project.total}
                     quan={project.quantity}
                     weight={project.weight}
-             
-                
-                    
-
+                              
                     add={sign}
                     minus={sign}
-                    // refresh={'l'}
-                    // del={del(id)}
+                    setproduct={setproduct} 
+                    setimg={setimg}
 
 
 
@@ -141,4 +108,4 @@ console.log(product)
 
 
 
-export default Cart
+export default Cart 

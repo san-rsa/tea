@@ -166,7 +166,7 @@
 
     .weight {display: none;}
 
-    .price h2, .name h2, .count {
+    .price h2, .name h2, .item {
         font-size: medium;
     }
 

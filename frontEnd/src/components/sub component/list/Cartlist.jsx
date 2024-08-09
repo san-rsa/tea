@@ -6,29 +6,17 @@ import { ToastContainer, toast, Bounce } from 'react-toastify';
 
 
 import {faX } from '@fortawesome/free-solid-svg-icons'
+import { getCart } from "../../../pages/Cart";
 
 
 
-const Cart = ({ name, img, weight, prc, quan, add, minus, del, id, size, refresh}) => {
+const Cart = ({ name,setproduct,setimg, img, weight, prc, quan, add, minus, del, id, size, refresh}) => {
 
-  const [product, setproduct] = useState([])
-
-
-
+  const [product, ] = useState([])
+  const [imgs, ] = useState([])
 
 
 
-
-  useEffect(() => {
-
-
-      fetch(process.env.REACT_APP_API_LINK  + "getall/cart/", {
-          credentials: "include",
-          headers: { "Content-type": "application/json; charset=UTF-8", },
-      }).then((res) =>  res.json())
-      .then((data) => (setproduct(data.data)));
-
-  }, [])
 
      function del(e) {
         e.preventDefault()
@@ -61,11 +49,7 @@ const Cart = ({ name, img, weight, prc, quan, add, minus, del, id, size, refresh
                 });
 
 
-                fetch(process.env.REACT_APP_API_LINK  + "getall/cart/", {
-                  credentials: "include",
-                  headers: { "Content-type": "application/json; charset=UTF-8", },
-              }).then((res) =>  res.json())
-              .then((data) => (setproduct(data.data)));
+                getCart(setproduct, setimg)
               } else {
                
                   toast.error('please try again later ', {

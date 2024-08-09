@@ -1,44 +1,37 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import "../styles/style.css"
 import Style from "../styles/Checkout.module.css"
 import Nav from "../components/sub component/Nav"
 import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
-
-import {faX } from '@fortawesome/free-solid-svg-icons'
 import  Checkoutlist  from "../components/sub component/list/Checkoutlist";
 
-const list =[ {
-    getImageSrc: () => require( "../img/Rectangle 3 (1).png"),
-    name: "bournevita",
-    price: "£ 5.00"
-},  {
-    getImageSrc: () => require("../img/Rectangle 3 (2).png"),
-    name: "top tea",
-    price: "£ 4.00"
-},
-{
-    getImageSrc: () => require( "../img/Rectangle 3.png"),
-    name: "lip tea",
-    price: "£ 9.00"
-},
-{
-    getImageSrc: () => require("../img/Rectangle 3 (1).png"),
-    name: "milo",
-    price: "£ 5.00"
-},
-{
-    getImageSrc: () => require("../img/Rectangle 3 (1).png"),
-    name: "lat tea",
-    price: "£ 7.00"
-}
-]
 
+
+
+export async function getCart(setproduct, setimg, setweight, weight) {
+    fetch(process.env.REACT_APP_API_LINK  + "getone/checkout/", {
+    credentials: "include",
+    headers: { "Content-type": "application/json; charset=UTF-8", },
+}).then((res) =>  res.json())
+.then((data) => { return (setproduct(data.data), setimg(data.data.products))});
+
+}
 
 
 const Checkout = ({ text, img}) => {
+
+    const [product, setproduct] = useState([])
+    const [imgs, setimg] = useState([])
+
+
+    useEffect(() => {
+            
+     getCart(setproduct, setimg)
+  }, []);
+  
+
+
 
 
     return (
@@ -48,21 +41,29 @@ const Checkout = ({ text, img}) => {
             <div className={Style.checkout}>
 
 
-                            {list.map((project) => (
+                            {product.products?.map((project, id) => (
 
-                    <div className=""> 
 
                     <Checkoutlist
                         price={project.price}
                         name={project.name}
-                        img={project.getImageSrc()}
-                        qty={"6"}
-                        weight={"600kg"}
-                        />    
-                        </div>
+                        key={id}
+                        id={project.sizeId}
+                        img={imgs[id].productId.imgUrl}
+                        prc={project.total}
+                        qty={project.quantity}
+                        weight={project.weight}
+                        setproduct={setproduct} 
+                        setimg={setimg}
 
+
+                        />    
 
                     )   )   }
+
+                    <div className={Style.total} > 
+                        <h3> TOTAL: € {product.totalCost}</h3>
+                    </div>
 
 
                   <div className={Style.cartbtn} >
