@@ -1,5 +1,7 @@
 require('dotenv').config()
 const User = require('../models/user')
+const Cart = require('../models/cart')
+
 // const Auth = require('../middleware/mid')
 const express = require('express')
 const router = express.Router()
@@ -33,27 +35,11 @@ const router = express.Router()
 // module.exports = router
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // const csrf = require("csurf");
 // var passport = require("passport");
 // var LocalStrategy = require("passport-local").Strategy;
 // const Product = require("../models/product");
 // const Order = require("../models/order");
-// const Cart = require("../models/cart");
 // const middleware = require("../middleware/mid");
 // const {
 //   userSignUpValidationRules,
@@ -65,109 +51,6 @@ const router = express.Router()
 // router.use(csrfProtection);
 
 
-// // POST: handle the signup logic
-// router.post("/register",
-//   [
-//     middleware.isNotLoggedIn,
-//     userSignUpValidationRules(),
-//     validateSignup,
-//     passport.authenticate("local.signup", {
-//       successRedirect: "/user/profile",
-//       failureRedirect: "/user/signup",
-//       failureFlash: true,
-//     }),
-//   ],
-//   async (req, res) => {
-//     try {
-//       //if there is cart session, save it to the user's cart in db
-//       if (req.session.cart) {
-//         const cart = await new Cart(req.session.cart);
-//         cart.user = req.user._id;
-//         await cart.save();
-//       }
-//       // redirect to the previous URL
-//       if (req.session.oldUrl) {
-//         var oldUrl = req.session.oldUrl;
-//         req.session.oldUrl = null;
-//         res.redirect(oldUrl);
-//       } else {
-//         res.redirect("/user/profile");
-//       }
-//     } catch (err) {
-//       console.log(err);
-//       req.flash("error", err.message);
-//       return res.redirect("/");
-//     }
-//   }
-// );
-
-
-// // POST: handle the signin logic
-// router.post( "/signin",
-//   [
-//     middleware.isNotLoggedIn,
-//     userSignInValidationRules(),
-//     validateSignin,
-//     passport.authenticate("local.signin", {
-//       failureRedirect: "/user/signin",
-//       failureFlash: true,
-//     }),
-//   ],
-//   async (req, res) => {
-//     try {
-//       // cart logic when the user logs in
-//       let cart = await Cart.findOne({ user: req.user._id });
-//       // if there is a cart session and user has no cart, save it to the user's cart in db
-//       if (req.session.cart && !cart) {
-//         const cart = await new Cart(req.session.cart);
-//         cart.user = req.user._id;
-//         await cart.save();
-//       }
-//       // if user has a cart in db, load it to session
-//       if (cart) {
-//         req.session.cart = cart;
-//       }
-//       // redirect to old URL before signing in
-//       if (req.session.oldUrl) {
-//         var oldUrl = req.session.oldUrl;
-//         req.session.oldUrl = null;
-//         res.redirect(oldUrl);
-//       } else {
-//         res.redirect("/user/profile");
-//       }
-//     } catch (err) {
-//       console.log(err);
-//       req.flash("error", err.message);
-//       return res.redirect("/");
-//     }
-//   }
-// );
-
-// // GET: display user's profile
-// router.get("/profile", middleware.isLoggedIn, async (req, res) => {
-//   const successMsg = req.flash("success")[0];
-//   const errorMsg = req.flash("error")[0];
-//   try {
-//     // find all orders of this user
-//     allOrders = await Order.find({ user: req.user });
-//     res.render("user/profile", {
-//       orders: allOrders,
-//       errorMsg,
-//       successMsg,
-//       pageName: "User Profile",
-//     });
-//   } catch (err) {
-//     console.log(err);
-//     return res.redirect("/");
-//   }
-// });
-
-// // GET: logout
-// router.get("/logout", middleware.isLoggedIn, (req, res) => {
-//   req.logout();
-//   req.session.cart = null;
-//   res.redirect("/");
-// });
 
 
 
@@ -265,6 +148,19 @@ router.post('/login', async(req, res)=> {
             })
         }
 
+        let cart = await Cart.findOne({ userId: user._id });
+        console.log(cart, req.session)
+        // if there is a cart session and user has no cart, save it to the user's cart in db
+        if (req.session?.cart && !cart) {
+          const cart = new Cart(req.session.cart);
+          cart.user = user._id;
+          await cart.save();
+        }
+        // if user has a cart in db, load it to session
+        if (cart) {
+         // req.session.cart = cart;
+        }
+
         const payload ={
             id: user._id,
             role: user.role,
@@ -312,16 +208,7 @@ router.post('/login', async(req, res)=> {
             })
 
 
-            // .cookie("token", token, options
-            // ).status(200).json({
-            //     success: true,
-            //     token,
-            //     message: "Logged in Successfully✅"
-
-            // })
-
-
-        console.log(password, isMatch, process.env.JWT_SECRET,token); // -&gt; Password123: true
+        console.log(password, isMatch, process.env.JWT_SECRET,token); 
     });
 
 
@@ -334,19 +221,6 @@ router.post('/login', async(req, res)=> {
     }
 
 })
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -372,55 +246,6 @@ router.get("/autoLogin", (req, res) => {
 
 
 
-
-
-
-
-
-
-  router.get('/user', auth, async (req, res, next) => {
-    try {
-        const user = req.userId
-
-        
-
-
-        const data = await User.findOne({id: req.params.id})
-
-        console.log(user, data)
-
-        res.json(data);
-    } catch (error) {
-        return next(error);
-    }
-})
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   router.get("/logout", auth, (req, res) => {
 
     return res
@@ -429,46 +254,6 @@ router.get("/autoLogin", (req, res) => {
       .json({ message: "Successfully logged out 😏 🍀" });
   })
 
-
-
-
-
-
-
-
-//logout
-router.post('/users/logout', auth, async (req, res) => {
-   
-    try {
-
-        const token = req.cookies.token;
-
-
-       token =  req.user.tokens.filter((token) => {
-            return token.token !== req.token 
-        })
-
-        await req.user.save()
-        res.clearCookie("token")
-        .status(200)
-        .json({ message: "Successfully logged out 😏 🍀" });    } catch (error) {
-        res.status(500).send()
-    }
-})
-
-//Logout All 
-router.post('/logoutAll', auth, async(req, res) => {
-    try {
-        const token = req.cookies.token;
-
-        req.user.tokens = []
-        await req.user.save()
-        res.clearCookie("token")
-        .status(200)
-        .json({ message: "Successfully logged out 😏 🍀" });    } catch (error) {
-        res.status(500).send()        
-    }
-})
 
 
 

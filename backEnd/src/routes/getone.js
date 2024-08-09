@@ -2,7 +2,6 @@ require('dotenv').config()
 const Product = require('../models/product')
 const Category = require('../models/category')
 const Wishlist = require('../models/wishlist')
-
 const Cart = require('../models/cart')
 const Banner = require('../models/banner')
 const express = require('express')
@@ -34,21 +33,23 @@ router.get('/banner/:id', auth, async (req, res, next) => {
         }
     })
 
-router.get("/cart", auth, async (req, res) => {
-                const owner = req.userId
 
-
-                try {
-                  const cart = await Cart.findOne({ userId: owner });
-                  if (cart && cart.products.length > 0) {
-                    res.status(200).json(cart);
-                  } else {
-                    res.send(null);
-                  }
-                } catch (error) {
-                  res.status(500).json(error);
-                }
-              });
+    router.get('/checkout', auth, async(req, res)=> {
+        const user = req.userId
+        const data = await Cart.findOne({userId: user}).populate({path: "products", populate: {path: "productId"}})
+      
+        if (data && data.products.length > 0) {
+           res.status(200).json({
+              success: true,
+             data: data
+            })
+        } else {
+          res.send(null);
+        }
+        console.log(data)
+       
+      
+      })
   
               router.get('/category/:id', async(req, res)=> {
     

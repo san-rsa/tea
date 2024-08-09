@@ -32,15 +32,18 @@ const banner = await Banner.find({})
 
 router.get('/cart', auth, async(req, res)=> {
   const user = req.userId
-
-  
   const data = await Cart.findOne({userId: user}).populate({path: "products", populate: {path: "productId"}})
 
-  console.log(data)
-      res.status(200).json({
+  if (data && data.products.length > 0) {
+     res.status(200).json({
         success: true,
        data: data
       })
+  } else {
+    res.send(null);
+  }
+  console.log(data)
+ 
 
 })
 
@@ -94,7 +97,7 @@ router.get('/wishlist', auth, async(req, res)=> {
 
 // user
 
-router.get('/admin', async(req, res)=> {
+router.get('/admin', auth, async(req, res)=> {
 
   const user = await User.find({role: "admin"})
       res.status(200).json({
@@ -104,7 +107,7 @@ router.get('/admin', async(req, res)=> {
 
 })
 
-router.get('/user', async(req, res)=> {
+router.get('/user', auth, async(req, res)=> {
 
   const user = await User.find({role: "user"})
       res.status(200).json({
