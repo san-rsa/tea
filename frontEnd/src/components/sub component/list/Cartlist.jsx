@@ -12,11 +12,6 @@ import { getCart } from "../../../pages/Cart";
 
 const Cart = ({ name,setproduct,setimg, img, weight, prc, quan, add, minus, del, id, size, refresh}) => {
 
-  const [product, ] = useState([])
-  const [imgs, ] = useState([])
-
-
-
 
      function del(e) {
         e.preventDefault()
@@ -134,9 +129,9 @@ const Cart = ({ name,setproduct,setimg, img, weight, prc, quan, add, minus, del,
 
                     <div className={Style.quan}>
                         <div className={Style.count}>
-                            <button id={id} onClick={minus} name="minus"> - </button>
+                            <button id={size} onClick={minus} name="minus"> - </button>
                             <input type="number" min={0} name={"qty"}  value={quan} max={99} />
-                            <button id={id} onClick={add} name="add"> + </button>
+                            <button id={size} onClick={add} name="add"> + </button>
                         </div>
 
                         <div className={Style.weight}>

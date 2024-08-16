@@ -48,7 +48,7 @@ const Checkout = ({ text, img}) => {
                         price={project.price}
                         name={project.name}
                         key={id}
-                        id={project.sizeId}
+                        id={project._id}
                         img={imgs[id].productId.imgUrl}
                         prc={project.total}
                         qty={project.quantity}
@@ -65,10 +65,21 @@ const Checkout = ({ text, img}) => {
                         <h3> TOTAL: € {product.totalCost}</h3>
                     </div>
 
-
-                  <div className={Style.cartbtn} >
-                       <Link to={"/checkout"}> <button className={Style.checkout} >COMFIRM</button></Link>
+                    <form action={ "/payment"} method="POST">
+                        <div className={Style.cartbtn} >
+                       <button type="submit" className={Style.checkout}>
+                        COMFIRM
+                    </button>
                     </div>
+                    </form>
+
+                        <div className={Style.cartbtn} >
+                       <Link to={"/payment"}><button type="submit" className={Style.checkout}>
+                        COMFIRM
+                    </button> </Link>
+                    </div>
+
+             
           
 
         </div>
@@ -83,4 +94,36 @@ const Checkout = ({ text, img}) => {
 
 
 
-export default Checkout
+export default Checkout;
+
+
+const Message = ({ message }) => (
+  <section>
+    <p>{message}</p>
+  </section>
+);
+
+export function App() {
+  const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    // Check to see if this is a redirect back from Checkout
+    const query = new URLSearchParams(window.location.search);
+
+    if (query.get("success")) {
+      setMessage("Order placed! You will receive an email confirmation.");
+    }
+
+    if (query.get("canceled")) {
+      setMessage(
+        "Order canceled -- continue to shop around and checkout when you're ready."
+      );
+    }
+  }, []);
+
+  return message ? (
+    <Message message={message} />
+  ) : (
+    <Checkout />
+  );
+}

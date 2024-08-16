@@ -7,34 +7,6 @@ import Input from "./sub/Inputs";
 import Order from "../../components/sub component/list/Orderview";
 
 
-const list =[ {
-    getImageSrc: () => require( "../../img/Rectangle 3 (1).png"),
-    name: "bournevita",
-    price: "£ 5.00"
-},  {
-    getImageSrc: () => require("../../img/Rectangle 3 (2).png"),
-    name: "top tea",
-    price: "£ 4.00"
-},
-{
-    getImageSrc: () => require( "../../img/Rectangle 3.png"),
-    name: "lip tea",
-    price: "£ 9.00"
-},
-{
-    getImageSrc: () => require("../../img/Rectangle 3 (1).png"),
-    name: "milo",
-    price: "£ 5.00"
-},
-{
-    getImageSrc: () => require("../../img/Rectangle 3 (1).png"),
-    name: "lat tea",
-    price: "£ 7.00"
-}
-]
-
-
-
 
 const Profile = ({ text, img}) => {
     const navigate = useNavigate();

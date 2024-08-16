@@ -1,9 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import style from "../style/List.module.css"
+  import { ToastContainer, toast, Bounce } from 'react-toastify';
+          import { getcategory } from "../Admin";
 
-
-const List = ({name, img, id}) => {
+const List = ({name, img, data, id}) => {
 
     function del(e) {
         e.preventDefault()
@@ -21,12 +22,55 @@ const List = ({name, img, id}) => {
               productId: id,
             }),
     
-          }).then((res) =>  res.json())
-    
-        } catch (err) {
-          alert("Something Went Wrong");
-          console.log(err);
-        }
+          })
+        
+          .then((res) =>  {
+                      if (res.status === 200) {
+                          toast.success('category deleted successfully ', {
+                        position: "top-center",
+                        autoClose: 2000,
+                        hideProgressBar: true,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                        transition: Bounce,
+                        });
+          
+          
+                        getcategory(data)
+                      } else {
+                       
+                          toast.error('please try again later ', {
+                        position: "top-center",
+                        autoClose: 2000,
+                        hideProgressBar: true,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                        transition: Bounce,
+                        });
+                      }
+                    }
+                  )
+                      
+                  } catch (err) {
+                    toast.error('please try again later ' + err, {
+                      position: "top-center",
+                      autoClose: 2000,
+                      hideProgressBar: true,
+                      closeOnClick: true,
+                      pauseOnHover: true,
+                      draggable: true,
+                      progress: undefined,
+                      theme: "dark",
+                      transition: Bounce,
+                      });
+                    console.log(err);
+                  }
       }
     
 

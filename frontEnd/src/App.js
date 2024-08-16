@@ -6,6 +6,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import * as React from 'react'
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout"
+import Payment from "./pages/Payment"
+
 import Login from "./pages/user/Login";
 import Register from "./pages/user/Register";
 import Profile from "./pages/user/Profile";
@@ -45,8 +47,11 @@ function App() {
         <Route path="/list" element={<Menu />}/>
         <Route path="/category/:id" element={<CategoryL />}/>
 
+
         <Route path="/cart" element={<Cart />}/>
         <Route path="/checkout" element={<Checkout />}/>
+        <Route path="/payment" element={<Payment />}/>
+
         <Route path="/login" element={<Login />}/>
         <Route path="/register" element={<Register />}/>
         <Route path="/user" element={<Profile />}/>

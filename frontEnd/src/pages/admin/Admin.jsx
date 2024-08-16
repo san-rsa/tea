@@ -14,6 +14,80 @@ import Order from "../../components/sub component/list/Orderview";
 import { Link, useNavigate } from "react-router-dom";
 
 
+
+export function getbanner(setbanner) {
+        fetch(process.env.REACT_APP_API_LINK + "getall/banner", {
+            method: "GET",
+            credentials: "include",
+        })
+        .then((res) =>  res.json())
+        .then((data) => setbanner(data.data));
+            };
+
+ export function getcategory(setcategory) { // category vv
+        fetch(process.env.REACT_APP_API_LINK + "getall/category",  {
+            method: "GET",
+            credentials: "include",
+          }) 
+        .then((res) =>  res.json())
+        .then((data) => setcategory(data.data));
+        };
+
+export function getproduct(setproduct) { // products tea vv
+        fetch(process.env.REACT_APP_API_LINK + "getall/product",  {
+            method: "GET",
+            credentials: "include",
+          }) 
+        .then((res) =>  res.json())
+        .then((data) => setproduct(data.data));
+    };
+
+export function getuser(setuser) { // all user vv
+        fetch(process.env.REACT_APP_API_LINK + "getall/user",  {
+            method: "GET",
+            credentials: "include",
+          }) 
+        .then((res) =>  res.json())
+        .then((data) => setuser(data.data));
+    };
+
+export function getadmin(setadmin) {
+        fetch(process.env.REACT_APP_API_LINK + "getall/admin", {
+      method: "GET",
+       credentials: "include",})
+        .then((res) =>  res.json())
+        .then((data) => setadmin(data.data));
+    };
+
+    
+ export function getorder(setorder) { 
+        fetch(process.env.REACT_APP_API_LINK + "getall/order", {
+      method: "GET",
+       credentials: "include",})
+        .then((res) =>  res.json())
+        .then((data) => setorder(data.data));
+    };
+
+ export function getoneuser(setInputs, setinfo) { // user one vv
+        fetch(process.env.REACT_APP_API_LINK + "getone/user", {
+        method: "GET",
+        credentials: "include",
+        })
+        .then((res) =>  res.json())
+        .then((data) =>{ return (setInputs({
+            "name": data.name,
+            "email": data.email,
+            "phone": data.phone,
+            "address": data?.address,
+            "password": data.password,
+        }), setinfo(data))});
+    };
+
+
+
+
+
+
 const Admin =  () => {
 const navigate = useNavigate();
 
@@ -36,85 +110,16 @@ const [info, setinfo] = useState({})
 const [status, setstatus] = useState("true");
 
 
-
-
-
-
-
-function Api() {
-    useEffect(() => { // banner vv
-        fetch(process.env.REACT_APP_API_LINK + "getall/banner", {
-            method: "GET",
-            credentials: "include",
-        })
-        .then((res) =>  res.json())
-        .then((data) => setbanner(data.data));
-    }, []);
-
-    useEffect(() => { // category vv
-        fetch(process.env.REACT_APP_API_LINK + "getall/category",  {
-            method: "GET",
-            credentials: "include",
-          }) 
-        .then((res) =>  res.json())
-        .then((data) => setcategory(data.data));
-    }, []);
-
-    useEffect(() => { // products tea vv
-        fetch(process.env.REACT_APP_API_LINK + "getall/product",  {
-            method: "GET",
-            credentials: "include",
-          }) 
-        .then((res) =>  res.json())
-        .then((data) => setproduct(data.data));
-    }, []);
-
-    useEffect(() => { // all user vv
-        fetch(process.env.REACT_APP_API_LINK + "getall/user",  {
-            method: "GET",
-            credentials: "include",
-          }) 
-        .then((res) =>  res.json())
-        .then((data) => setuser(data.data));
-    }, []);
-
-
-    useEffect(() => {
-        fetch(process.env.REACT_APP_API_LINK + "getall/admin", {
-      method: "GET",
-       credentials: "include",})
-        .then((res) =>  res.json())
-        .then((data) => setadmin(data.data));
-    }, []);
-
-    
-    useEffect(() => { 
-        fetch(process.env.REACT_APP_API_LINK + "getall/order", {
-      method: "GET",
-       credentials: "include",})
-        .then((res) =>  res.json())
-        .then((data) => setorder(data.data));
-    }, []);
-
-    useEffect(() => { // user one vv
-        fetch(process.env.REACT_APP_API_LINK + "getone/user", {
-        method: "GET",
-        credentials: "include",
-        })
-        .then((res) =>  res.json())
-        .then((data) =>{ return (setInputs({
-            "name": data.name,
-            "email": data.email,
-            "phone": data.phone,
-            "address": data?.address,
-            "password": data.password,
-        }), setinfo(data))});
-    }, []);
-
-
-}
-
-Api()
+useEffect(() => {
+            
+    getproduct(setproduct)
+    getbanner(setbanner)
+    getcategory(setcategory)
+    getuser(setuser)
+    getadmin(setadmin)
+    getorder(setorder)
+    getoneuser(setInputs, setinfo)
+ }, []);
 
    
   
@@ -432,6 +437,7 @@ const edit = (e) => { // vvv
                     id={data.name}
                     name={data.name}
                     img={data.imgUrl[0]}
+                    data={setproduct}
                     />    
                    </div>
               
@@ -457,6 +463,7 @@ const edit = (e) => { // vvv
                         name={project.name}
                         img={project.imgUrl}
                         email={"eeee@gmail.com"}
+                        data={setadmin}
                         />    
                         </div>
 
@@ -489,6 +496,7 @@ const edit = (e) => { // vvv
                         name={project.name}
                         img={project.imgUrl}
                         email={project.email}
+                        data={setuser}
                         />    
                         </div>
 
@@ -510,7 +518,8 @@ const edit = (e) => { // vvv
                     <Bannerlist
                     id={data._id}
                     name={data.text}
-                    img={data.imgUrl[0]}
+                    img={data.imgUrl}
+                    data={setbanner}
                     />    
                     </div>
 
@@ -538,6 +547,7 @@ const edit = (e) => { // vvv
                     id={data._id}
                     name={data.name}
                     img={data.imgUrl[0]}
+                    data={setcategory}
                     />    
                     </div>
 

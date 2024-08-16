@@ -1,9 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import style from "../style/List.module.css"
+      import { ToastContainer, toast, Bounce } from 'react-toastify';
+                  import { getproduct } from "../Admin";
+     
 
-
-const List = ({name, price, img, stock, id}) => {
+const List = ({name, price, img, stock, id, data}) => {
     
 
     function del(e) {
@@ -22,12 +24,54 @@ const List = ({name, price, img, stock, id}) => {
               productId: id,
             }),
     
-          }).then((res) =>  res.json())
-    
-        } catch (err) {
-          alert("Something Went Wrong");
-          console.log(err);
-        }
+          })
+       .then((res) =>  {
+                              if (res.status === 200) {
+                                  toast.success('product deleted successfully ', {
+                                position: "top-center",
+                                autoClose: 2000,
+                                hideProgressBar: true,
+                                closeOnClick: true,
+                                pauseOnHover: true,
+                                draggable: true,
+                                progress: undefined,
+                                theme: "dark",
+                                transition: Bounce,
+                                });
+                  
+                  
+                                getproduct(data)
+                              } else {
+                               
+                                  toast.error('please try again later ', {
+                                position: "top-center",
+                                autoClose: 2000,
+                                hideProgressBar: true,
+                                closeOnClick: true,
+                                pauseOnHover: true,
+                                draggable: true,
+                                progress: undefined,
+                                theme: "dark",
+                                transition: Bounce,
+                                });
+                              }
+                            }
+                          )
+                              
+                          } catch (err) {
+                            toast.error('please try again later ' + err, {
+                              position: "top-center",
+                              autoClose: 2000,
+                              hideProgressBar: true,
+                              closeOnClick: true,
+                              pauseOnHover: true,
+                              draggable: true,
+                              progress: undefined,
+                              theme: "dark",
+                              transition: Bounce,
+                              });
+                            console.log(err);
+                          }
       }
 
     return (

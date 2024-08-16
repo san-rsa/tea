@@ -50,6 +50,9 @@ const Cart = () => {
     }
   }
 
+  console.log(product.products);
+
+
 
 
     return (
@@ -67,7 +70,8 @@ const Cart = () => {
 
                 <Cartlist
                     key={id}
-                    id={project.sizeId}
+                    id={project._id}
+                    size={project.sizeId}
                     price={project.price}
                     name={project.name}
                     img={imgs[id].productId.imgUrl}
