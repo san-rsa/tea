@@ -5,7 +5,7 @@ const Wishlist = require("../models/wishlist");
 const Product = require("../models/product");
 const {auth} = require("../middleware/mid")
 
-
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 
 
@@ -35,12 +35,10 @@ router.post("/cart", auth, async (req, res) => {
             })
         }
         //--If Cart Exists ----
-        console.log( size, user, productId, productDetails, cart, quantity)
 
 
         if (cart) {
             //---- Check if index exists ----
-            const indexFounds = cart.products.findIndex(item => item.productId == productId);
             const indexFound = cart.products.findIndex(item => item.sizeId == size);
 
 
@@ -49,9 +47,9 @@ router.post("/cart", auth, async (req, res) => {
             if (indexFound !== -1 && quantity <= 0) {
                 cart.products.splice(indexFound, 1);
                 if (cart.products.length == 0) {
-                    cart.subTotal = 0;
+                    cart.totalCost = 0;
                 } else {
-                    cart.subTotal = cart.items.map(item => item.total).reduce((acc, next) => acc + next);
+                    cart.totalCost = cart.items.map(item => item.total).reduce((acc, next) => acc + next);
                 }
             }
             //----------Check if product exist, just add the previous quantity with the new quantity and update the total price-------
@@ -122,31 +120,6 @@ router.post("/cart", auth, async (req, res) => {
         })
     }
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -224,6 +197,97 @@ router.post("/wishlist", auth, async (req, res) => {
     }
 });
 
+
+
+
+
+
+
+const YOUR_DOMAIN = 'http://localhost:3000';
+
+router.post('/checkout-order', auth, async (req, res) => {
+
+    const user = req.userId
+
+    const data = await Cart.findOne({userId: user})  //.populate({path: "products", populate: {path: "productId"}})
+
+
+  const session = await stripe.checkout.sessions.create({
+    customer_email: 'customer@example.com',
+    submit_type: 'pay',
+    billing_address_collection: 'auto',
+    shipping_address_collection: {
+      allowed_countries: ['IE', 'NG'],
+    },
+    line_items: [
+      {
+        // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
+        price: calculateOrderAmount(data.products.total),
+        quantity: 1,
+      },
+    ],
+    mode: 'payment',
+    success_url: `${YOUR_DOMAIN}?success=true`,
+    cancel_url: `${YOUR_DOMAIN}?canceled=true`,
+  });
+
+  res.redirect(303, session.url);
+});
+
+
+
+
+
+const calculateOrderAmount = (items) => {
+  // Calculate the order total on the server to prevent
+  // people from directly manipulating the amount on the client
+  let total = 0;
+  items.forEach((item) => {
+    total += item.products.total;
+  });
+
+  console.log(total)
+
+  return total;
+};
+
+router.post("/payment", auth, async (req, res) => {
+
+    
+    const user = req.userId
+
+    const data = await Cart.findOne({userId: user})  //.populate({path: "products", populate: {path: "productId"}})
+
+  // Create a PaymentIntent with the order amount and currency
+
+  const paymentIntent = await stripe.paymentIntents.create({
+
+    customer_email: req.email,
+    // submit_type: 'pay',
+    // billing_address_collection: 'auto',
+    // shipping_address_collection: {
+    //   allowed_countries: ['IE', 'NG'],
+    // },
+
+    // mode: 'payment',
+
+    amount: data.totalCost * 100, //calculateOrderAmount(data),
+
+    currency: "eur",
+    // In the latest version of the API, specifying the `automatic_payment_methods` parameter is optional because Stripe enables its functionality by default.
+    automatic_payment_methods: {
+        enabled: true,
+      },
+  });
+
+
+    console.log(data?.products.total)
+
+
+  res.send({
+    clientSecret: paymentIntent.client_secret,
+  });
+});
 
 
 

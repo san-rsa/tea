@@ -12,9 +12,9 @@
   "keywords": [],
   "author": "SANUTH",
   "license": "ISC",
+  "proxy": "http://localhost:3000",
   "dependencies": {
     "admin-bro": "",
-    "dotenv": "",
     "admin-bro-expressjs": "",
     "admin-bro-mongoose": "",
     "bcrypt": "^5.1.1",
@@ -56,7 +56,7 @@
     "react-dom": "",
     "session": "^0.1.0",
     "slugify": "",
-    "stripe": "",
+    "stripe": "^16.7.0",
     "styled-components": ""
   }
 }

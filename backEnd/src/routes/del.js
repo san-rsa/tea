@@ -13,14 +13,26 @@ router.delete("/cart", auth, async (req, res) => {
     const userId = req.userId
     const productId = req.body.productId
 
+    console.log(productId)
+
+
      try {
-        const cart = await Cart.findOneAndUpdate( {userId: userId}, {$pull: {products: {sizeId: productId}}});
+        const cart = await Cart.findOneAndUpdate( {userId: userId}, {$pull: {products: {_id: productId}}});
   
-        return res.status(200).json(cart)
+        const newCart = await Cart.findOne( {userId: userId})
+        
+            if (cart) {
+               cart.totalCost = newCart.products.map(item => item.total).reduce((acc, next) => acc + next);
+
+            }
+            const data = await cart.save();
+
+
+        return res.status(200).json(data)
 
       
         
-    } catch (err) {
+}catch (err) {
         console.log(err)
         res.status(400).json({
             type: "Invalid",
