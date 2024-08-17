@@ -452,7 +452,7 @@ const edit = (e) => { // vvv
                 <h1 > ADMIN</h1>
                 <button className={Style.add}> <Link to={"/admin/addadmin"}> ADD NEW</Link> </button>
 
-                {admin.map((project) => (
+                {admin?.map((project) => (
 
                     <div className="card" key={project._id}> 
 
@@ -462,8 +462,9 @@ const edit = (e) => { // vvv
                         id={project._id}
                         name={project.name}
                         img={project.imgUrl}
-                        email={"eeee@gmail.com"}
+                        email={project.email}
                         data={setadmin}
+                        data2={setuser}
                         />    
                         </div>
 
@@ -497,6 +498,7 @@ const edit = (e) => { // vvv
                         img={project.imgUrl}
                         email={project.email}
                         data={setuser}
+                        data2={setadmin}
                         />    
                         </div>
 

@@ -2,9 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Style from "../../style/AdminList.module.css"
   import { ToastContainer, toast, Bounce } from 'react-toastify';
-import { getadmin } from "../../Admin";
+import { getadmin, getuser } from "../../Admin";
 
-const List = ({name, img, email, id, data}) => {
+const List = ({name, img, email, id, data, data2}) => {
     
     function del(params) {
         try {
@@ -35,6 +35,8 @@ const List = ({name, img, email, id, data}) => {
                     
                     
                                   getadmin(data)
+                                  getuser(data2)
+
                                 } else {
                                  
                                     toast.error('please try again later ', {

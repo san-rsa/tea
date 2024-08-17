@@ -161,8 +161,8 @@ function AutoPlay() {
   const settings = {
     dots: false,
     infinite: true,
-    slidesToShow: 4,
-    slidesToScroll: 1,
+    slidesToShow: 2,
+    slidesToScroll: 2,
     autoplay: true,
     speed: 2000,
     autoplaySpeed: 2000,

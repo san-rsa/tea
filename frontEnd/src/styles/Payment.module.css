@@ -42,7 +42,7 @@
   }
   
   /* Buttons and links */
-  button {
+ .app button {
     background: #54d465;
     font-family: Arial, sans-serif;
     color: #ffffff;
@@ -59,11 +59,11 @@
     width: 100%;
   }
   
-  button:hover {
+ .app button:hover {
     filter: contrast(115%);
   }
   
-  button:disabled {
+ .app button:disabled {
     opacity: 0.5;
     cursor: default;
   }

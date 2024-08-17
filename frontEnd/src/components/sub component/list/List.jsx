@@ -77,12 +77,20 @@ const List = ({name, price, img, id, size}) => {
               
               <div className="cardText">
                 <h2>{name}</h2>
+              </div>
+
+              <div className="price">
                 <p>€ {price}</p>
+
               </div>
 
             </Link>
-  
+
+            <div className="button">
             <button id={size} onClick={(e) => addToCart()}className="btn btn-md btn-info" > cart </button>
+
+            </div>
+  
         </div>
 
     )
