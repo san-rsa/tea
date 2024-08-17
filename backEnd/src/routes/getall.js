@@ -6,7 +6,7 @@ const express = require('express')
 const router = express.Router()
 const bcrypt = require('bcrypt')
 const jwt= require('jsonwebtoken')
-const {auth} = require('../middleware/mid')
+const {auth, role} = require('../middleware/mid')
 
 //const OTP = require('../models/OTP')
 const otpGenerator = require("otp-generator");
@@ -97,7 +97,7 @@ router.get('/wishlist', auth, async(req, res)=> {
 
 // user
 
-router.get('/admin', auth, async(req, res)=> {
+router.get('/admin', auth, role("admin"), async(req, res)=> {
 
   const user = await User.find({role: "admin"})
       res.status(200).json({

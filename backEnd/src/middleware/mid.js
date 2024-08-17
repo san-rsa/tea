@@ -10,63 +10,8 @@ app.use(cookieParser());
 const jwt = require('jsonwebtoken')
 const User = require('../models/user')
 //a middleware to check if a user is logged in or not
-middlewareObject.isNotLoggedIn = (req, res, next) => {
-  if (!req.isAuthenticated()) {
-    return next();
-  }
-  res.redirect("/");
-};
-
-middlewareObject.isLoggedIn = (req, res, next) => {
-  if (req.isAuthenticated()) {
-    return next();
-  }
-  res.redirect("/user/signin");
-};
-
-module.exports = middlewareObject;
 
 
-
-
-
-
-
-
-
-
-
-// const auths = async(req, res, next) => {
-//     try {
-//         const token = req.header('Authorization').replace('Bearer ', '')
-//         const decoded = jwt.verify(token, process.env.JWT_SECRET)
-//         const user = await User.findOne({ _id: decoded._id, 'tokens.token':token })
-        
-//         if(!user) {
-//             throw new Error
-//         }
-//         req.token = token
-//         req.user = user
-//         next()
-//     } catch (error) {
-//         res.status(401).send({error: "Authentication required"})
-//     }
-// }
-
-// module.exports = auths
-
-
-
-
-const SECRET_KEY = "tttt"; // Store this securely!
-const generateToken = (user) => {
-  return jwt.sign({ id: user._id, email: user.email }, SECRET_KEY, {
-    expiresIn: "5h",
-  });
-};
-const verifyToken = (token) => {
-  return jwt.verify(token, SECRET_KEY);
-};
 
 
 
@@ -92,11 +37,16 @@ const auth = (req, res, next) => {
 
 
 
-const role = (role) => async (req, res, next) => {
+const role =  (role)  => async (req, res, next) => {
+
+
   try {
-    const user = await User.findById(req.userId);
+    const user = req.userRole
+
+    console.log(user+'oo')
+
     
-    if (user.role !== role) {
+    if (user !== role) {
       return res.status(403).json({ error: 'Forbidden' });
     }
     
@@ -118,4 +68,6 @@ const role = (role) => async (req, res, next) => {
 
 
 
-module.exports = { generateToken, verifyToken, auth, role };
+
+
+module.exports = {  auth, role };
