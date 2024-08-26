@@ -4,116 +4,6 @@ import "../styles/style.css";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-// import Slider from "react-slick";
-
-// const Menu = () => {
-
-
-
-
-//     const [product, setproduct] = useState([])
-
-
-//     console.log( process.env.REACT_APP_API_LINK)
-
-//     useEffect(() => {
-//         fetch(process.env.REACT_APP_API_LINK + "getall/product")
-//         .then((res) =>  res.json())
-//         .then((data) => setproduct(data.data));
-//     }, []);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//   const settings = {
-//     dots: true,
-//     infinite: true,
-//     slidesToShow: 3,
-//     slidesToScroll: 1,
-//     autoplay: true,
-//     speed: 2000,
-//     autoplaySpeed: 2000,
-//     cssEase: "linear"
-//   };
-
-
-
-        
-
-//     <div>  
-//        <h1>TRENDING</h1>
-
-//     <div className="trending">
-
- 
-//         {product.slice(0, 4).map((project) => (
-
-// <div className="card" key={project._id}> 
-
-//   <List
-//       id={project._id}
-//       price={project.size[0].price}
-//       name={project.name}
-//       img={project.imgUrl}
-//       size={project.size[0]._id}
-//     />    
-//     </div>
-
-
-// )   )   }
-//     </div>
-//     <div className="slider-container">
-//       <Slider {...settings}>
-//         <div>
-//           <h3>1</h3>
-//         </div>
-//         <div>
-//           <h3>2</h3>
-//         </div>
-//         <div>
-//           <h3>3</h3>
-//         </div>
-//         <div>
-//           <h3>4</h3>
-//         </div>
-//         <div>
-//           <h3>5</h3>
-//         </div>
-//         <div>
-//           <h3>6</h3>
-//         </div>
-//       </Slider>
-//     </div>
-//    </div>
-
-//   }
-
-// export default Menu
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 import Slider from "react-slick";
@@ -147,7 +37,46 @@ function AutoPlay() {
 
 
         const [product, setproduct] = useState([])
+        const [width, setwidth] = useState(Number)
+        const [screenSize, setScreenSize] = useState({
+          width: window.innerWidth,
+          height: window.innerHeight,
+        });
+      
+        useEffect(() => {
+          const handleResize = () => {
+            setScreenSize({
+              width: window.innerWidth,
+              height: window.innerHeight,
+            });
 
+            widths()
+          };
+
+
+          widths()
+
+      
+          window.addEventListener('resize', handleResize);
+
+      
+      
+          // Clean up the event listener when the component unmounts
+          return () => {
+            window.removeEventListener('resize', handleResize);
+          };
+        }, []);
+
+        function widths() {
+          if (screenSize.width <= 600) {
+            setwidth(2)
+          } else if (screenSize.width <= 300) {
+            setwidth(1)
+          } else {
+            setwidth(4)
+          }
+        }
+      
 
     console.log( process.env.REACT_APP_API_LINK)
 
@@ -161,10 +90,10 @@ function AutoPlay() {
   const settings = {
     dots: false,
     infinite: true,
-    slidesToShow: 2,
-    slidesToScroll: 2,
+    slidesToShow: width,
+    slidesToScroll: 1,
     autoplay: true,
-    speed: 2000,
+    speed: 4000,
     autoplaySpeed: 2000,
     cssEase: "linear",
     nextArrow: <SampleNextArrow />,
@@ -200,124 +129,6 @@ function AutoPlay() {
 }
 
 export default AutoPlay;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import {React, useState, useEffect} from "react";
-// import List from "./sub component/list/List";
-// import "../styles/style.css";
-
-// import "slick-carousel/slick/slick.css";
-// import "slick-carousel/slick/slick-theme.css";
-// import Slider from "react-slick";
-
-// const Menu = () => {
-
-
-
-
-//     const [product, setproduct] = useState([])
-
-
-//     console.log( process.env.REACT_APP_API_LINK)
-
-//     useEffect(() => {
-//         fetch(process.env.REACT_APP_API_LINK + "getall/product")
-//         .then((res) =>  res.json())
-//         .then((data) => setproduct(data.data));
-//     }, []);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//   const settings = {
-//     dots: true,
-//     infinite: true,
-//     slidesToShow: 3,
-//     slidesToScroll: 1,
-//     autoplay: true,
-//     speed: 2000,
-//     autoplaySpeed: 2000,
-//     cssEase: "linear"
-//   };
-
-
-
-        
-
-//     <div>  
-//        <h1>TRENDING</h1>
-
-//     {/* <div className="trending">
-
- 
-//         {product.slice(0, 4).map((project) => (
-
-// <div className="card" key={project._id}> 
-
-//   <List
-//       id={project._id}
-//       price={project.size[0].price}
-//       name={project.name}
-//       img={project.imgUrl}
-//       size={project.size[0]._id}
-//     />    
-//     </div>
-
-
-// )   )   }
-//     </div> */}
-//     <div className="slider-container">
-//       <Slider {...settings}>
-//         <div>
-//           <h3>1</h3>
-//         </div>
-//         <div>
-//           <h3>2</h3>
-//         </div>
-//         <div>
-//           <h3>3</h3>
-//         </div>
-//         <div>
-//           <h3>4</h3>
-//         </div>
-//         <div>
-//           <h3>5</h3>
-//         </div>
-//         <div>
-//           <h3>6</h3>
-//         </div>
-//       </Slider>
-//     </div>
-//    </div>
-
-//   }
-
-// export default Menu
 
 
 

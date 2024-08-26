@@ -23,11 +23,14 @@ input {
 /* trending % menu */
 
 .tcard {
-  display: block;
+  display: flex;
   margin: auto 20px;
   word-break: break-all;
   word-wrap: break-word;
   width: 150px;
+  height: 300px;
+  justify-content: space;
+  flex-flow: wrap;
 
 }
 
@@ -82,7 +85,7 @@ input {
 }
 
 .tcard .img, .mcard .img{
-  height: 100px;
+  height: 150px;
   width: 150px;
   text-align: center;
   margin: auto;
@@ -119,8 +122,7 @@ button ::-webkit-outer-spin-button, button ::-webkit-inner-spin-button {
 }
 
 .tcard .button, .button button {
-  position: relative;
-  top: 455px;
+  margin: auto 0 0;
   width: 100%;
 
 }
@@ -157,7 +159,7 @@ button ::-webkit-outer-spin-button, button ::-webkit-inner-spin-button {
 .tcard{
   margin: 5px;
   width: auto;
-  height: 400px;
+  height: 300px;
   width: 200px;
 }
 
@@ -176,12 +178,7 @@ button ::-webkit-outer-spin-button, button ::-webkit-inner-spin-button {
     line-height: 19px !important;
 }
 
-.tcard .button, .button button {
-  position: relative;
-  top: 45px;
-  width: 100%;
 
-}
 
 .cat .img {
   height: 150px;
@@ -223,7 +220,7 @@ button ::-webkit-outer-spin-button, button ::-webkit-inner-spin-button {
 .tcard{
   margin: 5px;
   width: auto;
-  height: 300px;
+  height: 250px;
   width: 134px;
 }
 
@@ -242,14 +239,6 @@ button ::-webkit-outer-spin-button, button ::-webkit-inner-spin-button {
     line-height: 19px !important;
 }
 
- .button button {
-  position: relative;
-  top: 25px;
-  width: 90%;
-  padding: auto 10px;
-  margin: auto ;
-
-}
 
 .cat .img {
   height: 150px;
