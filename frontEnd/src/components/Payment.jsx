@@ -12,6 +12,13 @@ import Inputs from "../pages/user/sub/Inputs";
  import Style from "../styles/Payment.module.css"
 
 
+function order() {
+         fetch(process.env.REACT_APP_API_LINK + 'admin/add/product/', {
+          method: 'POST',
+          credentials: "include",
+          headers: {'Content-Type': 'application/json'},
+          })
+}
 
  function CheckoutForm() {
   const stripe = useStripe();
@@ -80,9 +87,14 @@ import Inputs from "../pages/user/sub/Inputs";
         // Make sure to change this to your payment completion page
         return_url: "http://localhost:3000",
         receipt_email: data.email,
+      
 
       },
-    });
+      
+
+ 
+  
+  });
 
     // This point will only be reached if there is an immediate error when
     // confirming the payment. Otherwise, your customer will be redirected to
@@ -106,7 +118,6 @@ import Inputs from "../pages/user/sub/Inputs";
     <form id={Style.payment_form} onSubmit={handleSubmit}>
 
       <PaymentElement id={Style.payment_element} options={paymentElementOptions} />
-      <Inputs name="email" type={"email"} onchange={handleChange} value={data.email} class={"email"} label={"email"} />
       <AddressElement options={{mode: 'shipping',   allowedCountries: ['US', 'IE', 'NG'],
           blockPoBox: true,
           fields: {
