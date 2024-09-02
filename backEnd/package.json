@@ -56,7 +56,7 @@
     "react-dom": "",
     "session": "^0.1.0",
     "slugify": "",
-    "stripe": "^16.7.0",
+    "stripe": "^16.9.0",
     "styled-components": ""
   }
 }

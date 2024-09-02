@@ -7,46 +7,45 @@ const orderSchema = new mongoose.Schema({
     },
 
     products: [{
-        productId: {type: mongoose.Schema.Types.ObjectId, ref: 'Item', required: true
-        },
-
-        name: {type: String,
-          },
-
-        quantity: {type: Number, required: true, min: 1, default: 1
-        },
-
-        weight: {type: Number, required: true, min: 1, default: 1
-        },
-
-
-        price: {type: Number, default: 0,
-        },
-  
-        productCode: {type: String,
-          },
-
-    }],
-
-    cart: {
-        totalQty: {type: Number, default: 0, required: true,
-        },
-
-        totalCost: {type: Number, default: 0, required: true,
-        },
+      productId: {type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true
       },
 
-      address: {type: String, required: true,
+      sizeId: {type: mongoose.Schema.Types.ObjectId, ref: 'size', required: true
       },
 
-      paymentId: {type: String, required: true,
+      name: {type: String, required: true
       },
 
-      createdAt: {type: Date, default: Date.now,
+      quantity: {type: Number, required: true, min: 1, default: 1
       },
 
-      Delivered: {type: Boolean, default: false,
+      weight: {type: Number, min: 0, default: 0
       },
+      price: {type: Number, default: 0,
+      },
+
+      total: {type: Number, default: 0,
+      },
+
+      productCode: {type: String,
+      },
+  }],
+
+      totalCost: {type: Number, default: 0, required: true,
+        },
+    
+
+      // address: {type: String, required: true,
+      // },
+
+       paymentId: {type: String, required: true,
+       },
+
+      // createdAt: {type: Date, default: Date.now,
+      // },
+
+      // Delivered: {type: Boolean, default: false,
+      // },
 }, {
     timestamps: true
 })

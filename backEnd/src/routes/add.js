@@ -3,8 +3,8 @@ const router = new express.Router();
 const Cart = require("../models/cart");
 const Wishlist = require("../models/wishlist");
 const Product = require("../models/product");
-const {auth} = require("../middleware/mid")
-
+const {auth} = require("../middleware/mid");
+const Order = require("../models/order");
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 
@@ -124,6 +124,83 @@ router.post("/cart", auth, async (req, res) => {
 
 
 
+
+
+
+router.post("/order-success", auth, async (req, res) => {
+    // if (!req.session.cart) {
+    //   return res.redirect("/shopping-cart");
+    // }
+
+
+    const user = req.userId
+
+    const cart = await Cart.findOne({userId: user})  //.populate({path: "products", populate: {path: "productId"}})
+
+  // Create a PaymentIntent with the order amount and currency
+
+  const paymentIntent = await stripe.paymentIntents.create({
+
+    customer_email: req.email,
+    // submit_type: 'pay',
+    // billing_address_collection: 'auto',
+    // shipping_address_collection: {
+    //   allowed_countries: ['IE', 'NG'],
+    // },
+
+    // mode: 'payment',
+
+    amount: cart.totalCost * 100, //calculateOrderAmount(data),
+
+    currency: "eur",
+    // In the latest version of the API, specifying the `automatic_payment_methods` parameter is optional because Stripe enables its functionality by default.
+    automatic_payment_methods: {
+        enabled: true,
+      },
+    
+  },
+
+
+  
+);
+
+
+    console.log(cart)
+
+  function order (err) {
+    if (err) {
+      console.log(err+44);
+      return res.redirect("/checkout");
+    }
+    const order = new Order({
+      userId: user,
+      
+        totalCost: cart.totalCost,
+        products: cart.products,
+    
+    //   address: req.body.address,
+      paymentId: paymentIntent.id,
+    });
+    order.save();
+    // req.session?.cart = null;
+         cart.save();
+          Cart.findByIdAndDelete(cart._id);
+
+  }
+
+   order()
+
+  res.send({
+    clientSecret: paymentIntent.client_secret,
+  });
+
+
+  });
+
+
+
+
+
 router.post("/wishlist", auth, async (req, res) => {
     const user = req.userId
     const productId = req.body.productId
@@ -222,7 +299,7 @@ router.post('/checkout-order', auth, async (req, res) => {
     line_items: [
       {
         // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
-        price: calculateOrderAmount(data.products.total),
+        price: data.products.total,
         quantity: 1,
       },
     ],
@@ -237,26 +314,12 @@ router.post('/checkout-order', auth, async (req, res) => {
 
 
 
-
-const calculateOrderAmount = (items) => {
-  // Calculate the order total on the server to prevent
-  // people from directly manipulating the amount on the client
-  let total = 0;
-  items.forEach((item) => {
-    total += item.products.total;
-  });
-
-  console.log(total)
-
-  return total;
-};
-
 router.post("/payment", auth, async (req, res) => {
 
     
     const user = req.userId
 
-    const data = await Cart.findOne({userId: user})  //.populate({path: "products", populate: {path: "productId"}})
+    const cart = await Cart.findOne({userId: user})  //.populate({path: "products", populate: {path: "productId"}})
 
   // Create a PaymentIntent with the order amount and currency
 
@@ -271,18 +334,45 @@ router.post("/payment", auth, async (req, res) => {
 
     // mode: 'payment',
 
-    amount: data.totalCost * 100, //calculateOrderAmount(data),
+    amount: cart.totalCost * 100, //calculateOrderAmount(data),
 
     currency: "eur",
     // In the latest version of the API, specifying the `automatic_payment_methods` parameter is optional because Stripe enables its functionality by default.
     automatic_payment_methods: {
         enabled: true,
       },
-  });
+    
+  },
 
 
-    console.log(data?.products.total)
+  
+);
 
+
+    console.log(cart)
+
+  function order (err) {
+    if (err) {
+      console.log(err+44);
+      return res.redirect("/checkout");
+    }
+    const order = new Order({
+      userId: user,
+      
+        totalCost: cart.totalCost,
+        products: cart.products,
+    
+    //   address: req.body.address,
+      paymentId: paymentIntent.id,
+    });
+    order.save();
+    // req.session?.cart = null;
+         cart.save();
+          Cart.findByIdAndDelete(cart._id);
+
+  }
+
+   order()
 
   res.send({
     clientSecret: paymentIntent.client_secret,
