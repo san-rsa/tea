@@ -238,6 +238,7 @@ const cart = require('./src/routes/cart');
 const add = require('./src/routes/add');
 const edit = require('./src/routes/edit');
 const del = require('./src/routes/del');
+const payment = require('./src/routes/payment')
 
 
 const router = express.Router()
@@ -265,6 +266,7 @@ app.use("/cart", cart)
 app.use("/add", add)
 app.use("/edit", edit)
 app.use("/del", del)
+app.use("/payment", payment)
 
 
 

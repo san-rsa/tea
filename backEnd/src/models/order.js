@@ -41,6 +41,9 @@ const orderSchema = new mongoose.Schema({
        paymentId: {type: String, required: true,
        },
 
+       paymentStatus: {type: String, required: true,
+       },
+
       // createdAt: {type: Date, default: Date.now,
       // },
 
