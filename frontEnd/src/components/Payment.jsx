@@ -159,7 +159,7 @@ export default function Payment() {
 
   useEffect(() => {
     // Create PaymentIntent as soon as the page loads
-    fetch(process.env.REACT_APP_API_LINK + "add/payment", {
+    fetch(process.env.REACT_APP_API_LINK + "payment", {
       method: "POST",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
