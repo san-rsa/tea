@@ -10,6 +10,89 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 
 
+
+
+
+
+
+
+
+router.post("/wishlist", auth, async (req, res) => {
+  const user = req.userId
+  const productId = req.body.productId
+
+  try {
+      const wishlist = await Wishlist.findOne({ userId: user });
+     // let productDetailss = await productById(productId);
+      const productDetails = await Product.findOne({ _id: productId });
+
+           if (!productDetails) {
+          return res.status(500).json({
+              type: "Not Found",
+              msg: "Invalid request"
+          })
+      }
+      //--If Cart Exists ----
+
+
+      if (wishlist) {
+          //---- Check if index exists ----
+          const indexFound = wishlist.products.findIndex(item => item.productId == productId);
+
+      console.log( user, productId, wishlist, "2222" , indexFound, productDetails.name )
+
+
+          //----Check if quantity is greater than 0 then add item to items array ----
+          if (indexFound == -1 ) {
+              wishlist.products.push({
+                  productId: productId,
+                  name : productDetails.name,
+              })
+          }
+          //----If quantity of price is 0 throw the error -------
+          else {
+              return res.status(400).json({
+              type: "product added",
+              msg: "you have this product in your list"
+              })
+          }
+          const data = await wishlist.save();
+          res.status(200).json({
+              type: "success",
+              mgs: "Process successful",
+              data: data
+          })
+      }
+      //------------ This creates a new cart and then adds the item to the cart that has been created------------
+      else {
+
+
+          const newW = await Wishlist.create({
+              userId: user,
+              products: [{
+                  name: productDetails.name,
+                  productId: productId,
+              }],
+             
+            });
+      
+      
+            return res.status(201).send(newW);
+          
+      }
+  } catch (err) {
+      console.log(err)
+      res.status(400).json({
+          type: "Invalid",
+          msg: "Something went wrong",
+          err: err
+      })
+  }
+});
+
+
+
+
 // router.post("/order-success", auth, async (req, res) => {
 //     // if (!req.session.cart) {
 //     //   return res.redirect("/shopping-cart");
@@ -187,7 +270,7 @@ router.post("/", auth, async (req, res) => {
 // If you are testing with the CLI, find the secret by running 'stripe listen'
 // If you are using an endpoint defined with the API or dashboard, look in your webhook settings
 // at https://dashboard.stripe.com/webhooks
-const endpointSecret = process.env.STRIPE_ENDPOINT;
+const endpointSecret = 'whsec_4ab892302ab6ec4892387cc1022520047132237e528a41829b78d9a521aa17be'// ||   process.env.STRIPE_ENDPOINT;
 
 
 router.post('/webhooks', express.raw({type: 'application/json'}), (request, response) => {
@@ -229,7 +312,7 @@ router.post('/webhooks', express.raw({type: 'application/json'}), (request, resp
 
 
 
-router.post('/webhook', auth, express.raw({type: 'application/json'}), (request, response) => {
+router.post('/webhook',  express.raw({type: 'application/json'}), (request, response) => {
   const sig = request.headers['stripe-signature'];
 
 
@@ -251,12 +334,14 @@ router.post('/webhook', auth, express.raw({type: 'application/json'}), (request,
         async function order (err) {  
             
            const cart = await Cart.findOne({userId: user})  //.populate({path: "products", populate: {path: "productId"}})
+           const order = await Order.findOne({userId: user})  //.populate({path: "products", populate: {path: "productId"}})
 
           if (err) {
             console.log(err+44);
             return res.redirect("/checkout");
           }
-          const order = new Order({
+          
+          const orders = new Order({
             userId: user,
             
               totalCost: cart.totalCost,
@@ -267,12 +352,15 @@ router.post('/webhook', auth, express.raw({type: 'application/json'}), (request,
             paymentStatus: event.data.object.payment_status,
 
           });
-          order.save();
+          orders.save();
           // req.session?.cart = null;
+                          Cart.findByIdAndDelete(cart._id);
+
                cart.save();
-                Cart.findByIdAndDelete(cart._id);
       
         }
+
+        console.log(event)
       
          order()
    
