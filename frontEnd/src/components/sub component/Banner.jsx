@@ -1,7 +1,6 @@
 import {React, useState, useEffect} from "react";
 import  "../../styles/banner.css"
 import Bannerlist from "./list/Bannerlist"
-import { Image } from "@chakra-ui/react";
 
 
 

@@ -5,7 +5,6 @@ import Category from "../components/Category"
 import Slist from "../components/Slist";
 
 import Carousel from "../components/sub component/Carousel"
-import { ChakraProvider } from '@chakra-ui/react'
 import "../styles/style.css"
 
 

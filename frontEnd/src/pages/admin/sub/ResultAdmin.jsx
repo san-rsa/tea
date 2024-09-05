@@ -4,7 +4,6 @@ import Style from "../../../styles/Search.module.css"
 import List  from "../../../components/sub component/list/List";
 import "../../../styles/style.css"
 import "../../../styles/menu.css"
-import { Image } from "@chakra-ui/react";
 import Nav from "../../../components/sub component/Nav"
 import Catlist from "../../../components/sub component/list/Catlist"
 import Orrderview from "../../../components/sub component/list/Orderview"
