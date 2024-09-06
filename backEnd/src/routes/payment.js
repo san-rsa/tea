@@ -5,6 +5,7 @@ const Wishlist = require("../models/wishlist");
 const Product = require("../models/product");
 const {auth} = require("../middleware/mid");
 const Order = require("../models/order");
+const User = require("../models/user");
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 
@@ -17,160 +18,12 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 
 
-router.post("/wishlist", auth, async (req, res) => {
-  const user = req.userId
-  const productId = req.body.productId
-
-  try {
-      const wishlist = await Wishlist.findOne({ userId: user });
-     // let productDetailss = await productById(productId);
-      const productDetails = await Product.findOne({ _id: productId });
-
-           if (!productDetails) {
-          return res.status(500).json({
-              type: "Not Found",
-              msg: "Invalid request"
-          })
-      }
-      //--If Cart Exists ----
-
-
-      if (wishlist) {
-          //---- Check if index exists ----
-          const indexFound = wishlist.products.findIndex(item => item.productId == productId);
-
-      console.log( user, productId, wishlist, "2222" , indexFound, productDetails.name )
-
-
-          //----Check if quantity is greater than 0 then add item to items array ----
-          if (indexFound == -1 ) {
-              wishlist.products.push({
-                  productId: productId,
-                  name : productDetails.name,
-              })
-          }
-          //----If quantity of price is 0 throw the error -------
-          else {
-              return res.status(400).json({
-              type: "product added",
-              msg: "you have this product in your list"
-              })
-          }
-          const data = await wishlist.save();
-          res.status(200).json({
-              type: "success",
-              mgs: "Process successful",
-              data: data
-          })
-      }
-      //------------ This creates a new cart and then adds the item to the cart that has been created------------
-      else {
-
-
-          const newW = await Wishlist.create({
-              userId: user,
-              products: [{
-                  name: productDetails.name,
-                  productId: productId,
-              }],
-             
-            });
-      
-      
-            return res.status(201).send(newW);
-          
-      }
-  } catch (err) {
-      console.log(err)
-      res.status(400).json({
-          type: "Invalid",
-          msg: "Something went wrong",
-          err: err
-      })
-  }
-});
-
-
-
-
-// router.post("/order-success", auth, async (req, res) => {
-//     // if (!req.session.cart) {
-//     //   return res.redirect("/shopping-cart");
-//     // }
-
-
-//     const user = req.userId
-
-//     const cart = await Cart.findOne({userId: user})  //.populate({path: "products", populate: {path: "productId"}})
-
-//   // Create a PaymentIntent with the order amount and currency
-
-//   const paymentIntent = await stripe.paymentIntents.create({
-
-//     customer_email: req.email,
-//     // submit_type: 'pay',
-//     // billing_address_collection: 'auto',
-//     // shipping_address_collection: {
-//     //   allowed_countries: ['IE', 'NG'],
-//     // },
-
-//     // mode: 'payment',
-
-//     amount: cart.totalCost * 100, //calculateOrderAmount(data),
-
-//     currency: "eur",
-//     // In the latest version of the API, specifying the `automatic_payment_methods` parameter is optional because Stripe enables its functionality by default.
-//     automatic_payment_methods: {
-//         enabled: true,
-//       },
-    
-//   },
-
-
-  
-// );
-
-
-//     console.log(cart)
-
-//   function order (err) {
-//     if (err) {
-//       console.log(err+44);
-//       return res.redirect("/checkout");
-//     }
-//     const order = new Order({
-//       userId: user,
-      
-//         totalCost: cart.totalCost,
-//         products: cart.products,
-    
-//     //   address: req.body.address,
-//       paymentId: paymentIntent.id,
-//     });
-//     order.save();
-//     // req.session?.cart = null;
-//          cart.save();
-//           Cart.findByIdAndDelete(cart._id);
-
-//   }
-
-//    order()
-
-//   res.send({
-//     clientSecret: paymentIntent.client_secret,
-//   });
-
-
-//   });
-
-
-
 
 
 
 const YOUR_DOMAIN = 'http://localhost:3000';
 
-router.post('/checkout-order', auth, async (req, res) => {
+router.post('/s', auth, async (req, res) => {
 
     const user = req.userId
 
@@ -204,25 +57,34 @@ router.post('/checkout-order', auth, async (req, res) => {
 
 router.post("/", auth, async (req, res) => {
 
-    
-    const user = req.userId
+  const id = await User.findOne({_id: req.userId})  //.populate({path: "products", populate: {path: "productId"}})
+  const cart = await Cart.findOne({userId: req.userId})  //.populate({path: "products", populate: {path: "productId"}})
 
-    const cart = await Cart.findOne({userId: user})  //.populate({path: "products", populate: {path: "productId"}})
+  if (!id.paymentId) {
+    
 
   // Create a PaymentIntent with the order amount and currency
 
+  const customer = await stripe.customers.create();
+
+  const user = await User.findOneAndUpdate({_id: req.userId}, {paymentId: customer.id}, {
+    new: true
+  });
+
+
   const paymentIntent = await stripe.paymentIntents.create({
+    customer: customer.id,
+    setup_future_usage: "off_session",
+    customer_email: 'sanuthrahman@gmail.com',
+    submit_type: 'pay',
+    billing_address_collection: 'auto',
+    shipping_address_collection: {
+      allowed_countries: ['IE', 'NG'],
+    },
 
-    customer_email: req.email,
-    // submit_type: 'pay',
-    // billing_address_collection: 'auto',
-    // shipping_address_collection: {
-    //   allowed_countries: ['IE', 'NG'],
-    // },
+    mode: 'payment',
 
-    // mode: 'payment',
-
-    amount: cart.totalCost * 100, //calculateOrderAmount(data),
+    amount: 200 * 100, // cart.totalCost * 100, //calculateOrderAmount(data),
 
     currency: "eur",
     // In the latest version of the API, specifying the `automatic_payment_methods` parameter is optional because Stripe enables its functionality by default.
@@ -233,11 +95,19 @@ router.post("/", auth, async (req, res) => {
   },
 
 
-  
+      console.log(cart)
+
 );
+  }
 
 
-    console.log(cart)
+  else {
+    chargeCustomer(id.paymentId, cart)
+  }
+    
+
+
+
 
 
 
@@ -315,11 +185,14 @@ router.post('/webhooks', express.raw({type: 'application/json'}), (request, resp
 router.post('/webhook',  express.raw({type: 'application/json'}), (request, response) => {
   const sig = request.headers['stripe-signature'];
 
+  const user = request.userId
+ const rawBody = request.rawBody;
+
 
   let event;
   if (endpointSecret) {
     try {
-        event = stripe.webhooks.constructEvent(request.body, sig, endpointSecret);
+        event = stripe.webhooks.constructEvent(rawBody, sig, endpointSecret);
     } catch (err) {
         response.status(400).send(`⚠️  Webhook signature verification failed: ${err.message}`);
         console.log(`⚠️  Webhook signature verification failed.`, err.message);
@@ -330,7 +203,7 @@ router.post('/webhook',  express.raw({type: 'application/json'}), (request, resp
 
 
     
-    if (event.type === 'checkout.session.completed') {
+    if (event.type === 'payment_intent.succeeded') {
         async function order (err) {  
             
            const cart = await Cart.findOne({userId: user})  //.populate({path: "products", populate: {path: "productId"}})
@@ -348,7 +221,7 @@ router.post('/webhook',  express.raw({type: 'application/json'}), (request, resp
               products: cart.products,
           
           //   address: req.body.address,
-            paymentId:  event.data.object.id,
+            transactionId:  event.data.object.id,
             paymentStatus: event.data.object.payment_status,
 
           });
@@ -405,6 +278,91 @@ router.post('/webhook',  express.raw({type: 'application/json'}), (request, resp
 
   // Return a 200 response to acknowledge receipt of the event
   response.send();
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const chargeCustomer = async (customerId, cart) => {
+  // Lookup the payment methods available for the customer
+  const paymentMethods = await stripe.paymentMethods.list({
+    customer: customerId,
+    type: "card",
+  });
+  try {
+    // Charge the customer and payment method immediately
+
+    const paymentIntent = await stripe.paymentIntents.create({
+      customer: customerId,
+      setup_future_usage: "off_session",
+      customer_email: 'sanuthrahman@gmail.com',
+      submit_type: 'pay',
+      billing_address_collection: 'auto',
+      shipping_address_collection: {
+        allowed_countries: ['IE', 'NG'],
+      },
+        payment_method: paymentMethods.data[0].id,
+      off_session: true,
+      confirm: true,
+      mode: 'payment',
+  
+      amount: 200 * 100, // cart.totalCost * 100, //calculateOrderAmount(data),
+  
+      currency: "eur",
+      // In the latest version of the API, specifying the `automatic_payment_methods` parameter is optional because Stripe enables its functionality by default.
+      automatic_payment_methods: {
+          enabled: true,
+        },
+      
+    })
+  } catch (err) {
+    // Error code will be authentication_required if authentication is needed
+    console.log("Error code is: ", err.code);
+    const paymentIntentRetrieved = await stripe.paymentIntents.retrieve(err.raw.payment_intent.id);
+    console.log("PI retrieved: ", paymentIntentRetrieved.id);
+  }
+};
+
+router.post("/create-payment-intent", async (req, res) => {
+  const { items } = req.body;
+  // Alternatively, set up a webhook to listen for the payment_intent.succeeded event
+  // and attach the PaymentMethod to a new Customer
+  const customer = await stripe.customers.create();
+
+  // Create a PaymentIntent with the order amount and currency
+  const paymentIntent = await stripe.paymentIntents.create({
+    customer: customer.id,
+    setup_future_usage: "off_session",
+    amount: calculateOrderAmount(items),
+    currency: "eur",
+    // In the latest version of the API, specifying the `automatic_payment_methods` parameter is optional because Stripe enables its functionality by default.
+    automatic_payment_methods: {
+      enabled: true,
+    },
+  });
+
+  res.send({
+    clientSecret: paymentIntent.client_secret,
+    // [DEV]: For demo purposes only, you should avoid exposing the PaymentIntent ID in the client-side code.
+    dpmCheckerLink: `https://dashboard.stripe.com/settings/payment_methods/review?transaction_id=${paymentIntent.id}`,
+  });
 });
 
 

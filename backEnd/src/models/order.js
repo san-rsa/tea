@@ -38,7 +38,7 @@ const orderSchema = new mongoose.Schema({
       // address: {type: String, required: true,
       // },
 
-       paymentId: {type: String, required: true,
+       transactionId: {type: String, required: true,
        },
 
        paymentStatus: {type: String, required: true,

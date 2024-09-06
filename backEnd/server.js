@@ -210,7 +210,14 @@ app.set("view engine", "ejs");
 
 // app.use("/admin", adminRouter);
 
-app.use(express.json());
+// app.use(express.json());
+app.use(express.json({
+  verify: (req, res, buf) => {
+    if (req.originalUrl.startsWith('/payment/webhook')) {
+      req.rawBody = buf.toString();
+    }
+  },
+   }));
 app.use(express.urlencoded({ extended: false }));
 
 

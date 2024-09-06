@@ -25,6 +25,8 @@ const userSchema = new mongoose.Schema({
             }
         }},
 
+        paymentId: {type: Object,
+        },
         
         
     phone: {type:Number, required: true},
