@@ -36,6 +36,7 @@
     "express-session": "",
     "express-validator": "",
     "faker": "",
+    "formik": "^2.4.6",
     "http-errors": "",
     "jsonwebtoken": "^9.0.2",
     "lodash": "",
@@ -57,6 +58,7 @@
     "session": "^0.1.0",
     "slugify": "",
     "stripe": "^16.9.0",
-    "styled-components": ""
+    "styled-components": "",
+    "yup": "^1.4.0"
   }
 }

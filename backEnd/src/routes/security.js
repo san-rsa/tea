@@ -1,74 +1,13 @@
 require('dotenv').config()
 const User = require('../models/user')
 const Cart = require('../models/cart')
-
-// const Auth = require('../middleware/mid')
 const express = require('express')
 const router = express.Router()
-// const router = new express.Router()
-
-
-// router.post('/users/logout', Auth, async (req, res) => {
-   
-//     try {
-//        req.user.tokens =  req.user.tokens.filter((token) => {
-//             return token.token !== req.token 
-//         })
-
-//         await req.user.save()
-//         res.send()
-//     } catch (error) {
-//         res.status(500).send()
-//     }
-// })
-
-// //Logout All 
-// router.post('/users/logoutAll', Auth, async(req, res) => {
-//     try {
-//         req.user.tokens = []
-//         await req.user.save()
-//         res.send()
-//     } catch (error) {
-//         res.status(500).send()        
-//     }
-// })
-// module.exports = router
-
-
-// const csrf = require("csurf");
-// var passport = require("passport");
-// var LocalStrategy = require("passport-local").Strategy;
-// const Product = require("../models/product");
-// const Order = require("../models/order");
-// const middleware = require("../middleware/mid");
-// const {
-//   userSignUpValidationRules,
-//   userSignInValidationRules,
-//   validateSignup,
-//   validateSignin,
-// } = require("../connection/validator");
-// const csrfProtection = csrf();
-// router.use(csrfProtection);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 const bcrypt = require('bcrypt')
 const jwt= require('jsonwebtoken')
-//const OTP = require('../models/OTP')
-//signup handle
 const {auth, role} = require("../middleware/mid")
+const nodemailer = require("nodemailer");
+
 
 
 
@@ -161,10 +100,6 @@ router.post('/login', async(req, res)=> {
          // req.session.cart = cart;
         }
 
-        const payload ={
-            id: user._id,
-            role: user.role,
-        }
         //verify password and generate a JWt token 🔎
 
 
@@ -258,6 +193,88 @@ router.get("/autoLogin", (req, res) => {
 
 
 
+
+
+  router.post("/forgetpassword", async (req, res) => {
+    try {
+      // Find the user by email
+      const user = await User.findOne({ email: req.body.email });
+  
+      // If user not found, send error message
+      if (!user) {
+        return res.status(404).send({ message: "User not found" });
+      }
+  
+      // Generate a unique JWT token for the user that contains the user's id
+      const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET_KEY, {expiresIn: "10m",});
+  
+      // Send the token to the user's email
+      const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: process.env.GMAIL_EMAIL,
+          pass: process.env.GMAIL_PASSWORD,
+        },
+      });
+  
+      // Email configuration
+      const mailOptions = {
+        from: process.env.GMAIL_EMAIL,
+        to: req.body.email,
+        subject: "Reset Password",
+        html: `<h1>Reset Your Password</h1>
+      <p>Click on the following link to reset your password:</p>
+      <a href="${process.env.ORIGIN}/reset-password/${token}">${process.env.ORIGIN}/reset-password/${token}</a>
+      <p>The link will expire in 10 minutes.</p>
+      <p>If you didn't request a password reset, please ignore this email.</p>`,
+      };
+  
+      // Send the email
+      transporter.sendMail(mailOptions, (err, info) => {
+        if (err) {
+          return res.status(500).send({ message: err.message });
+        }
+        res.status(200).send({ message: "Email sent" });
+      });
+    } catch (err) {
+      res.status(500).send({ message: err.message });
+    }
+  });
+
+
+
+
+
+
+
+
+  router.post("reset-password", async (req, res) => {
+    try {
+      // Verify the token sent by the user
+      const decodedToken = jwt.verify(
+        req.params.token,
+        process.env.JWT_SECRET_KEY
+      );
+  
+      // If the token is invalid, return an error
+      if (!decodedToken) {
+        return res.status(401).send({ message: "Invalid token" });
+      }
+  
+      // find the user with the id from the token
+      const user = await User.findOneAndUpdate({ _id: decodedToken.userId }, {password: req.body.newPassword},  {new: true} );
+      if (!user) {
+        return res.status(401).send({ message: "no user found" });
+      }
+        await user.save();
+  
+      // Send success response
+      res.status(200).send({ message: "Password updated" });
+    } catch (err) {
+      // Send error response if any error occurs
+      res.status(500).send({ message: err.message });
+    }
+  });
 
 
 module.exports = router;
