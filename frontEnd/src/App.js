@@ -21,6 +21,8 @@ import Addbanner from "./pages/admin/sub/banner/Add";
 import Editbanner from "./pages/admin/sub/banner/Edit";
 import Addcategory from "./pages/admin/sub/category/Add";
 import Editcategory from "./pages/admin/sub/category/Edit";
+import ForgetPassword from "./pages/user/Forgetpassword";
+import ResetPassword from "./pages/user/Resetpassword";
 
 
   import 'react-toastify/dist/ReactToastify.css';
@@ -67,6 +69,8 @@ function App() {
         <Route path="/admin/addbanner" element={<Addbanner />}/>
         <Route path="/admin/editcategory/:id" element={<Editcategory />}/>
         <Route path="/admin/addcategory" element={<Addcategory />}/>
+        <Route path="/forgetpassword" element={<ForgetPassword />}></Route>
+        <Route path="/reset-password/:token" element={<ResetPassword />} />
 
    
 

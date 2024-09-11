@@ -27,8 +27,8 @@ input {
   margin: auto 20px;
   word-break: break-all;
   word-wrap: break-word;
-  width: 150px;
-  height: 300px;
+  width: 190px;
+  height: 340px;
   justify-content: space;
   flex-flow: wrap;
 
@@ -85,8 +85,8 @@ input {
 }
 
 .tcard .img, .mcard .img{
-  height: 150px;
-  width: 150px;
+  height: 180px;
+  width: 180px;
   text-align: center;
   margin: auto;
   /* border-radius: 24px; */
@@ -95,11 +95,11 @@ input {
 }
 
 .tcard img, .mcard img{
-  height: 150px;
+  height: 180px;
   display: math;
   text-align: center;
   margin: auto;
-  /* width: 120px; */
+  width: 180px;
   /* border-radius: 24px;   */
   object-fit: contain
 

@@ -139,6 +139,8 @@ const Login = () => {
 
             <button className="login" onClick={handleSubmit}> Log in</button> 
 
+            <h5 > <Link to={"/forgetpassword"}> forget Password</Link> </h5>
+
 
             <h3 > New here you can sign up <Link to={"/register"}> here now</Link> </h3>
         </div>
