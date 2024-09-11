@@ -3,7 +3,7 @@ const User = require('../models/user')
 const Cart = require('../models/cart')
 const express = require('express')
 const router = express.Router()
-const bcrypt = require('bcrypt')
+const bycrypt = require('bcrypt')
 const jwt= require('jsonwebtoken')
 const {auth, role} = require("../middleware/mid")
 const nodemailer = require("nodemailer");
@@ -115,35 +115,43 @@ router.post('/login', async(req, res)=> {
             })
         }
 
-        const token = await user.generateAuthToken()
+          if (isMatch == true) {
+            const token = await user.generateAuthToken()
  
 
-        // const token = jwt.sign(payload, process.env.JWT_SECRET, {expiresIn: "5h"});
-
-
-
-             console.log(token);
-
-            const options = {
-                expires: new Date(Date.now() + 86400000), 
-                httpOnly: true,  //It will make cookie not accessible on clinet side -> good way to keep hackers away
-                secure: process.env.NODE_ENV === "production",
-		        // sameSite: "none",
-		        //  domain: 'https://tea-alpha.vercel.app'
-
-
-            }
-            res.cookie("token", token, options
-
-            ).status(200).json({
-                success: true,
-                token,
-                message: "Logged in Successfully✅"
-
-            })
-
-
-        console.log(password, isMatch, process.env.JWT_SECRET,token); 
+            // const token = jwt.sign(payload, process.env.JWT_SECRET, {expiresIn: "5h"});
+    
+    
+    
+                 console.log(token);
+    
+                const options = {
+                    expires: new Date(Date.now() + 86400000), 
+                    httpOnly: true,  //It will make cookie not accessible on clinet side -> good way to keep hackers away
+                    secure: process.env.NODE_ENV === "production",
+                // sameSite: "none",
+                //  domain: 'https://tea-alpha.vercel.app'
+    
+    
+                }
+                res.cookie("token", token, options
+    
+                ).status(200).json({
+                    success: true,
+                    token,
+                    message: "Logged in Successfully✅"
+    
+                })
+    
+          } else {
+    
+            res.status(403).json({
+                success: false,
+              
+                message: "incorect password "
+          })
+        }
+        console.log(password, isMatch, process.env.JWT_SECRET); 
     });
 
 
@@ -197,16 +205,19 @@ router.get("/autoLogin", (req, res) => {
 
   router.post("/forgetpassword", async (req, res) => {
     try {
+
+
       // Find the user by email
       const user = await User.findOne({ email: req.body.email });
-  
+        console.log( req.body.email, user);
+
       // If user not found, send error message
       if (!user) {
-        return res.status(404).send({ message: "User not found" });
+        return res.status(404).json({ message: "User not found" });
       }
   
       // Generate a unique JWT token for the user that contains the user's id
-      const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET_KEY, {expiresIn: "10m",});
+      const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {expiresIn: "10h",});
   
       // Send the token to the user's email
       const transporter = nodemailer.createTransport({
@@ -216,11 +227,13 @@ router.get("/autoLogin", (req, res) => {
           pass: process.env.GMAIL_PASSWORD,
         },
       });
+
+              console.log(token,);
   
       // Email configuration
       const mailOptions = {
         from: process.env.GMAIL_EMAIL,
-        to: req.body.email,
+        to: "sanuthrahman@gmail.com", //req.body.email,
         subject: "Reset Password",
         html: `<h1>Reset Your Password</h1>
       <p>Click on the following link to reset your password:</p>
@@ -228,16 +241,18 @@ router.get("/autoLogin", (req, res) => {
       <p>The link will expire in 10 minutes.</p>
       <p>If you didn't request a password reset, please ignore this email.</p>`,
       };
-  
+
+
+
       // Send the email
       transporter.sendMail(mailOptions, (err, info) => {
         if (err) {
-          return res.status(500).send({ message: err.message });
+          return res.status(500).json({ message: err.message });
         }
-        res.status(200).send({ message: "Email sent" });
+        res.status(200).json({ message: "Email sent" });
       });
     } catch (err) {
-      res.status(500).send({ message: err.message });
+      res.status(500).json({ message: err.message });
     }
   });
 
@@ -248,28 +263,55 @@ router.get("/autoLogin", (req, res) => {
 
 
 
-  router.post("reset-password", async (req, res) => {
+  router.post("/reset-password/:token", async (req, res) => {
+
     try {
       // Verify the token sent by the user
       const decodedToken = jwt.verify(
-        req.params.token,
-        process.env.JWT_SECRET_KEY
+         req.params.token,
+        process.env.JWT_SECRET
       );
   
       // If the token is invalid, return an error
       if (!decodedToken) {
         return res.status(401).send({ message: "Invalid token" });
       }
-  
+
+
       // find the user with the id from the token
-      const user = await User.findOneAndUpdate({ _id: decodedToken.userId }, {password: req.body.newPassword},  {new: true} );
+      // const user =  User.findOneAndUpdate({ _id: decodedToken.userId }, {password: req.body.newPassword},  {new: true} );
+      // if (!user) {
+      //   return res.status(401).send({ message: "no user found" });
+      // }
+
+
+      const user = await User.findOne({ _id: decodedToken.userId });
       if (!user) {
         return res.status(401).send({ message: "no user found" });
       }
-        await user.save();
+      
+      // Hash the new password
+      const salt = await bycrypt.genSalt(10);
+      req.body.newPassword = await bycrypt.hash(req.body.newPassword, salt);
   
+      // Update user's password, clear reset token and expiration time
+      user.password = req.body.newPassword;
+      await user.save();
+
+
+
+      console.log(decodedToken,)
+                return res.status(200).json({
+    success: true,
+    data: user,
+    message: "user edited successfully ✅"
+   
+})
+  
+
       // Send success response
       res.status(200).send({ message: "Password updated" });
+     // res.redirect("/login")
     } catch (err) {
       // Send error response if any error occurs
       res.status(500).send({ message: err.message });
