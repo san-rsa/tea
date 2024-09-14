@@ -10,7 +10,7 @@ const jwt= require('jsonwebtoken')
 const otpGenerator = require("otp-generator");
 const User = require('../../models/user')
 // const Product = require('../models/product')
-const {auth} = require('../../middleware/mid')
+const {auth, role} = require('../../middleware/mid')
 
 
 
@@ -18,7 +18,7 @@ const {auth} = require('../../middleware/mid')
 
 
 
-router.patch('/admin' ,async (req, res, next) => {
+router.patch('/admin' , auth, role(process.env.ADMIN), async (req, res, next) => {
     try {
 
         const data = await User.findByIdAndUpdate(req.body.productId, {
@@ -34,7 +34,7 @@ router.patch('/admin' ,async (req, res, next) => {
 
  
 
-router.delete('/banner', auth, async (req, res, next) => {
+router.delete('/banner', auth, role(process.env.ADMIN), async (req, res, next) => {
     const id = req.body.productId
 
     try {
@@ -49,7 +49,7 @@ router.delete('/banner', auth, async (req, res, next) => {
 
 
 
-router.delete('/cart/:id', async (req, res, next) => {
+router.delete('/cart/:id', auth, role(process.env.ADMIN), async (req, res, next) => {
     try {
         const data = await Banner.findByIdAndDelete(req.params.id);
         res.status(200).json({
@@ -62,7 +62,7 @@ router.delete('/cart/:id', async (req, res, next) => {
 
 
 
-router.delete('/category', auth, async (req, res, next) => {
+router.delete('/category', auth, role(process.env.ADMIN), async (req, res, next) => {
 
     const id = req.body.productId
 
@@ -78,7 +78,7 @@ router.delete('/category', auth, async (req, res, next) => {
 });
 
 
-router.delete('/order/:id', async (req, res, next) => {
+router.delete('/order/:id', auth, role(process.env.ADMIN), async (req, res, next) => {
     try {
         const data = await Banner.findByIdAndRemove(req.params.id);
         res.status(200).json({
@@ -90,7 +90,7 @@ router.delete('/order/:id', async (req, res, next) => {
 });
 
 
-router.delete('/product/', async (req, res, next) => {
+router.delete('/product/', auth, role(process.env.ADMIN), async (req, res, next) => {
     try {
         const id = req.body.productId
         const data = await Product.findOneAndDelete({name: id});
@@ -103,7 +103,7 @@ router.delete('/product/', async (req, res, next) => {
 });
 
 
-router.delete('/user/:id', async (req, res, next) => {
+router.delete('/user/:id', auth, role(process.env.ADMIN), async (req, res, next) => {
     try {
         const data = await User.findByIdAndRemove(req.params.id);
         res.status(200).json({

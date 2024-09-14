@@ -23,8 +23,7 @@ router.get('/banner', async(req, res)=> {
 
 const banner = await Banner.find({})
 
-   console.log(banner)  
-      res.status(200).json({
+     res.status(200).json({
         success: true,
        data: banner
       })
@@ -42,7 +41,6 @@ router.get('/cart', auth, async(req, res)=> {
   } else {
     res.send(null);
   }
-  console.log(data)
  
 
 })
@@ -52,7 +50,6 @@ router.get('/category', async(req, res)=> {
 
 const category = await Category.find({})
 
-  console.log(category)  
       res.status(200).json({
         success: true,
        data: category

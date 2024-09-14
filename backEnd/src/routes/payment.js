@@ -23,7 +23,7 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 const YOUR_DOMAIN = 'http://localhost:3000';
 
-router.post('/s', auth, async (req, res) => {
+router.post('/3', auth, async (req, res) => {
 
     const user = req.userId
 
@@ -55,12 +55,20 @@ router.post('/s', auth, async (req, res) => {
 
 
 
-router.post("/", auth, async (req, res) => {
+
+router.post("/o", auth, async (req, res) => {
 
   const id = await User.findOne({_id: req.userId})  //.populate({path: "products", populate: {path: "productId"}})
   const cart = await Cart.findOne({userId: req.userId})  //.populate({path: "products", populate: {path: "productId"}})
 
-  if (!id.paymentId) {
+
+  const paymentMethods = await stripe.paymentMethods.list({
+    customer: id.paymentId,
+    type: "card",
+  });
+
+
+   if (!id.paymentId || !paymentMethods.data[0]?.id) {
     
 
   // Create a PaymentIntent with the order amount and currency
@@ -71,18 +79,23 @@ router.post("/", auth, async (req, res) => {
     new: true
   });
 
+  console.log(paymentMethods);
+
+
+  user.save()
+
 
   const paymentIntent = await stripe.paymentIntents.create({
     customer: customer.id,
     setup_future_usage: "off_session",
-    customer_email: 'sanuthrahman@gmail.com',
-    submit_type: 'pay',
-    billing_address_collection: 'auto',
-    shipping_address_collection: {
+    receipt_email: 'sanuthrahman@gmail.com',
+   //  submit_type: 'pay',
+    // billing_address_collection: 'auto',
+     shipping: {
       allowed_countries: ['IE', 'NG'],
     },
 
-    mode: 'payment',
+    //mode: 'payment',
 
     amount: 200 * 100, // cart.totalCost * 100, //calculateOrderAmount(data),
 
@@ -97,24 +110,26 @@ router.post("/", auth, async (req, res) => {
 
       console.log(cart)
 
-);
-  }
-
-
-  else {
-    chargeCustomer(id.paymentId, cart)
-  }
-    
-
-
-
-
-
-
-
-  res.send({
+);  res.send({
     clientSecret: paymentIntent.client_secret,
   });
+  }
+
+  
+
+  else if(id.paymentId) {
+    chargeCustomer(id.paymentId, cart , res)
+  }
+    
+  console.log(id);
+
+
+
+
+
+
+
+
 });
 
 
@@ -123,6 +138,69 @@ router.post("/", auth, async (req, res) => {
 
 
 
+
+router.post("/", auth, async (req, res) => {
+
+  const id = await User.findOne({_id: req.userId})  //.populate({path: "products", populate: {path: "productId"}})
+  const cart = await Cart.findOne({userId: req.userId})  //.populate({path: "products", populate: {path: "productId"}})
+
+  // Create a PaymentIntent with the order amount and currency
+    const customer = await stripe.customers.create();
+
+if (!id.paymentId) {
+  
+    const user = await User.findOneAndUpdate({_id: req.userId}, {paymentId: customer.id}, {
+      new: true
+    });
+  
+    // console.log(paymentMethods);
+  
+  
+    user.save()
+}
+
+
+  const paymentIntent = await stripe.paymentIntents.create({
+    customer: customer.id,
+    receipt_email: 'sanuthrahman@gmail.com',
+
+   //  submit_type: 'pay',
+    // billing_address_collection: 'auto',
+    //  shipping: 'auto',
+    
+
+    //mode: 'payment',
+
+    amount: 500 * 100, // cart.totalCost * 100, //calculateOrderAmount(data),
+
+    currency: "eur",
+    // In the latest version of the API, specifying the `automatic_payment_methods` parameter is optional because Stripe enables its functionality by default.
+    automatic_payment_methods: {
+        enabled: true,
+      },
+    
+  },
+
+
+
+);  res.send({
+    clientSecret: paymentIntent.client_secret,
+  });
+  
+
+  
+
+
+  console.log(id);
+
+
+
+
+
+
+
+
+});
 
 
 
@@ -185,7 +263,6 @@ router.post('/webhooks', express.raw({type: 'application/json'}), (request, resp
 router.post('/webhook',  express.raw({type: 'application/json'}), (request, response) => {
   const sig = request.headers['stripe-signature'];
 
-  const user = request.userId
  const rawBody = request.rawBody;
 
 
@@ -205,17 +282,19 @@ router.post('/webhook',  express.raw({type: 'application/json'}), (request, resp
     
     if (event.type === 'payment_intent.succeeded') {
         async function order (err) {  
-            
-           const cart = await Cart.findOne({userId: user})  //.populate({path: "products", populate: {path: "productId"}})
+              const user = event.data.object.customer // request.userId 
+
+           const cart = await Cart.findOne({paymentId: user})  //.populate({path: "products", populate: {path: "productId"}})
            const order = await Order.findOne({userId: user})  //.populate({path: "products", populate: {path: "productId"}})
 
+           console.log(event.receipt_email)
           if (err) {
             console.log(err+44);
             return res.redirect("/checkout");
           }
           
           const orders = new Order({
-            userId: user,
+            userId: user._id,
             
               totalCost: cart.totalCost,
               products: cart.products,
@@ -300,41 +379,55 @@ router.post('/webhook',  express.raw({type: 'application/json'}), (request, resp
 
 
 
-const chargeCustomer = async (customerId, cart) => {
+const chargeCustomer = async (customerId, cart, res) => {
   // Lookup the payment methods available for the customer
   const paymentMethods = await stripe.paymentMethods.list({
     customer: customerId,
     type: "card",
   });
+
+  console.log(paymentMethods);
+  
   try {
     // Charge the customer and payment method immediately
 
     const paymentIntent = await stripe.paymentIntents.create({
-      customer: customerId,
-      setup_future_usage: "off_session",
-      customer_email: 'sanuthrahman@gmail.com',
-      submit_type: 'pay',
-      billing_address_collection: 'auto',
-      shipping_address_collection: {
+      // customer: customerId,
+      // setup_future_usage: "off_session",
+     receipt_email: 'sanuthrahman@gmail.com',
+      // submit_type: 'pay',
+      // billing_address_collection: 'auto',
+      shipping: {
         allowed_countries: ['IE', 'NG'],
       },
-        payment_method: paymentMethods.data[0].id,
+      //   payment_method: paymentMethods.data[0].id,
+      // off_session: true,
+      // confirm: true,
+      // mode: 'payment',
+  
+      // amount: 200 * 100, // cart.totalCost * 100, //calculateOrderAmount(data),
+  
+    
+
+
+      amount: 1099,
+      currency: "eur",
+      customer: customerId,
+      payment_method: paymentMethods.data[0].id,
       off_session: true,
       confirm: true,
-      mode: 'payment',
-  
-      amount: 200 * 100, // cart.totalCost * 100, //calculateOrderAmount(data),
-  
-      currency: "eur",
       // In the latest version of the API, specifying the `automatic_payment_methods` parameter is optional because Stripe enables its functionality by default.
-      automatic_payment_methods: {
-          enabled: true,
-        },
+  
       
     })
+
+    res.send({
+      clientSecret: paymentIntent.client_secret,
+    });
+
   } catch (err) {
     // Error code will be authentication_required if authentication is needed
-    console.log("Error code is: ", err.code);
+    console.log("Error code is: ", err);
     const paymentIntentRetrieved = await stripe.paymentIntents.retrieve(err.raw.payment_intent.id);
     console.log("PI retrieved: ", paymentIntentRetrieved.id);
   }

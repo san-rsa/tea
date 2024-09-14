@@ -46,7 +46,6 @@ router.get('/banner/:id', auth, async (req, res, next) => {
         } else {
           res.send(null);
         }
-        console.log(data)
        
       
       })
@@ -159,7 +158,6 @@ router.get("/wishlist/:id", auth, async (req, res) => {
 
         const user = req.userId
     
-        console.log(user)
 
 
         try {

@@ -34,14 +34,14 @@ const userSchema = new mongoose.Schema({
 
     // tokens: [{ token: {type: String, required: true }}],
 
-    address: {type: String,  },
+    // address: {type: String,  },
 
     // paymentId: {type: String, required: true,
     // },
 
     createdAt: {type: Date, default: Date.now },
 
-    role: { type: String, enum: ['user', 'admin'], default: 'user' }
+    role: { type: String, enum: ['user', process.env.ADMIN,], default: 'user' }
 })
 
 

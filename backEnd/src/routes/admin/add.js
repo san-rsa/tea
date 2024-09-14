@@ -11,16 +11,15 @@ const jwt= require('jsonwebtoken')
 //const OTP = require('../../models/OTP')
 // const Product = require('../models/product')
 // const Product = require('../models/product')
- const {auth} = require('../../middleware/mid')
+ const {auth, role} = require('../../middleware/mid')
 
- router.patch('/toadmin' ,async (req, res, next) => {
+ router.patch('/toadmin', auth, role(process.env.ADMIN), async (req, res, next) => {
     try {
 
         const data = await User.findByIdAndUpdate(req.body.productId, {
             $set: req.body, role: 'admin'
         }, { new: true });
         res.json(data);
-        console.log(data, "user updated successfully!");
     } catch (error) {
         return next(error);
     }
@@ -34,11 +33,10 @@ const jwt= require('jsonwebtoken')
 
 
 
-router.post('/banner', auth, async(req, res)=> {
+router.post('/banner', auth, role(process.env.ADMIN), async(req, res)=> {
     try {
         const {text, imgUrl}= req.body
 
-        console.log(text, imgUrl )
         // Check if All Details are there or not
 
 		if (!text || !imgUrl ) {
@@ -83,11 +81,10 @@ router.post('/banner', auth, async(req, res)=> {
 
 
 
-router.post('/category', async(req, res)=> {
+router.post('/category', auth, role(process.env.ADMIN), async(req, res)=> {
     try {
         const {name, imgUrl}= req.body
 
-        console.log(name, imgUrl )
         // Check if All Details are there or not
 
 		if (!name || !imgUrl) {
@@ -135,7 +132,7 @@ router.post('/category', async(req, res)=> {
 
 
 
-router.post('/product', async(req, res)=> {
+router.post('/product', auth, role(process.env.ADMIN), async(req, res)=> {
     try {
         const {name, imgUrl, description, categoryId, small, sprice, medium, mprice, large, lprice}= req.body
 

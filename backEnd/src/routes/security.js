@@ -11,6 +11,8 @@ const nodemailer = require("nodemailer");
 
 
 
+
+
 router.post('/register', async(req, res)=> {
     try {
         const {fname, lname, email, password, phone, address,}= req.body
@@ -127,6 +129,7 @@ router.post('/login', async(req, res)=> {
     
                 const options = {
                     expires: new Date(Date.now() + 86400000), 
+                    maxAge:   86400000, //10 * 24 * 60 * 60 * 1000,
                     httpOnly: true,  //It will make cookie not accessible on clinet side -> good way to keep hackers away
                     secure: process.env.NODE_ENV === "production",
                 // sameSite: "none",
@@ -134,8 +137,7 @@ router.post('/login', async(req, res)=> {
     
     
                 }
-                res.cookie("token", token, options
-    
+                res.cookie("user", token, options
                 ).status(200).json({
                     success: true,
                     token,
@@ -168,15 +170,24 @@ router.post('/login', async(req, res)=> {
 
 
 
-router.get("/autoLogin", (req, res) => {
-    const cookie = req.headers.cookie;
+router.get("/autoLogin", (req, res, next) => {
+    const cookies = req.cookies.user //req.headers.cookie;    
+
+
   
     // if we received no cookies then user needs to login.
-    if (!cookie || cookie === null) {
+    if (!cookies || cookies === null) {
+      
       return res.sendStatus(401);
     }
+
+    else {
+      if (cookies) {
+          return res.sendStatus(200);
+
+    } 
+  }
   
-    return res.sendStatus(200);
   });
 
 
@@ -192,7 +203,7 @@ router.get("/autoLogin", (req, res) => {
   router.get("/logout", auth, (req, res) => {
 
     return res
-      .clearCookie("token")
+      .clearCookie("user")
       .status(200)
       .json({ message: "Successfully logged out 😏 🍀" });
   })
@@ -217,7 +228,7 @@ router.get("/autoLogin", (req, res) => {
       }
   
       // Generate a unique JWT token for the user that contains the user's id
-      const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {expiresIn: "10h",});
+      const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {expiresIn: "10m",});
   
       // Send the token to the user's email
       const transporter = nodemailer.createTransport({
@@ -299,12 +310,15 @@ router.get("/autoLogin", (req, res) => {
       await user.save();
 
 
+      const reset = (req.params.token)
 
-      console.log(decodedToken,)
-                return res.status(200).json({
-    success: true,
-    data: user,
-    message: "user edited successfully ✅"
+      console.log('decodedToken',)
+                return res.status(200)
+               .clearCookie("*")
+                .json({
+            success: true,
+            data: reset,
+            message: "user edited successfully ✅"
    
 })
   

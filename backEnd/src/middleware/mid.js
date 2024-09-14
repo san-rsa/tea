@@ -18,15 +18,15 @@ const User = require('../models/user')
 
 
 const auth = (req, res, next) => {
-  const token = req.cookies.token;
+  const token = req.cookies.user;
+
   if (!token) {
-    return res.sendStatus(403).clearCookie("token");
+    return res.sendStatus(403).clearCookie("user");
   }
   try {
     const data = jwt.verify(token, process.env.JWT_SECRET);
     req.userId = data.id;
     req.userRole = data.role;
-    console.log(data)
     return next();
   } catch {
     return res.sendStatus(403);
@@ -41,12 +41,10 @@ const role =  (role)  => async (req, res, next) => {
 
 
   try {
-    const user = req.userRole
-
-    console.log(user+'oo')
+    let user= await  User.findOne({_id: req.userId})
 
     
-    if (user !== role) {
+    if (user.role !== role) {
       return res.status(403).json({ error: 'Forbidden' });
     }
     
