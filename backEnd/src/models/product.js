@@ -6,8 +6,7 @@ const productSchema = new mongoose.Schema({
     name: {type: String, required: true, trim: true
     },
 
-    imgUrl: [{type: String, required: true, trim: true
-    }],
+    imgUrl: [{url: {type: String, required: true}, imgId: {type: String, required: true} }],
 
     description: {type: String, required: true
      },

@@ -13,6 +13,7 @@ const otpGenerator = require("otp-generator");
 const User = require('../models/user')
 const Wishlist = require('../models/wishlist')
 const Cart = require('../models/cart')
+const  Order  = require('../models/order')
 // const Product = require('../models/product')
 // const Auth = require('../middleware/mid')
 
@@ -57,11 +58,20 @@ const category = await Category.find({})
 
 })
 
+router.get('/category/:id', async(req, res)=> {
+    
+  const data = await Product.find({categoryId: req.params.id})
+        res.status(200).json({
+          success: true,
+         data: data
+        })
+  
+  })
 router.get('/order', auth, async(req, res)=> {
   const user = req.userId
 
   
-  const data = await Wishlist.findOne({userId: user})
+  const data = await Order.findOne({userId: user})
       res.status(200).json({
         success: true,
        data: data
@@ -94,14 +104,14 @@ router.get('/wishlist', auth, async(req, res)=> {
 
 // user
 
-router.get('/admin', auth, role("admin"), async(req, res)=> {
+router.get('/admin', auth, role(process.env.ADMIN), async(req, res)=> {
 
-  const user = await User.find({role: "admin"})
-      res.status(200).json({
-        success: true,
-       data: user
-      })
-
+  const data = await User.find({role: "admin"})
+  
+   res.status(200).json({
+    success: true,
+   data: data
+  })
 })
 
 router.get('/user', auth, async(req, res)=> {

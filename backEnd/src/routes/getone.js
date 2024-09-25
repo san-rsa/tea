@@ -23,7 +23,6 @@ const {auth} = require('../middleware/mid')
 router.get('/banner/:id', auth, async (req, res, next) => {
 
 
-    console.log(req.params.id)
         try {
             const data = await Banner.findById(req.params.id)
 
@@ -52,11 +51,8 @@ router.get('/banner/:id', auth, async (req, res, next) => {
   
               router.get('/category/:id', async(req, res)=> {
     
-                const product = await Product.find({categoryId: req.params.id})
-                      res.status(200).json({
-                        success: true,
-                       data: product
-                      })
+                const data = await Category.findById(req.params.id)
+                      res.status(200).json(data)
                 
                 })
 
@@ -161,7 +157,7 @@ router.get("/wishlist/:id", auth, async (req, res) => {
 
 
         try {
-            const data = await User.findById( user )
+            const data = await User.findOne( {_id: user} )
             res.json(data);
         } catch (error) {
             return next(error);

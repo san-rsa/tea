@@ -11,6 +11,7 @@ const otpGenerator = require("otp-generator");
 const User = require('../../models/user')
 // const Product = require('../models/product')
 const {auth, role} = require('../../middleware/mid')
+const cloudinary = require('../../connection/cloudinary')
 
 
 
@@ -38,9 +39,19 @@ router.delete('/banner', auth, role(process.env.ADMIN), async (req, res, next) =
     const id = req.body.productId
 
     try {
-        const data = await Banner.findByIdAndDelete(id);
+
+        const data = await Banner.findById(id);
+
+        console.log(data);
+        
+
+        await cloudinary.uploader.destroy(data.imgUrl.imgId);
+
+        const del = await Banner.findByIdAndDelete(id)
+
+
         res.status(200).json({
-            msg: data,
+            msg: del,
         });
     } catch (error) {
         return next(error);
@@ -68,7 +79,14 @@ router.delete('/category', auth, role(process.env.ADMIN), async (req, res, next)
 
     try {
 
-        const data = await Category.findByIdAndDelete(id);
+        const data = await Category.findById(id);
+
+
+        await cloudinary.uploader.destroy(data.imgUrl.imgId);
+
+        data.remove()
+
+
         res.status(200).json({
             msg: data,
         });

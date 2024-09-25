@@ -12,6 +12,7 @@ const User = require('../../models/user')
 // const Product = require('../models/product')
 // const Auth = require('../middleware/mid')
  const {auth, role} = require('../../middleware/mid')
+ const cloudinary = require('../../connection/cloudinary')
 
 
 
@@ -23,7 +24,53 @@ const User = require('../../models/user')
 router.post('/product/:id', auth, role(process.env.ADMIN), async(req, res)=> {
     const id = req.params.id
     try {
-        const {name, imgUrl, description, categoryId, small, sprice, medium, mprice, large, lprice}= req.body
+
+
+
+        const data = JSON.parse(req.body.data)
+        const file = req.files.img    
+        const imgUrl = []
+
+        console.log(file.length)
+        
+        if (!req.files) {
+            // No file was uploaded
+            return res.status(400).json({ error: "No file uploaded" });
+          }
+    
+    
+    
+          if (file.length > 1) {
+    
+                for (const i in file){
+                  const image = await cloudinary.uploader.upload(
+                    file[i].tempFilePath,
+                    { folder: 'Banner' },
+    
+                );
+    
+                imgUrl.push({url: image.secure_url,  imgId: image.puplic_id})
+                console.log(image);
+                }
+              
+                
+          } else {
+    
+                 const image = await cloudinary.uploader.upload(
+            file.tempFilePath,
+            { folder: 'Banner' },
+    
+          );
+    
+    
+            imgUrl.push({url: image.secure_url,  imgId: image.puplic_id})
+    
+                          console.log(image)
+    
+    
+          }
+            console.log(imgUrl, )
+        const {name, description, categoryId, small, sprice, medium, mprice, large, lprice}= data
 
         console.log(name, imgUrl, description, categoryId, small, sprice, medium, mprice, large, lprice )
         // Check if All Details are there or not
@@ -77,8 +124,29 @@ router.post('/product/:id', auth, role(process.env.ADMIN), async(req, res)=> {
     router.patch('/banner/:id' , auth, role(process.env.ADMIN), async (req, res, next) => {
         try {
 
+            const update = JSON.parse(req.body.data)
+            const file = req.files?.img    
+            const imgUrl = []
+    
+
+            // await cloudinary.uploader.destroy(data.imgUrl.imgId);
+
+            
+            if (req.files) {
+                // No file was uploaded
+   
+                const image = await cloudinary.uploader.upload(
+                file.tempFilePath,
+                { folder: 'Banner' },
+        
+              );        
+                imgUrl.push({url: image.secure_url,  imgId: image.puplic_id})        
+            }
+        
+        
+        
             const data = await Banner.findByIdAndUpdate(req.params.id, {
-                $set: req.body,
+                $set: update, imgUrl: imgUrl[0]
             }, { new: true });
             res.json(data);
             console.log(data, req.body, " updated successfully!");
@@ -94,8 +162,29 @@ router.post('/product/:id', auth, role(process.env.ADMIN), async(req, res)=> {
     router.patch('/category/:id' , auth, role(process.env.ADMIN), async (req, res, next) => {
         try {
 
+            const update = JSON.parse(req.body.data)
+            const file = req.files?.img    
+            const imgUrl = []
+    
+
+            // await cloudinary.uploader.destroy(data.imgUrl.imgId);
+
+            
+            if (req.files) {
+                // No file was uploaded
+   
+                const image = await cloudinary.uploader.upload(
+                file.tempFilePath,
+                { folder: 'Category' },
+        
+              );        
+                imgUrl.push({url: image.secure_url,  imgId: image.puplic_id})        
+            }
+        
+        
+
             const data = await Category.findByIdAndUpdate(req.params.id, {
-                $set: req.body,
+                $set: update, imgUrl: imgUrl[0]
             }, { new: true });
             res.json(data);
             console.log(data, req.body, " updated successfully!");
@@ -109,7 +198,44 @@ router.post('/product/:id', auth, role(process.env.ADMIN), async(req, res)=> {
     router.patch('/product/:id' , auth, role(process.env.ADMIN), async (req, res, next) => {
 
         try {
-            const {name, imgUrl, description, categoryId, small, sprice, medium, mprice, large, lprice}= req.body
+
+            const update = JSON.parse(req.body.data)
+            const file = req.files?.img    
+            const imgUrl = []
+       
+        
+        
+              if (file.length > 1) {
+        
+                    for (const i in file){
+                      const image = await cloudinary.uploader.upload(
+                        file[i].tempFilePath,
+                        { folder: 'Banner' },
+        
+                    );
+        
+                    imgUrl.push({url: image.secure_url,  imgId: image.puplic_id})
+                    console.log(image);
+                    }
+                  
+                    
+              } else {
+        
+                     const image = await cloudinary.uploader.upload(
+                file.tempFilePath,
+                { folder: 'Product' },
+        
+              );
+        
+        
+                imgUrl.push({url: image.secure_url,  imgId: image.puplic_id})
+        
+                              console.log(image)
+        
+        
+              }
+                console.log(imgUrl, )
+            const {name,  description, categoryId, small, sprice, medium, mprice, large, lprice}= update
 
             console.log(name, imgUrl, description, categoryId, small, sprice, medium, mprice, large, lprice )
           

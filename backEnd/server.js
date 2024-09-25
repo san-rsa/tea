@@ -174,6 +174,8 @@ const Category = require("./src/models/category");
 var MongoStore = require("connect-mongo");
 const connectDB = require("./src/connection/db");
 const cors = require("cors");
+const fileUpload = require("express-fileupload");
+
 
 // const auth = require("./src/connection/auth")
 
@@ -241,12 +243,16 @@ app.use(flash());
 
 
 
+app.use(
+  fileUpload({
+    useTempFiles: true
+  })
+);
 
 
 
 
 
-//calling Database function
 
 
 //route importing and mounting
