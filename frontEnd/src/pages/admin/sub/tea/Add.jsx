@@ -13,6 +13,23 @@ const Add = () => {
 
     let navigate = useNavigate()
 
+    const [img, setFile] = useState({});
+  
+  
+  
+  const handleChange = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+    setInputs(values => ({...values, [name]: value}))
+  }
+  
+  const handleFileChange = (event) => {
+    setFile(event.target.files)
+  };
+      console.log(data, img);
+  
+  
+
 
 
     useEffect(() => {
@@ -28,20 +45,25 @@ const Add = () => {
 
 
 
-  const handleChange = (event) => {
-    const name = event.target.name;
-    const value = event.target.value;
-    setInputs(values => ({...values, [name]: value}))
-  }
-
   const HandleSubmit = async (event) => {
     event.preventDefault();
+  
+    const formData = new FormData();
+  
+  
+    Array.from(img).forEach(imgs => {
+  
+      formData.append('img', imgs);
+  
+  });
+  
+    formData.append('data',  JSON.stringify(data));
+
 
    const api = fetch(process.env.REACT_APP_API_LINK + 'admin/add/product/', {
     method: 'POST',
     credentials: "include",
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify(data)
+    body: formData
     })
     
     .then((res) => {
@@ -60,7 +82,6 @@ const Add = () => {
 
  
   
-      console.log(data)
   }
 
 
@@ -77,18 +98,15 @@ const Add = () => {
             <div className={Style.inp}>
 
 <Input name="name" type={"text"} onchange={handleChange} value={data.name} class={Style.name} label={"name"} />   
-<Input name="imgUrl" type={"text"} onchange={handleChange} value={data.imgUrl} class={Style.img} label={"image url address"} />
-
-
 
         <div className={Style.cat}>
             <label for="category ">category</label>
 
-            <select id="categoryId" name={data.categoryId}  >
+            <select id="categoryId" name={"categoryId"} onChange={handleChange} >
 
             {cat.map((datas) => (
 
-              <option value={datas?._id} key={datas._id} > {datas.name} </option>
+              <option name={"categoryId"} value={datas?._id} key={datas._id} > {datas.name}  </option>
               )   )   }
               </select>
 
@@ -129,6 +147,11 @@ const Add = () => {
     <textarea name="description" type={"text"} onChange={handleChange} value={data.description} class={Style.description} label={"description"} />
 
     </div>
+
+    </div>
+
+    <div className={Style.img}>
+    <input type="file" multiple onChange={handleFileChange} />
 
     </div>
 

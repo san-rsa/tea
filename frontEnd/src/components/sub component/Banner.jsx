@@ -26,7 +26,7 @@ const Banner = ({ text, img}) => {
             
               <Bannerlist
                   text={project.text}
-                  img={project.imgUrl}
+                  img={project.imgUrl.url}
                 />    
                 </div>
             

@@ -172,7 +172,7 @@ export default function Payment() {
   const appearance = {
     theme: 'stripe',
     variables: {
-      colorText: '#ffffff',
+      colorText: 'black',
     },
   };
   const options = {

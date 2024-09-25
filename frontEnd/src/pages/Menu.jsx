@@ -34,7 +34,7 @@ const Menu = ({ text, img}) => {
             price={data.size[0]['price']}
             id={data._id}
             name={data.name}
-            img={data.imgUrl[0]}
+            img={data.imgUrl[0].url}
             size={data.size[0]._id}
 
             />    

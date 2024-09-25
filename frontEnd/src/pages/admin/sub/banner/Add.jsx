@@ -7,8 +7,10 @@ import Style from "../../style/Form.module.css"
 
 
 
-const Add = ({ img}) => {
+const Add = ({ }) => {
     const [data, setInputs] = useState({});
+    const [img, setFile] = useState({});
+
     let navigate = useNavigate()
 
 
@@ -18,14 +20,33 @@ const Add = ({ img}) => {
     setInputs(values => ({...values, [name]: value}))
   }
 
+  const handleFileChange = (event) => {
+    setFile(event.target.files)
+  };
+      console.log(data, img);
+
+
   const HandleSubmit = async (event) => {
     event.preventDefault();
+
+    const formData = new FormData();
+  
+
+    Array.from(img).forEach(imgs => {
+
+      formData.append('img', imgs);
+
+  });
+
+		formData.append('data',  JSON.stringify(data));
+
+
 
    const api = fetch(process.env.REACT_APP_API_LINK + 'admin/add/banner/', {
     method: 'POST',
     credentials: "include",
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify(data)
+   // headers: {'Content-Type': "application/json", },
+    body:   formData
     })
     
     .then((res) => {
@@ -60,11 +81,8 @@ const Add = ({ img}) => {
 
                 <div className={Style.inp}>
 
-            <Input name="text" type={"text"} onchange={handleChange} value={data.name} class={Style.name} label={"name"} />   
-            <Input name="imgUrl" type={"text"} onchange={handleChange} value={data.img} class={Style.img} label={"image url address"} />
-
-
-
+            <input type="file"  onChange={handleFileChange} />
+            <Input name="text" type={"text"} onchange={handleChange} value={data.text} class={Style.name} label={"name"} />   
                 </div>
 
             <button className="submit" onClick={HandleSubmit}> Submit</button> 

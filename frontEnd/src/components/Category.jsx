@@ -38,7 +38,7 @@ const Menu = () => {
         <List
             id={project.slug}
             name={project.name}
-            img={project.imgUrl}
+            img={project.imgUrl.url}
             />    
             </div>
 

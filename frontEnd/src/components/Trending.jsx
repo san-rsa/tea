@@ -115,7 +115,7 @@ function AutoPlay() {
         id={project._id}
         price={project.size[0].price}
         name={project.name}
-        img={project.imgUrl}
+        img={project.imgUrl[0].url}
         size={project.size[0]._id}
         />    
 

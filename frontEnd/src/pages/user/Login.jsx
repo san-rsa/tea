@@ -3,6 +3,7 @@ import Nav from "../../components/sub component/Nav"
 import Input from "./sub/Inputs";
 import { Link, useNavigate } from "react-router-dom";
 import Style from "../../styles/Login.module.css"
+import { ToastContainer, toast, Bounce } from 'react-toastify';
 
 
 
@@ -35,6 +36,18 @@ const Login = () => {
      
      if (api.status === 200) {
       navigate("/user");
+    } else if (api.status === 403) {
+      toast.error('incorrect password or email ', {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        transition: Bounce,
+        });
     }
      
 

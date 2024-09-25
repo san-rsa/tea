@@ -264,7 +264,7 @@ const edit = (e) => {
                     id={product.products[id].productId?._id}
                     price={product.products[id].productId?.size[0].price}
                     name={product.products[id].productId?.name}
-                    img={product.products[id].productId?.imgUrl}   
+                    img={product.products[id].productId?.imgUrl.url}   
 
 
 

@@ -9,6 +9,8 @@ import Style from "../../style/Form.module.css"
 
 const Edit = () => {
     const [data, setInputs] = useState({});
+    const [img, setFile] = useState({});
+
     const link = useParams().id
     let navigate = useNavigate()
 
@@ -20,6 +22,11 @@ const Edit = () => {
     setInputs(values => ({...values, [name]: value}))
   }
 
+  const handleFileChange = (event) => {
+     setFile(event.target.files)
+   };
+      
+
           useEffect(() => {
             fetch(process.env.REACT_APP_API_LINK  + "getone/banner/"+ link,{
               method: "GET",
@@ -30,7 +37,7 @@ const Edit = () => {
 
             )
             .then((res) =>  res.json())
-            .then((data) => setInputs({"text": data.text, "imgUrl": data.imgUrl}));
+            .then((data) => setInputs({"text": data.text,}));
         }, []);
 
 
@@ -38,11 +45,25 @@ const Edit = () => {
   const HandleSubmit =  (event) => {
     event.preventDefault();
 
+    const formData = new FormData();
+  
+
+    Array.from(img).forEach(imgs => {
+
+      formData.append('img', imgs);
+
+  });
+
+		formData.append('img', img);
+
+		formData.append('data',  JSON.stringify(data));
+
+
+
     fetch(process.env.REACT_APP_API_LINK + 'admin/edit/banner/' + link, {
       method: 'PATCH',
       credentials: "include",    
-      headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify(data)
+    body: formData
     })
     
     .then((res) => {
@@ -77,8 +98,12 @@ const Edit = () => {
 
                 <div className={Style.inp}>
 
-                <Input name="text" type={"text"} onchange={handleChange} value={data.text} class={Style.name} label={"name"} />   
-                <Input name="imgUrl" type={"text"} onchange={handleChange} value={data.imgUrl} class={Style.img} label={"image url address"} />
+                  <div >
+                    <img src={data.imgUrl} alt=""/>
+                  </div>
+
+                  <input type="file"  onChange={handleFileChange} />
+                  <Input name="text" type={"text"} onchange={handleChange} value={data.text} class={Style.name} label={"name"} />   
 
                 </div>
 

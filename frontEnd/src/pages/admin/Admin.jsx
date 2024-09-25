@@ -104,6 +104,7 @@ const [info, setinfo] = useState({})
 
 
 
+console.log(banner[5]?.imgUrl.url);
 
 
  
@@ -436,7 +437,7 @@ const edit = (e) => { // vvv
                     price={data.size[0]['price']}
                     id={data.name}
                     name={data.name}
-                    img={data.imgUrl[0]}
+                    img={data.imgUrl[0].url}
                     data={setproduct}
                     />    
                    </div>
@@ -520,7 +521,7 @@ const edit = (e) => { // vvv
                     <Bannerlist
                     id={data._id}
                     name={data.text}
-                    img={data.imgUrl}
+                    img={data.imgUrl?.url}
                     data={setbanner}
                     />    
                     </div>
@@ -548,7 +549,7 @@ const edit = (e) => { // vvv
                     <Categorylist
                     id={data._id}
                     name={data.name}
-                    img={data.imgUrl[0]}
+                    img={data.imgUrl?.url}
                     data={setcategory}
                     />    
                     </div>
