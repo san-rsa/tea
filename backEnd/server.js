@@ -182,7 +182,6 @@ const fileUpload = require("express-fileupload");
 const cookieParser = require("cookie-parser");
 
 
-const multer = require("multer");
 const path = require("path");
 
 // cloud

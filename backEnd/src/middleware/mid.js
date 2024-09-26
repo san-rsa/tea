@@ -11,37 +11,7 @@ const jwt = require('jsonwebtoken')
 const User = require('../models/user')
 //a middleware to check if a user is logged in or not
 
-const multer = require("multer");
-const { CloudinaryStorage } = require("multer-storage-cloudinary");
 const cloudinary = require("../connection/cloudinary");
-
-function uploadMiddleware(folderName) {
-  const storage = new CloudinaryStorage({
-    cloudinary: cloudinary,
-    params: (req, file) => {
-      const folderPath = `${folderName.trim()}`; // Update the folder path here
-      const fileExtension = path.extname(file.originalname).substring(1);
-      const publicId = `${file.fieldname}-${Date.now()}`;
-      
-      return {
-        folder: folderPath,
-        public_id: publicId,
-        format: fileExtension,
-      };
-    },
-  });
-
-  return multer({
-    storage: storage,
-    limits: {
-      fileSize: 5 * 1024 * 1024, // keep images size < 5 MB
-    },
-  });
-}
-
-
-
-
 
 
 
@@ -108,4 +78,4 @@ const role =  (role)  => async (req, res, next) => {
 
 
 
-module.exports = {  auth, role, uploadMiddleware};
+module.exports = {  auth, role, };
