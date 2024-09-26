@@ -14,9 +14,6 @@
   "license": "ISC",
   "proxy": "http://localhost:3000",
   "dependencies": {
-    "admin-bro": "",
-    "admin-bro-expressjs": "",
-    "admin-bro-mongoose": "",
     "bcrypt": "^5.1.1",
     "bcrypt-nodejs": "",
     "bcryptjs": "^2.4.3",
@@ -49,8 +46,6 @@
     "mongoose-aggregate-paginate-v2": "",
     "mongoose-slug-updater": "",
     "morgan": "",
-    "multer": "^1.4.5-lts.1",
-    "multer-storage-cloudinary": "^4.0.0",
     "nodemailer": "",
     "nodemailer-express-handlebars": "",
     "nodemon": "",
